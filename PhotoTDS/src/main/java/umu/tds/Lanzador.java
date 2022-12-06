@@ -4,7 +4,7 @@ package umu.tds;
  * Hello world!
  *
  */
-public class App 
+public class Lanzador 
 {
     public static void main( String[] args )
     {
