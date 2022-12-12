@@ -8,22 +8,18 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.UIManager;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JSeparator;
 
 public class VentanaLogin {
 
@@ -75,30 +71,18 @@ public class VentanaLogin {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		frameLogin.getContentPane().setLayout(gridBagLayout);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(VentanaLogin.class.getResource("/umu/tds/resources/background.png")));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridheight = 3;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		frameLogin.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
+		//Crear label del logo
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(VentanaLogin.class.getResource("/umu/tds/resources/background.png")));
+		GridBagConstraints gbc_lblLogo = new GridBagConstraints();
+		gbc_lblLogo.gridheight = 3;
+		gbc_lblLogo.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLogo.gridx = 0;
+		gbc_lblLogo.gridy = 0;
+		frameLogin.getContentPane().add(lblLogo, gbc_lblLogo);
 		
-		//crearPanelIzq();
+		//Crear panel derecho
 		crearPanelDer();
-		
-	}
-	
-	private void crearPanelIzq() {
-		JPanel panelIzq = new JPanel();
-		panelIzq.setBackground(new Color(234, 115, 182));
-		GridBagConstraints gbc_panelIzq = new GridBagConstraints();
-		gbc_panelIzq.gridheight = 3;
-		gbc_panelIzq.insets = new Insets(0, 0, 0, 5);
-		gbc_panelIzq.fill = GridBagConstraints.BOTH;
-		gbc_panelIzq.gridx = 0;
-		gbc_panelIzq.gridy = 0;
-		frameLogin.getContentPane().add(panelIzq, gbc_panelIzq);
 	}
 	
 	private void crearPanelDer() {
