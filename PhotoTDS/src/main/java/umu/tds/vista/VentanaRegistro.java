@@ -17,6 +17,7 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 
 public class VentanaRegistro extends JDialog {
 	
@@ -44,7 +45,7 @@ public class VentanaRegistro extends JDialog {
 	 * Create the dialog.
 	 */
 	public VentanaRegistro() {
-		setSize(500, 500);
+		setSize(575, 525);
 		setLocationRelativeTo(null);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -61,9 +62,9 @@ public class VentanaRegistro extends JDialog {
 		getContentPane().add(panelRegistro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelRegistro_1 = new GridBagLayout();
 		gbl_panelRegistro_1.columnWidths = new int[]{30, 0, 10, 0, 30, 0};
-		gbl_panelRegistro_1.rowHeights = new int[]{20, 30, 20, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelRegistro_1.rowHeights = new int[]{20, 30, 20, 0, 0, 0, 0, 0, 0, 0, 100, 0};
 		gbl_panelRegistro_1.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panelRegistro_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelRegistro_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelRegistro.setLayout(gbl_panelRegistro_1);
 		
 		crearPanelFoto();
@@ -74,8 +75,7 @@ public class VentanaRegistro extends JDialog {
 		crearLineaPassword();
 		crearLineaPasswordRepeat();
 		crearLineaFechaNacimiento();
-		
-		//Texto de presentación
+		crearLineaPresentacion();
 		
 	}
 	
@@ -231,11 +231,42 @@ public class VentanaRegistro extends JDialog {
 		lblFechaNacimiento.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblFechaNacimiento.setForeground(Color.WHITE);
 		GridBagConstraints gbc_lblFechaNacimiento = new GridBagConstraints();
-		gbc_lblFechaNacimiento.insets = new Insets(0, 0, 0, 5);
+		gbc_lblFechaNacimiento.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFechaNacimiento.anchor = GridBagConstraints.EAST;
 		gbc_lblFechaNacimiento.gridx = 1;
 		gbc_lblFechaNacimiento.gridy = 8;
 		panelRegistro.add(lblFechaNacimiento, gbc_lblFechaNacimiento);
+	}
+	
+	private void crearLineaPresentacion() {
+		//Jlabel
+		JLabel lblPresentacion = new JLabel("Presentación (opcional)");
+		lblPresentacion.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblPresentacion.setForeground(Color.WHITE);
+		GridBagConstraints gbc_lblPresentacion = new GridBagConstraints();
+		gbc_lblPresentacion.anchor = GridBagConstraints.EAST;
+		gbc_lblPresentacion.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPresentacion.gridx = 1;
+		gbc_lblPresentacion.gridy = 9;
+		panelRegistro.add(lblPresentacion, gbc_lblPresentacion);
+		
+		//JTextArea
+		JTextArea textPresentacion = new JTextArea();
+		textPresentacion.setTabSize(3);
+		textPresentacion.setLineWrap(true);
+		textPresentacion.setWrapStyleWord(true);
+		textPresentacion.setRows(20);
+		textPresentacion.setColumns(20);
+		textPresentacion.setBackground(new Color(242, 242, 242));
+		textPresentacion.setBorder(null);
+		textPresentacion.setFont(new Font("Poppins", Font.PLAIN, 15));
+		GridBagConstraints gbc_textPresentacion = new GridBagConstraints();
+		gbc_textPresentacion.gridheight = 2;
+		gbc_textPresentacion.insets = new Insets(0, 0, 0, 5);
+		gbc_textPresentacion.fill = GridBagConstraints.BOTH;
+		gbc_textPresentacion.gridx = 3;
+		gbc_textPresentacion.gridy = 9;
+		panelRegistro.add(textPresentacion, gbc_textPresentacion);
 	}
 	
 	private void crearPanelBotones() {
