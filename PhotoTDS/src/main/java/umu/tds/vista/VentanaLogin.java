@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -15,11 +16,16 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import umu.tds.controlador.Controlador;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaLogin {
 
@@ -48,6 +54,10 @@ public class VentanaLogin {
 	 */
 	public VentanaLogin() {
 		initialize();
+	}
+	
+	public void mostrarVentana() {
+		frameLogin.setVisible(true);
 	}
 
 	/**
@@ -179,7 +189,36 @@ public class VentanaLogin {
 		btnRegistro.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		panelBotones.add(btnRegistro);
 		
+		addManejadorBotonLogin(btnLogin);
+		addManejadorBotonRegistro(btnRegistro);
+		
 		return panelBotones;
+	}
+	
+	private void addManejadorBotonLogin(JButton btnLogin) {
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean login = Controlador.INSTANCE
+						.loginUsuario(textUsuario.getText(), new String(textPassword.getPassword()));
+				if (login) {
+					//TODO Creamos VentanaPrincipal
+					frameLogin.dispose();
+				} else
+					//TODO Poner un poco más bonito
+					JOptionPane.showMessageDialog(frameLogin, "Nombre de usuario o contraseña no valido", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+	
+	private void addManejadorBotonRegistro(JButton btnRegistro) {
+		btnRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaRegistro registro = new VentanaRegistro(frameLogin);
+				registro.setLocationRelativeTo(frameLogin);
+				registro.setVisible(true);
+				frameLogin.dispose();
+			}
+		});
 	}
 
 }
