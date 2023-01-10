@@ -201,7 +201,8 @@ public class VentanaLogin {
 				boolean login = Controlador.INSTANCE
 						.loginUsuario(textUsuario.getText(), new String(textPassword.getPassword()));
 				if (login) {
-					//TODO Creamos VentanaPrincipal
+					VentanaPrincipal principal = new VentanaPrincipal();
+					principal.mostrarVentana();
 					frameLogin.dispose();
 				} else
 					//TODO Poner un poco más bonito
