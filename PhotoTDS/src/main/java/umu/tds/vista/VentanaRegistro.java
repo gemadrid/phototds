@@ -46,6 +46,11 @@ public class VentanaRegistro extends JDialog {
 	//Botones
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	
+	//Colores
+	private Color fondo = new Color(43, 44, 62);
+	private Color resaltado = new Color(235, 110, 96);
+	private Color areaTexto = new Color(242, 242, 242); 
 
 	/**
 	 * Launch the application.
@@ -71,7 +76,7 @@ public class VentanaRegistro extends JDialog {
 		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(new Color(43, 44, 62));
+		getContentPane().setBackground(fondo);
 		
 		crearPanelRegistro();
 		crearPanelBotones();
@@ -80,7 +85,7 @@ public class VentanaRegistro extends JDialog {
 	
 	private void crearPanelRegistro() {
 		panelRegistro = new JPanel();
-		panelRegistro.setBackground(new Color(43, 44, 62));
+		panelRegistro.setBackground(fondo);
 		getContentPane().add(panelRegistro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelRegistro_1 = new GridBagLayout();
 		gbl_panelRegistro_1.columnWidths = new int[]{30, 0, 10, 0, 30, 0};
@@ -106,7 +111,7 @@ public class VentanaRegistro extends JDialog {
 	//TODO Crear panel foto
 	private void crearPanelFoto() {
 		JPanel panelFoto = new JPanel();
-		panelFoto.setBackground(new Color(43, 44, 62));
+		panelFoto.setBackground(fondo);
 		GridBagConstraints gbc_panelFoto = new GridBagConstraints();
 		gbc_panelFoto.gridwidth = 5;
 		gbc_panelFoto.insets = new Insets(0, 0, 5, 0);
@@ -134,7 +139,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textNombre = new JTextField();
-		textNombre.setBackground(new Color(242, 242, 242));
+		textNombre.setBackground(areaTexto);
 		textNombre.setBorder(null);
 		textNombre.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textNombre = new GridBagConstraints();
@@ -160,7 +165,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textApellidos = new JTextField();
-		textApellidos.setBackground(new Color(242, 242, 242));
+		textApellidos.setBackground(areaTexto);
 		textApellidos.setBorder(null);
 		textApellidos.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textApellidos = new GridBagConstraints();
@@ -186,7 +191,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textEmail = new JTextField();
-		textEmail.setBackground(new Color(242, 242, 242));
+		textEmail.setBackground(areaTexto);
 		textEmail.setBorder(null);
 		textEmail.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textEmail = new GridBagConstraints();
@@ -211,7 +216,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textNombreUsuario = new JTextField();
-		textNombreUsuario.setBackground(new Color(242, 242, 242));
+		textNombreUsuario.setBackground(areaTexto);
 		textNombreUsuario.setBorder(null);
 		textNombreUsuario.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textNombreUsuario = new GridBagConstraints();
@@ -238,7 +243,7 @@ public class VentanaRegistro extends JDialog {
 		//JPasswordField
 		textPassword = new JPasswordField();
 		textPassword.setColumns(20);
-		textPassword.setBackground(new Color(242, 242, 242));
+		textPassword.setBackground(areaTexto);
 		textPassword.setBorder(null);
 		textPassword.setFont(new Font("Poppins Black", Font.PLAIN, 15));
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
@@ -264,7 +269,7 @@ public class VentanaRegistro extends JDialog {
 		//JPasswordField
 		textPasswordRepeat = new JPasswordField();
 		textPasswordRepeat.setColumns(20);
-		textPasswordRepeat.setBackground(new Color(242, 242, 242));
+		textPasswordRepeat.setBackground(areaTexto);
 		textPasswordRepeat.setBorder(null);
 		textPasswordRepeat.setFont(new Font("Poppins Black", Font.PLAIN, 15));
 		GridBagConstraints gbc_passwordFieldRepeat = new GridBagConstraints();
@@ -309,7 +314,7 @@ public class VentanaRegistro extends JDialog {
 		textPresentacion.setWrapStyleWord(true);
 		textPresentacion.setRows(20);
 		textPresentacion.setColumns(20);
-		textPresentacion.setBackground(new Color(242, 242, 242));
+		textPresentacion.setBackground(areaTexto);
 		textPresentacion.setBorder(null);
 		textPresentacion.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textPresentacion = new GridBagConstraints();
@@ -334,23 +339,24 @@ public class VentanaRegistro extends JDialog {
 		lblError.setVisible(false);
 	}
 	
+	//Crear botones
 	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER));
-		panelBotones.setBackground(new Color(43, 44, 62));
+		panelBotones.setBackground(fondo);
 		getContentPane().add(panelBotones, BorderLayout.SOUTH);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setForeground(Color.WHITE);
 		btnAceptar.setBorderPainted(false);
-		btnAceptar.setBackground(new Color(255, 97, 96));
+		btnAceptar.setBackground(resaltado);
 		btnAceptar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
-		btnCancelar.setBackground(new Color(255, 97, 96));
+		btnCancelar.setBackground(resaltado);
 		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnCancelar);
 		
