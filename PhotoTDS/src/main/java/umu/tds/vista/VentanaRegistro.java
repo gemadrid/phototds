@@ -50,7 +50,7 @@ public class VentanaRegistro extends JDialog {
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
 	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242); 
+	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Launch the application.

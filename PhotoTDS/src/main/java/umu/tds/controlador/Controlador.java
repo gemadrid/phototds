@@ -45,5 +45,7 @@ public enum Controlador {
 	public boolean esUsuarioRegistrado(String login) {
 		return CatalogoUsuarios.INSTANCE.findUsuario(login) != null;
 	}
+	
+	//Métodos subir foto
 
 }

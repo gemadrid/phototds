@@ -162,6 +162,7 @@ public class VentanaLogin {
 		lblPassword.setFont(new Font("Poppins", Font.BOLD, 20));
 		panelCampos.add(lblPassword);
 		
+		//TODO Comprobar que la contraseña se vea bien
 		textPassword = new JPasswordField();
 		textPassword.setBorder(null);
 		textPassword.setBackground(areaTexto);
