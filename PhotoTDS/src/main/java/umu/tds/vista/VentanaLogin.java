@@ -224,7 +224,7 @@ public class VentanaLogin {
 				VentanaRegistro registro = new VentanaRegistro(frameLogin);
 				registro.setLocationRelativeTo(frameLogin);
 				registro.setVisible(true);
-				frameLogin.dispose();
+				//frameLogin.dispose();
 			}
 		});
 	}

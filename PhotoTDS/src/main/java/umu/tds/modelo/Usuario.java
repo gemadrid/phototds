@@ -33,6 +33,8 @@ public class Usuario {
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
+		
+		this.isPremium = false;
 	}
 	
 	//Métodos get y set
@@ -90,6 +92,11 @@ public class Usuario {
 	
 	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	//Métodos
+	public void addPublicacion(Publicacion publicacion) {
+		publicaciones.add(publicacion);
 	}
 
 }

@@ -1,6 +1,8 @@
 package umu.tds.controlador;
 
+import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
+import umu.tds.modelo.Foto;
 import umu.tds.modelo.Usuario;
 
 public enum Controlador {
@@ -47,5 +49,10 @@ public enum Controlador {
 	}
 	
 	//Métodos subir foto
+	public void subirFoto(String titulo, String descripcion, String path) {
+		Foto foto = new Foto(titulo, descripcion, usuarioActual, path);
+		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
+		usuarioActual.addPublicacion(foto);
+	}
 
 }

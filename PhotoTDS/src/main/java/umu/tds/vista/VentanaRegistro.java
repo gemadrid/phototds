@@ -2,10 +2,12 @@ package umu.tds.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +19,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -26,6 +29,7 @@ import umu.tds.controlador.Controlador;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import com.toedter.calendar.JDateChooser;
 
 public class VentanaRegistro extends JDialog {
 	
@@ -38,6 +42,7 @@ public class VentanaRegistro extends JDialog {
 	private JTextField textNombreUsuario;
 	private JPasswordField textPassword;
 	private JPasswordField textPasswordRepeat;
+	private JDateChooser fechaNacimiento;
 	private JTextArea textPresentacion;
 	
 	//Error
@@ -55,15 +60,15 @@ public class VentanaRegistro extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
-			VentanaRegistro dialog = new VentanaRegistro();
+			VentanaRegistro dialog = new VentanaRegistro(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 	/**
 	 * Create the dialog.
@@ -280,7 +285,6 @@ public class VentanaRegistro extends JDialog {
 		panelRegistro.add(textPasswordRepeat, gbc_passwordFieldRepeat);
 	}
 	
-	//TODO Hacer sección fecha de nacimiento
 	private void crearLineaFechaNacimiento() {
 		//JLabel
 		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento");
@@ -292,6 +296,20 @@ public class VentanaRegistro extends JDialog {
 		gbc_lblFechaNacimiento.gridx = 1;
 		gbc_lblFechaNacimiento.gridy = 9;
 		panelRegistro.add(lblFechaNacimiento, gbc_lblFechaNacimiento);
+		
+		//JDateChooser
+		fechaNacimiento = new JDateChooser();
+		fechaNacimiento.setDateFormatString("dd/MM/yyyy");
+		for(Component c : fechaNacimiento.getComponents()) {
+			((JComponent)c).setBackground(areaTexto); 
+		}
+		fechaNacimiento.setFont(new Font("Poppins", Font.PLAIN, 15));
+		GridBagConstraints gbc_fechaNacimiento = new GridBagConstraints();
+		gbc_fechaNacimiento.insets = new Insets(0, 0, 5, 5);
+		gbc_fechaNacimiento.fill = GridBagConstraints.BOTH;
+		gbc_fechaNacimiento.gridx = 3;
+		gbc_fechaNacimiento.gridy = 9;
+		panelRegistro.add(fechaNacimiento, gbc_fechaNacimiento);
 	}
 	
 	//TODO Comprobar que la presentación no pase de 200 caracteres
@@ -329,7 +347,7 @@ public class VentanaRegistro extends JDialog {
 	private void crearLineaError() {
 		lblError = new JLabel("");
 		lblError.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
-		lblError.setForeground(Color.WHITE);
+		lblError.setForeground(resaltado);
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.gridwidth = 5;
@@ -364,23 +382,25 @@ public class VentanaRegistro extends JDialog {
 		addManejadorBotonCancelar();
 	}
 	
+	//TODO Añadir presentación y foto
 	//TODO Poner JOptionPane más bonitos
 	private void addManejadorBotonAceptar() {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean check = comprobarCampos();
 				if (check) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat(fechaNacimiento.getDateFormatString());
 					boolean registrado = Controlador.INSTANCE.registrarUsuario(
 							textNombre.getText(),
 							textApellidos.getText(),
 							textEmail.getText(),
 							textNombreUsuario.getText(),
 							new String(textPassword.getPassword()),
-							"");
+							dateFormat.format(fechaNacimiento.getDate()));
 					if (registrado) {
 						JOptionPane.showMessageDialog(VentanaRegistro.this, "Usuario registrado correctamente.", "Registro", JOptionPane.INFORMATION_MESSAGE);
-						VentanaLogin login = new VentanaLogin();
-						login.mostrarVentana();
+						//VentanaLogin login = new VentanaLogin();
+						//login.mostrarVentana();
 						dispose();
 					}
 					else {
@@ -394,8 +414,8 @@ public class VentanaRegistro extends JDialog {
 	private void addManejadorBotonCancelar() {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaLogin login = new VentanaLogin();
-				login.mostrarVentana();
+				//VentanaLogin login = new VentanaLogin();
+				//login.mostrarVentana();
 				dispose();
 			}
 		});
@@ -404,6 +424,11 @@ public class VentanaRegistro extends JDialog {
 	private boolean comprobarCampos() {
 		boolean check = true;
 		lblError.setVisible(false);
+		
+		//Contraseña
+		String password = new String(textPassword.getPassword());
+		String passwordRepeat = new String(textPasswordRepeat.getPassword());
+		
 		//Comprobar nombre
 		if (textNombre.getText().trim().isEmpty()) {
 			lblError.setText("Es obligatorio introducir un nombre.");
@@ -428,19 +453,19 @@ public class VentanaRegistro extends JDialog {
 			check = false;
 		}
 		//Comprobar contraseña
-		else {
-			String password = new String(textPassword.getPassword());
-			String passwordRepeat = new String(textPasswordRepeat.getPassword());
-			if (password.isEmpty()) {
-				lblError.setText("Es obligatorio introducir una contraseña.");
-				check = false;
-			}
-			else if (!password.equals(passwordRepeat))  {
-				lblError.setText("Las contraseñas no coinciden.");
-				check = false;
-			}
+		else if (password.isEmpty()) {
+			lblError.setText("Es obligatorio introducir una contraseña.");
+			check = false;
+		}
+		else if (!password.equals(passwordRepeat))  {
+			lblError.setText("Las contraseñas no coinciden.");
+			check = false;
 		}
 		//Comprobar fecha de nacimiento
+		else if (fechaNacimiento.getDate() == null) {
+			lblError.setText("Es obligatorio introducir una fecha de nacimiento válida.");
+			check = false;
+		}
 		//Comprobar presentación
 		
 		if (!check) lblError.setVisible(true);
