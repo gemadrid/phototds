@@ -53,11 +53,6 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnUsuario;
 	private JButton btnOpciones;
 	
-	private JButton btnSubirFoto;
-	
-	//TextField
-	private JTextField textBuscar;
-	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
 	private Color resaltado = new Color(235, 110, 96);
@@ -193,9 +188,9 @@ public class VentanaPrincipal extends JFrame {
 		panelCentro.setLayout(new CardLayout(0, 0));
 		panelCentro.setBackground(fondo);
 		
-		panelCentro.add(crearPanelPrincipal(), "panel_principal");
-		panelCentro.add(crearPanelSubir(), "panel_subir");
-		panelCentro.add(crearPanelBuscar(), "panel_buscar");
+		panelCentro.add(new PanelPrincipal(VentanaPrincipal.this), "panel_principal");
+		panelCentro.add(new PanelSubir(VentanaPrincipal.this), "panel_subir");
+		panelCentro.add(new PanelBuscar(VentanaPrincipal.this), "panel_buscar");
 		
 		//Añadimos manejadores de eventos de botones
 		addManejadorBotonPrincipal();
@@ -203,124 +198,7 @@ public class VentanaPrincipal extends JFrame {
 		addManejadorBotonBuscar();
 	}
 	
-	//Crear panel principal
-	private JPanel crearPanelPrincipal() {
-		JPanel panelPrincipal = new JPanel();
-		panelPrincipal.setBackground(fondo);
-		
-		JLabel lblPrincipal = new JLabel("Panel Principal");
-		lblPrincipal.setForeground(Color.WHITE);
-		lblPrincipal.setFont(new Font("Poppins Black", Font.PLAIN, 20));
-		panelPrincipal.add(lblPrincipal);
-		
-		return panelPrincipal;
-	}
-	
-	//Crear panel subir
-	private JEditorPane crearPanelSubir() {
-		JEditorPane panelSubir = new JEditorPane();
-		panelSubir.setBackground(fondo);
-		GridBagLayout gbl_panelSubir = new GridBagLayout();
-		gbl_panelSubir.columnWidths = new int[]{0};
-		gbl_panelSubir.rowHeights = new int[]{0, 0, 30, 0, 60};
-		gbl_panelSubir.columnWeights = new double[]{0.0};
-		gbl_panelSubir.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
-		panelSubir.setLayout(gbl_panelSubir);
-		
-		//Textos
-		JLabel lblSubir = new JLabel("Subir Foto");
-		lblSubir.setForeground(Color.WHITE);
-		lblSubir.setFont(new Font("Poppins", Font.BOLD, 30));
-		GridBagConstraints gbc_lblSubir = new GridBagConstraints();
-		gbc_lblSubir.anchor = GridBagConstraints.WEST;
-		gbc_lblSubir.insets = new Insets(0, 0, 5, 0);
-		gbc_lblSubir.gridx = 0;
-		gbc_lblSubir.gridy = 0;
-		panelSubir.add(lblSubir, gbc_lblSubir);
-		
-		JLabel lblSubirTexto = new JLabel("<html>Sube una foto para compartirla con tus amigos.<br>Puedes arrastrar el fichero aquí o seleccionarlo desde el explorador de archivos.");
-		lblSubirTexto.setForeground(Color.WHITE);
-		lblSubirTexto.setFont(new Font("Poppins", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblSubirTexto = new GridBagConstraints();
-		gbc_lblSubirTexto.insets = new Insets(0, 0, 5, 0);
-		gbc_lblSubirTexto.anchor = GridBagConstraints.WEST;
-		gbc_lblSubirTexto.gridx = 0;
-		gbc_lblSubirTexto.gridy = 1;
-		panelSubir.add(lblSubirTexto, gbc_lblSubirTexto);
-		
-		//Botón para subir desde el ordenador
-		btnSubirFoto = new JButton("Subir foto de tu ordenador");
-		btnSubirFoto.setForeground(Color.WHITE);
-		btnSubirFoto.setBorderPainted(false);
-		btnSubirFoto.setBackground(resaltado);
-		btnSubirFoto.setFont(new Font("Poppins", Font.BOLD, 20));
-		GridBagConstraints gbc_btnSubirFoto = new GridBagConstraints();
-		gbc_btnSubirFoto.gridx = 0;
-		gbc_btnSubirFoto.gridy = 3;
-		panelSubir.add(btnSubirFoto, gbc_btnSubirFoto);
-		
-		addManejadorBotonSubirFoto();
-		
-		//Funcionalidad drag-and-drop
-		panelSubir.setEditable(false);
-		panelSubir.setDropTarget(new DropTarget() {
-			public synchronized void drop(DropTargetDropEvent evt) {
-				try {
-					evt.acceptDrop(DnDConstants.ACTION_COPY);
-					List<File> droppedFiles = (List<File>)evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-					for (File file : droppedFiles) {
-						//System.out.println(file.getPath());
-						subirFoto(file.getPath());
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		
-		return panelSubir;
-	}
-	
-	//Crear panel búsqueda
-	private JPanel crearPanelBuscar() {
-		JPanel panelBuscar = new JPanel();
-		panelBuscar.setBackground(fondo);
-		panelBuscar.setLayout(new BorderLayout(0, 0));
-		
-		//Panel de búsqueda
-		JPanel panelBuscarNorte = new JPanel();
-		panelBuscarNorte.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
-		panelBuscarNorte.setBackground(fondo);
-		panelBuscar.add(panelBuscarNorte, BorderLayout.NORTH);
-		
-		//Texto Buscar
-		JLabel lblBuscar = new JLabel("Buscar:");
-		lblBuscar.setForeground(Color.WHITE);
-		lblBuscar.setFont(new Font("Poppins", Font.BOLD, 25));
-		panelBuscarNorte.add(lblBuscar);
-		
-		//Área buscar
-		textBuscar = new JTextField();
-		textBuscar.setFont(new Font("Poppins", Font.PLAIN, 20));
-		textBuscar.setBackground(areaTexto);
-		textBuscar.setBorder(null);
-		textBuscar.setColumns(25);
-		panelBuscarNorte.add(textBuscar);
-		
-		//TODO Panel de resultados de búsqueda (separados por usuarios / hashtags)
-		
-		return panelBuscar;
-	}
-	
-	//Método para subir fotos
-	private void subirFoto(String path) {
-		//TODO Comprobar validez de la foto
-		VentanaSubirFoto subirFoto = new VentanaSubirFoto(this, path);
-		subirFoto.setLocationRelativeTo(this);
-		subirFoto.setVisible(true);
-	}
-	
-	//Manejadores de eventos de botones (norte)
+	//Manejadores de eventos de botones (panel norte)
 	private void addManejadorBotonPrincipal() {
 		btnPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -344,26 +222,6 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(panelCentro.getLayout());
 				cl.show(panelCentro, "panel_buscar");
-			}
-		});
-	}
-	
-	//Manejadores de eventos de botones (pantalla principal)
-	private void addManejadorBotonSubirFoto() {
-		btnSubirFoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Poner JFileChooser más bonito
-				JFileChooser chooser = new JFileChooser();
-				//Filtramos por imágenes (con los formatos soportados por el Sistema Operativo)
-				FileFilter imageFilter = new FileNameExtensionFilter("Archivos de imagen", ImageIO.getReaderFileSuffixes());
-				chooser.addChoosableFileFilter(imageFilter);
-				chooser.setAcceptAllFileFilterUsed(false);
-				int seleccion = chooser.showOpenDialog(VentanaPrincipal.this);
-				//Si se ha seleccionado una foto, llamamos a subirFoto
-				if (seleccion == JFileChooser.APPROVE_OPTION) {
-					File currentFile = chooser.getSelectedFile();
-					subirFoto(currentFile.getPath());
-				}
 			}
 		});
 	}

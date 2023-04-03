@@ -18,6 +18,8 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	//Constructor
+	public Publicacion() {};
+	
 	public Publicacion(String titulo, String descripcion, Usuario usuario) {
 		this.codigo = 0;
 		this.titulo = titulo;
