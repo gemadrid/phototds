@@ -54,5 +54,28 @@ public enum Controlador {
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
 		usuarioActual.addPublicacion(foto);
 	}
+	
+	//Métodos perfil de usuario
+	public String getEmailUsuario(Usuario usuario) {
+		return usuario.getEmail();
+	}
+	
+	public int getNumPublicaciones(Usuario usuario) {
+		return usuario.getNumPublicaciones();
+	}
+	
+	public int getNumSeguidores(Usuario usuario) {
+		return usuario.getNumSeguidores();
+	}
+	
+	public int getNumSeguidos(Usuario usuario) {
+		//TODO Se puede hacer con expresiones lambda
+		//Tenemos que obtener CatalogoUsuarios completo y buscar aquellos que tengan a "usuario" en su lista de seguidores
+		return 0;
+	}
+	
+	public String getNombreCompleto(Usuario usuario) {
+		return usuario.getNombreCompleto();
+	}
 
 }

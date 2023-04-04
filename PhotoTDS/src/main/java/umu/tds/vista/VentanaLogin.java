@@ -45,7 +45,6 @@ public class VentanaLogin {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Controlador.INSTANCE.registrarUsuario("Gema", "Madrid Sánchez", "gema@gmail.com", "gemadrid", "algo", "");
 					VentanaLogin window = new VentanaLogin();
 					window.frameLogin.setVisible(true);
 				} catch (Exception e) {
@@ -224,7 +223,6 @@ public class VentanaLogin {
 				VentanaRegistro registro = new VentanaRegistro(frameLogin);
 				registro.setLocationRelativeTo(frameLogin);
 				registro.setVisible(true);
-				//frameLogin.dispose();
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 package umu.tds.modelo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Usuario {
@@ -33,6 +34,10 @@ public class Usuario {
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
+		
+		publicaciones = new LinkedList<>();
+		seguidores = new LinkedList<>();
+		notificaciones = new LinkedList<>();
 		
 		this.isPremium = false;
 	}
@@ -97,6 +102,23 @@ public class Usuario {
 	//Métodos
 	public void addPublicacion(Publicacion publicacion) {
 		publicaciones.add(publicacion);
+	}
+	
+	//Métodos perfil de usuario
+	public int getNumPublicaciones() {
+		return publicaciones.size();
+	}
+	
+	public int getNumSeguidores() {
+		return seguidores.size();
+	}
+	
+	public boolean isUsuarioSeguidor(Usuario usuario) {
+		return seguidores.contains(usuario);
+	}
+	
+	public String getNombreCompleto() {
+		return nombre + " " + apellidos;
 	}
 
 }

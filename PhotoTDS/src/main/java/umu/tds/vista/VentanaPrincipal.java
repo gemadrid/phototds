@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import umu.tds.controlador.Controlador;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -178,6 +180,8 @@ public class VentanaPrincipal extends JFrame {
 		btnOpciones.setContentAreaFilled(false);
 		panelUsuario.add(btnOpciones);
 		
+		addManejadorBotonUsuario();
+		
 		return panelUsuario;
 	}
 	
@@ -222,6 +226,17 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(panelCentro.getLayout());
 				cl.show(panelCentro, "panel_buscar");
+			}
+		});
+	}
+	
+	private void addManejadorBotonUsuario() {
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaPerfil perfil = new VentanaPerfil(VentanaPrincipal.this, Controlador.INSTANCE.getUsuarioActual());
+				perfil.setLocationRelativeTo(VentanaPrincipal.this);
+				perfil.setVisible(true);
+				
 			}
 		});
 	}
