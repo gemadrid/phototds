@@ -61,6 +61,8 @@ public class VentanaSubirFoto extends JDialog {
 		
 		setSize(1100, 600);
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
@@ -90,19 +92,8 @@ public class VentanaSubirFoto extends JDialog {
 		gbc_lblFoto.gridy = 0;
 		panelFoto.add(lblFoto, gbc_lblFoto);
 		
-		//TODO ¿Pasar directamente un File en vez de el path de la foto?
-		try {
-			BufferedImage foto = ImageIO.read(new File(path));
-			//Ajustamos la imagen a la ventana
-			int tamanoX = getWidth()/2;
-			int tamanoY = foto.getHeight()*tamanoX/foto.getWidth();
-			//TODO ¿Cambiar método de escalado de imagen?
-			Image fotoAjustada = foto.getScaledInstance(tamanoX, tamanoY, Image.SCALE_DEFAULT);
-			ImageIcon fotoFinal = new ImageIcon(fotoAjustada);
-			lblFoto.setIcon(fotoFinal);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ImageIcon foto = redimensionarImange(path);
+		lblFoto.setIcon(foto);
 	}
 	
 	//Panel comentario
@@ -179,6 +170,24 @@ public class VentanaSubirFoto extends JDialog {
 				dispose();
 			}
 		});
+	}
+	
+	//Método para redimensionar la imagen
+	//TODO ¿Null?
+	private ImageIcon redimensionarImange(String path) {
+		try {
+			BufferedImage foto = ImageIO.read(new File(path));
+			//Ajustamos la imagen a la ventana
+			int tamanoX = getWidth()/2;
+			int tamanoY = foto.getHeight()*tamanoX/foto.getWidth();
+			//TODO ¿Cambiar método de escalado de imagen?
+			Image fotoAjustada = foto.getScaledInstance(tamanoX, tamanoY, Image.SCALE_AREA_AVERAGING);
+			ImageIcon fotoFinal = new ImageIcon(fotoAjustada);
+			return fotoFinal;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

@@ -33,10 +33,13 @@ public enum Controlador {
 	}
 	
 	//Métodos Registro
-	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento) {
+	//TODO Añadir foto --> Guardar en umu.tds.resources.usuarios y pasarle el path al usuario al crearlo
+	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
 		if (esUsuarioRegistrado(login)) return false;
 		
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
+		//TODO Guardar imagen en path local y pasarlo al constructor de Usuario
+		
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, fotoUsuario, presentacion);
 		
 		//TODO FactoriaDAO
 		

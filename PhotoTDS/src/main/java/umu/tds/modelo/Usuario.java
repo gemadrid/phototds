@@ -14,8 +14,8 @@ public class Usuario {
 	private String login;
 	private String password;
 	private String fechaNacimiento;
-	//private ? foto (path)
-	//private String presentacion
+	private String fotoUsuario;
+	private String presentacion;
 	
 	private boolean isPremium;
 	
@@ -26,20 +26,24 @@ public class Usuario {
 	private List<Notificacion> notificaciones;
 	
 	//Constructor
-	public Usuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento) {
+	public Usuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
 		this.codigo = 0;
+		
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
+		this.fotoUsuario = fotoUsuario;
+		this.presentacion = presentacion;
+		
+		isPremium = false;
 		
 		publicaciones = new LinkedList<>();
 		seguidores = new LinkedList<>();
 		notificaciones = new LinkedList<>();
 		
-		this.isPremium = false;
 	}
 	
 	//Métodos get y set

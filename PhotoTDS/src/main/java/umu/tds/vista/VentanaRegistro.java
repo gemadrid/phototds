@@ -9,9 +9,12 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -19,8 +22,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
@@ -29,6 +36,9 @@ import umu.tds.controlador.Controlador;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.toedter.calendar.JDateChooser;
 
 public class VentanaRegistro extends JDialog {
@@ -49,8 +59,13 @@ public class VentanaRegistro extends JDialog {
 	private JLabel lblError;
 	
 	//Botones
+	private JButton btnFoto;
+	
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	
+	//Path foto de perfil
+	private String pathFoto;
 	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
@@ -63,7 +78,6 @@ public class VentanaRegistro extends JDialog {
 	public static void main(String[] args) {
 		try {
 			VentanaRegistro dialog = new VentanaRegistro(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,6 +123,7 @@ public class VentanaRegistro extends JDialog {
 		crearLineaPasswordRepeat();
 		crearLineaFechaNacimiento();
 		crearLineaPresentacion();
+		
 		crearLineaError();
 		
 	}
@@ -125,9 +140,13 @@ public class VentanaRegistro extends JDialog {
 		gbc_panelFoto.gridy = 1;
 		panelRegistro.add(panelFoto, gbc_panelFoto);
 		
-		JLabel lblFoto = new JLabel("");
-		lblFoto.setIcon(new ImageIcon(VentanaRegistro.class.getResource("/umu/tds/resources/fotoperfil.jpg")));
-		panelFoto.add(lblFoto);
+		btnFoto = new JButton();
+		btnFoto.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/resources/fotoperfil.jpg")));
+		btnFoto.setBorder(null);
+		btnFoto.setContentAreaFilled(false);
+		panelFoto.add(btnFoto);
+		
+		addManejadorBotonFoto();
 	}
 	
 	private void crearLineaNombre() {
@@ -382,7 +401,28 @@ public class VentanaRegistro extends JDialog {
 		addManejadorBotonCancelar();
 	}
 	
-	//TODO Añadir presentación y foto
+	private void addManejadorBotonFoto() {
+		btnFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Poner JFileChooser más bonito
+				JFileChooser chooser = new JFileChooser();
+				//Filtramos por imágenes
+				FileFilter imageFilter = new FileNameExtensionFilter("Archivos de imagen", ImageIO.getReaderFileSuffixes());
+				chooser.addChoosableFileFilter(imageFilter);
+				chooser.setAcceptAllFileFilterUsed(false);
+				int seleccion = chooser.showOpenDialog(VentanaRegistro.this);
+				//Si se ha seleccionado una foto
+				if (seleccion == JFileChooser.APPROVE_OPTION) {
+					File currentFile = chooser.getSelectedFile();
+					pathFoto = currentFile.getPath();
+					//Redimensionamos la imagen y la asignamos al botón
+					ImageIcon fotoUsuario = redimensionarImagen(pathFoto, 75, 75);
+					btnFoto.setIcon(fotoUsuario);
+				}
+			}
+		});
+	}
+	
 	//TODO Poner JOptionPane más bonitos
 	private void addManejadorBotonAceptar() {
 		btnAceptar.addActionListener(new ActionListener() {
@@ -396,11 +436,11 @@ public class VentanaRegistro extends JDialog {
 							textEmail.getText(),
 							textNombreUsuario.getText(),
 							new String(textPassword.getPassword()),
-							dateFormat.format(fechaNacimiento.getDate()));
+							dateFormat.format(fechaNacimiento.getDate()),
+							pathFoto,
+							textPresentacion.getText());
 					if (registrado) {
 						JOptionPane.showMessageDialog(VentanaRegistro.this, "Usuario registrado correctamente.", "Registro", JOptionPane.INFORMATION_MESSAGE);
-						//VentanaLogin login = new VentanaLogin();
-						//login.mostrarVentana();
 						dispose();
 					}
 					else {
@@ -470,6 +510,20 @@ public class VentanaRegistro extends JDialog {
 		
 		if (!check) lblError.setVisible(true);
 		return check;
+	}
+	
+	//Método para redimensionar la imagen
+	//TODO ¿Null?
+	private ImageIcon redimensionarImagen(String path, int ancho, int alto) {
+		try {
+			BufferedImage foto = ImageIO.read(new File(path));
+			//TODO ¿Cambiar método de escalado de imagen?
+			Image fotoAjustada = foto.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
+			return new ImageIcon(fotoAjustada);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
