@@ -172,6 +172,7 @@ public class VentanaLogin {
 		return panelCampos;
 	}
 	
+	//TODO ¿Cambiar el BoxLayout?
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(fondo);
