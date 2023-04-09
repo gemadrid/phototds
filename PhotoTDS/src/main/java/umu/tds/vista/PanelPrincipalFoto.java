@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +53,7 @@ public class PanelPrincipalFoto extends JPanel {
 		setBackground(fondo);
 		setLayout(new BorderLayout(0, 0));
 		
+		//TODO Ver qué tamaño es mejor para la foto
 		//Foto redimensionada
 		ImageIcon fotoRedimensionada = getImagenRedimensionada(Controlador.INSTANCE.getPathPublicacion(publicacion), 100, 50);
 		
@@ -99,6 +102,9 @@ public class PanelPrincipalFoto extends JPanel {
 		lblNumMegusta.setForeground(Color.WHITE);
 		panelBotones.add(lblNumMegusta);
 		
+		addManejadorBotonMegusta();
+		addManejadorBotonComentario();
+		
 		return panelBotones;
 	}
 	
@@ -135,6 +141,26 @@ public class PanelPrincipalFoto extends JPanel {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	//Manejador botón megusta
+	private void addManejadorBotonMegusta() {
+		btnMegusta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.INSTANCE.darMegusta(publicacion);
+			}
+		});
+	}
+	
+	//Manejador botón comentario
+	private void addManejadorBotonComentario() {
+		btnComentario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaComentario comentario = new VentanaComentario(ventana, publicacion);
+				comentario.setLocationRelativeTo(ventana);
+				comentario.setVisible(true);
+			}
+		});
 	}
 
 }

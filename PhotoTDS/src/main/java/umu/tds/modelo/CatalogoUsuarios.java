@@ -23,11 +23,11 @@ public enum CatalogoUsuarios {
 	}
 	
 	public void addUsuario(Usuario usuario) {
-		usuarios.put(usuario.getLogin(), usuario);
+		usuarios.put(usuario.getNombreUsuario(), usuario);
 	}
 	
 	public void removeUsuario(Usuario usuario) {
-		usuarios.remove(usuario.getLogin());
+		usuarios.remove(usuario.getNombreUsuario());
 	}
 
 }

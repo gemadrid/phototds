@@ -33,11 +33,12 @@ public abstract class Publicacion {
 		this.usuario = usuario;
 	}
 	
-	//Métodos
+	//Métodos privados
 	private void obtenerHashtags() {
-		
+		//TODO Buscar hashtags en la descripción
 	}
 	
+	//Métodos get
 	public abstract String getPath();
 	
 	public int getMegusta() {
@@ -50,6 +51,11 @@ public abstract class Publicacion {
 	
 	public String getNombreUsuario() {
 		return usuario.getNombreUsuario();
+	}
+	
+	//Métodos (funcionalidad)
+	public void darMegusta() {
+		megusta++;
 	}
 	
 	

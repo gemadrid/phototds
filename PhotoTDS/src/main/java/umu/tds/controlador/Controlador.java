@@ -75,6 +75,10 @@ public enum Controlador {
 		return publicacion.getNombreUsuario();
 	}
 	
+	public void darMegusta(Publicacion publicacion) {
+		publicacion.darMegusta();
+	}
+	
 	
 	
 	//Métodos subir foto

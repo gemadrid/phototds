@@ -344,6 +344,7 @@ public class VentanaRegistro extends JDialog {
 		gbc_lblPresentacion.gridy = 10;
 		panelRegistro.add(lblPresentacion, gbc_lblPresentacion);
 		
+		//TODO Revisar si tantas opciones son necesarias (y modificar tamaño para que quede bien)
 		//JTextArea
 		textPresentacion = new JTextArea();
 		textPresentacion.setTabSize(3);
@@ -454,8 +455,6 @@ public class VentanaRegistro extends JDialog {
 	private void addManejadorBotonCancelar() {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//VentanaLogin login = new VentanaLogin();
-				//login.mostrarVentana();
 				dispose();
 			}
 		});

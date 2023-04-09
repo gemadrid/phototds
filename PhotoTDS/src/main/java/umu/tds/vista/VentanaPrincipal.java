@@ -155,6 +155,10 @@ public class VentanaPrincipal extends JFrame {
 		btnBuscar.setContentAreaFilled(false);
 		panelBotones.add(btnBuscar);
 		
+		addManejadorBotonPrincipal();
+		addManejadorBotonSubir();
+		addManejadorBotonBuscar();
+		
 		return panelBotones;
 	}
 	
@@ -195,11 +199,6 @@ public class VentanaPrincipal extends JFrame {
 		panelCentro.add(new PanelPrincipal(VentanaPrincipal.this), "panel_principal");
 		panelCentro.add(new PanelSubir(VentanaPrincipal.this), "panel_subir");
 		panelCentro.add(new PanelBuscar(VentanaPrincipal.this), "panel_buscar");
-		
-		//Añadimos manejadores de eventos de botones
-		addManejadorBotonPrincipal();
-		addManejadorBotonSubir();
-		addManejadorBotonBuscar();
 	}
 	
 	//Manejadores de eventos de botones (panel norte)

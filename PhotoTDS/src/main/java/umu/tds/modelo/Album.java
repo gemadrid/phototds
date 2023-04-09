@@ -16,5 +16,12 @@ public class Album extends Publicacion {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void darMegusta() {
+		for(Foto foto : fotos) {
+			foto.darMegusta();
+		}
+	}
 
 }

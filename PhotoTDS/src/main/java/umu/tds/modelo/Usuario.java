@@ -26,13 +26,13 @@ public class Usuario {
 	private List<Notificacion> notificaciones;
 	
 	//Constructor
-	public Usuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
+	public Usuario(String nombre, String apellidos, String email, String nombreUsuario, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
 		this.codigo = 0;
 		
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
-		this.nombreUsuario = login;
+		this.nombreUsuario = nombreUsuario;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
 		this.fotoUsuario = fotoUsuario;
