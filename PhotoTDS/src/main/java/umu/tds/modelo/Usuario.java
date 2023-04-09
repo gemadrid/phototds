@@ -11,7 +11,7 @@ public class Usuario {
 	private String nombre;
 	private String apellidos;
 	private String email;
-	private String login;
+	private String nombreUsuario;
 	private String password;
 	private String fechaNacimiento;
 	private String fotoUsuario;
@@ -32,7 +32,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
-		this.login = login;
+		this.nombreUsuario = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
 		this.fotoUsuario = fotoUsuario;
@@ -79,14 +79,6 @@ public class Usuario {
 		this.email = email;
 	}
 	
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	
 	public String getPassword() {
 		return password;
 	}
@@ -123,6 +115,14 @@ public class Usuario {
 	
 	public String getNombreCompleto() {
 		return nombre + " " + apellidos;
+	}
+
+	public String getFotoUsuario() {
+		return fotoUsuario;
+	}
+	
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
 
 }

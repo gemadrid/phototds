@@ -31,6 +31,8 @@ import umu.tds.modelo.Usuario;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
 
 public class VentanaPerfil extends JDialog {
@@ -92,10 +94,12 @@ public class VentanaPerfil extends JDialog {
 		getContentPane().add(panelNorte, BorderLayout.NORTH);
 		panelNorte.setLayout(new BorderLayout(0, 0));
 		
+		//TODO
 		//Foto de perfil
-		JLabel fotoPerfil = new JLabel("Foto de perfil");
-		fotoPerfil.setForeground(Color.WHITE);
-		panelNorte.add(fotoPerfil, BorderLayout.WEST);
+		JLabel lblFotoPerfil = new JLabel("Foto de perfil");
+		lblFotoPerfil.setForeground(Color.WHITE);
+		lblFotoPerfil.setBorder(new EmptyBorder(0, 20, 0, 20));
+		panelNorte.add(lblFotoPerfil, BorderLayout.WEST);
 		
 		crearPanelInfo();
 	}
@@ -183,7 +187,7 @@ public class VentanaPerfil extends JDialog {
 		btnFotos.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnFotos);
 		
-		btnAlbumes = new JButton("Albumes");
+		btnAlbumes = new JButton("Álbumes");
 		btnAlbumes.setForeground(Color.WHITE);
 		btnAlbumes.setBorderPainted(false);
 		btnAlbumes.setBackground(resaltado);
@@ -193,6 +197,7 @@ public class VentanaPerfil extends JDialog {
 		crearPanelMatriz();
 	}
 	
+	//TODO
 	//Panel que muestra la matriz de fotos/álbumes
 	private void crearPanelMatriz() {
 		panelMatriz = new JPanel();

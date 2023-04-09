@@ -11,4 +11,10 @@ public class Foto extends Publicacion {
 		this.path = path;
 	}
 
+	//Métodos
+	@Override
+	public String getPath() {
+		return path;
+	}
+
 }

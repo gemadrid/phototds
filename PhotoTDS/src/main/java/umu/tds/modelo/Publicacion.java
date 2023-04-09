@@ -38,6 +38,20 @@ public abstract class Publicacion {
 		
 	}
 	
+	public abstract String getPath();
+	
+	public int getMegusta() {
+		return megusta;
+	}
+	
+	public String getFotoUsuario() {
+		return usuario.getFotoUsuario();
+	}
+	
+	public String getNombreUsuario() {
+		return usuario.getNombreUsuario();
+	}
+	
 	
 
 }

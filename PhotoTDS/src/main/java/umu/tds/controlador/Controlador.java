@@ -3,6 +3,7 @@ package umu.tds.controlador;
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
 import umu.tds.modelo.Foto;
+import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 
 public enum Controlador {
@@ -22,6 +23,8 @@ public enum Controlador {
 		return usuarioActual;
 	}
 	
+	
+	
 	//Métodos Login
 	public boolean loginUsuario(String nombre, String password) {
 		Usuario usuario = CatalogoUsuarios.INSTANCE.findUsuario(nombre);
@@ -31,6 +34,8 @@ public enum Controlador {
 		}
 		return false;
 	}
+	
+	
 	
 	//Métodos Registro
 	//TODO Añadir foto --> Guardar en umu.tds.resources.usuarios y pasarle el path al usuario al crearlo
@@ -51,12 +56,35 @@ public enum Controlador {
 		return CatalogoUsuarios.INSTANCE.findUsuario(login) != null;
 	}
 	
+	
+	
+	//Métodos ventana principal (donde se muestran las fotos más recientes)
+	public String getPathPublicacion(Publicacion publicacion) {
+		return publicacion.getPath();
+	}
+	
+	public int getNumMegusta(Publicacion publicacion) {
+		return publicacion.getMegusta();
+	}
+	
+	public String getFotoUsuario(Publicacion publicacion) {
+		return publicacion.getFotoUsuario();
+	}
+	
+	public String getNombreUsuario(Publicacion publicacion) {
+		return publicacion.getNombreUsuario();
+	}
+	
+	
+	
 	//Métodos subir foto
 	public void subirFoto(String titulo, String descripcion, String path) {
 		Foto foto = new Foto(titulo, descripcion, usuarioActual, path);
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
 		usuarioActual.addPublicacion(foto);
 	}
+	
+	
 	
 	//Métodos perfil de usuario
 	public String getEmailUsuario(Usuario usuario) {

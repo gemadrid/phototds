@@ -3,6 +3,10 @@ package umu.tds.vista;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +16,8 @@ import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
 
 import java.awt.BorderLayout;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class PanelPrincipalFoto extends JPanel {
@@ -45,9 +51,11 @@ public class PanelPrincipalFoto extends JPanel {
 		setBackground(fondo);
 		setLayout(new BorderLayout(0, 0));
 		
-		//Foto
-		JLabel lblFoto = new JLabel("Aquí va la foto redimensionada");
-		lblFoto.setForeground(resaltado);
+		//Foto redimensionada
+		ImageIcon fotoRedimensionada = getImagenRedimensionada(Controlador.INSTANCE.getPathPublicacion(publicacion), 100, 50);
+		
+		JLabel lblFoto = new JLabel();
+		//lblFoto.setIcon(fotoRedimensionada);
 		add(lblFoto, BorderLayout.WEST);
 		
 		add(crearPanelInfo(), BorderLayout.CENTER);
@@ -86,7 +94,7 @@ public class PanelPrincipalFoto extends JPanel {
 		panelBotones.add(btnComentario);
 		
 		//Número de megusta
-		JLabel lblNumMegusta = new JLabel("x Me gusta");
+		JLabel lblNumMegusta = new JLabel(Controlador.INSTANCE.getNumMegusta(publicacion) + " Me gusta");
 		lblNumMegusta.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNumMegusta.setForeground(Color.WHITE);
 		panelBotones.add(lblNumMegusta);
@@ -101,16 +109,32 @@ public class PanelPrincipalFoto extends JPanel {
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Obtenemos la foto de perfil y la redimensionamos
+		ImageIcon fotoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuario(publicacion), 30, 30);
 		
 		//Label con el nombre de usuario y su foto
 		JLabel lblUsuario = new JLabel();
 		lblUsuario.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setText("Aquí va el nombre de usuario");
-		//lblUsuario.setIcon(null);
+		lblUsuario.setText(Controlador.INSTANCE.getNombreUsuario(publicacion));
+		//lblUsuario.setIcon(fotoPerfil);
 		panelUsuario.add(lblUsuario);
 		
 		return panelUsuario;
+	}
+	
+	//Método para redimensionar imágenes
+	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
+		URL url = this.getClass().getResource(path);
+		ImageIcon icon;
+		try {
+			BufferedImage imagen = ImageIO.read(url);
+			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
+			icon = new ImageIcon(imagenRedimensionada);
+			return icon;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
