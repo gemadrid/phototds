@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,11 +15,13 @@ import javax.swing.JPanel;
 
 import javax.swing.JLabel;
 
+import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.KeyAdapter;
 
 public class VentanaComentario extends JDialog {
 	
@@ -87,6 +90,8 @@ public class VentanaComentario extends JDialog {
 		textoComentario.setFont(new Font("Poppins", Font.PLAIN, 15));
 		panelComentario.add(textoComentario, BorderLayout.CENTER);
 		
+		addManejadorLimitarCaracteres();
+		
 		//Botones
 		panelComentario.add(crearPanelBotones(), BorderLayout.SOUTH);
 	}
@@ -122,7 +127,10 @@ public class VentanaComentario extends JDialog {
 	private void addManejadorBotonComentar() {
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//TODO
+				//Controlador.INSTANCE.publicarComentario(publicacion);
+				//Ventana de diálogo confirmando que se ha publicado el comentario
+				//dispose();
 			}
 		});
 	}
@@ -131,6 +139,18 @@ public class VentanaComentario extends JDialog {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+			}
+		});
+	}
+	
+	//Funcionalidad para limitar el número de caracteres
+	private void addManejadorLimitarCaracteres() {
+		textoComentario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (textoComentario.getText().length() >= 120) {
+					e.consume();
+				}
 			}
 		});
 	}
