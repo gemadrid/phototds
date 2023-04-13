@@ -22,6 +22,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -89,7 +91,7 @@ public class VentanaRegistro extends JDialog {
 	 */
 	public VentanaRegistro(JFrame owner) {
 		super(owner, "Registro", true);
-		setSize(575, 600);
+		setSize(600, 625);
 		//setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
@@ -108,7 +110,7 @@ public class VentanaRegistro extends JDialog {
 		getContentPane().add(panelRegistro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelRegistro_1 = new GridBagLayout();
 		gbl_panelRegistro_1.columnWidths = new int[]{30, 0, 10, 0, 30, 0};
-		gbl_panelRegistro_1.rowHeights = new int[]{20, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 120, 10, 0, 0};
+		gbl_panelRegistro_1.rowHeights = new int[]{20, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 170, 10, 0, 0};
 		gbl_panelRegistro_1.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelRegistro_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelRegistro.setLayout(gbl_panelRegistro_1);
@@ -347,13 +349,9 @@ public class VentanaRegistro extends JDialog {
 		//TODO Revisar si tantas opciones son necesarias (y modificar tamaño para que quede bien)
 		//JTextArea
 		textPresentacion = new JTextArea();
-		textPresentacion.setTabSize(3);
 		textPresentacion.setLineWrap(true);
 		textPresentacion.setWrapStyleWord(true);
-		textPresentacion.setRows(20);
-		textPresentacion.setColumns(20);
 		textPresentacion.setBackground(areaTexto);
-		textPresentacion.setBorder(null);
 		textPresentacion.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textPresentacion = new GridBagConstraints();
 		gbc_textPresentacion.gridheight = 2;
@@ -362,6 +360,8 @@ public class VentanaRegistro extends JDialog {
 		gbc_textPresentacion.gridx = 3;
 		gbc_textPresentacion.gridy = 10;
 		panelRegistro.add(textPresentacion, gbc_textPresentacion);
+		
+		addManejadorLimitarCaracteres();
 	}
 	
 	private void crearLineaError() {
@@ -523,6 +523,18 @@ public class VentanaRegistro extends JDialog {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	//Funcionalidad para limitar el número de caracteres
+	private void addManejadorLimitarCaracteres() {
+		textPresentacion.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (textPresentacion.getText().length() >= 200) {
+					e.consume();
+				}
+			}
+		});
 	}
 
 }

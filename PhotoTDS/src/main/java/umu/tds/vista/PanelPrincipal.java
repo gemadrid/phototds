@@ -1,10 +1,13 @@
 package umu.tds.vista;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 
 public class PanelPrincipal extends JPanel {
 	
@@ -30,7 +33,7 @@ public class PanelPrincipal extends JPanel {
 		JLabel lblPrincipal = new JLabel("Panel Principal");
 		lblPrincipal.setForeground(Color.WHITE);
 		lblPrincipal.setFont(new Font("Poppins Black", Font.PLAIN, 20));
-		add(lblPrincipal);
+		//add(lblPrincipal);
 	}
 
 }

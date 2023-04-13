@@ -55,13 +55,16 @@ public class PanelPrincipalFoto extends JPanel {
 		
 		//TODO Ver qué tamaño es mejor para la foto
 		//Foto redimensionada
-		ImageIcon fotoRedimensionada = getImagenRedimensionada(Controlador.INSTANCE.getPathPublicacion(publicacion), 100, 50);
+		//ImageIcon fotoRedimensionada = getImagenRedimensionada(Controlador.INSTANCE.getPathPublicacion(publicacion), 100, 50);
+		ImageIcon fotoRedimensionada = getImagenRedimensionada("/umu/tds/resources/fotoperfil.jpg", 240, 135);
 		
 		JLabel lblFoto = new JLabel();
-		//lblFoto.setIcon(fotoRedimensionada);
+		lblFoto.setIcon(fotoRedimensionada);
 		add(lblFoto, BorderLayout.WEST);
 		
 		add(crearPanelInfo(), BorderLayout.CENTER);
+		
+		//setMaximumSize(getPreferredSize());
 	}
 	
 	//Panel con los botones, número de megusta e información del usuario
@@ -97,7 +100,8 @@ public class PanelPrincipalFoto extends JPanel {
 		panelBotones.add(btnComentario);
 		
 		//Número de megusta
-		JLabel lblNumMegusta = new JLabel(Controlador.INSTANCE.getNumMegusta(publicacion) + " Me gusta");
+		//JLabel lblNumMegusta = new JLabel(Controlador.INSTANCE.getNumMegusta(publicacion) + " Me gusta");
+		JLabel lblNumMegusta = new JLabel("x Me gusta");
 		lblNumMegusta.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNumMegusta.setForeground(Color.WHITE);
 		panelBotones.add(lblNumMegusta);
@@ -115,13 +119,14 @@ public class PanelPrincipalFoto extends JPanel {
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Obtenemos la foto de perfil y la redimensionamos
-		ImageIcon fotoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuario(publicacion), 30, 30);
+		//ImageIcon fotoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuario(publicacion), 30, 30);
 		
 		//Label con el nombre de usuario y su foto
 		JLabel lblUsuario = new JLabel();
 		lblUsuario.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setText(Controlador.INSTANCE.getNombreUsuario(publicacion));
+		//lblUsuario.setText(Controlador.INSTANCE.getNombreUsuario(publicacion));
+		lblUsuario.setText("usuario");
 		//lblUsuario.setIcon(fotoPerfil);
 		panelUsuario.add(lblUsuario);
 		
