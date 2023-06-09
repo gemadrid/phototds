@@ -12,7 +12,6 @@ public class Foto extends Publicacion {
 	}
 
 	//Métodos
-	@Override
 	public String getPath() {
 		return path;
 	}

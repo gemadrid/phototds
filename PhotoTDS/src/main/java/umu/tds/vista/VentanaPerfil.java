@@ -138,6 +138,7 @@ public class VentanaPerfil extends JDialog {
 		panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
 		//Texto
+		//TODO ¿Cambiar llamada al controlador por llamada directamente al método del usuario?
 		JLabel lblNPublicaciones = new JLabel(Controlador.INSTANCE.getNumPublicaciones(usuario) + " publicaciones");
 		lblNPublicaciones.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNPublicaciones.setForeground(Color.WHITE);

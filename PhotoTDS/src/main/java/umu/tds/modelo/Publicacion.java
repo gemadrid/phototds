@@ -1,15 +1,17 @@
 package umu.tds.modelo;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Publicacion {
 	
 	//Atributos
 	private int codigo;
 	private String titulo;
-	private String fecha;
+	private Date fecha;
 	private String descripcion;
 	private int megusta;
 	private List<String> hashtags;
@@ -24,10 +26,9 @@ public abstract class Publicacion {
 		this.codigo = 0;
 		this.titulo = titulo;
 		//Fecha
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		this.fecha = dateFormat.format(LocalDate.now());
-		this.megusta = 0;
+		this.fecha = new Date();
 		this.descripcion = descripcion;
+		this.megusta = 0;
 		//Obtener hashtags
 		obtenerHashtags();
 		this.usuario = usuario;
@@ -35,12 +36,19 @@ public abstract class Publicacion {
 	
 	//Métodos privados
 	private void obtenerHashtags() {
-		//TODO Buscar hashtags en la descripción
+		hashtags = new ArrayList<>();
+		//Patrón regex que busca hashtags
+		Pattern patron = Pattern.compile("#[\\p{L}\\p{M}0-9_]{1,15}\\b");
+		//Matcher para buscar el patrón en la descripción de la publicación
+		Matcher matcher = patron.matcher(descripcion);
+		//Mientras haya coincidencias
+		while (matcher.find()) {
+			String hashtag = matcher.group().substring(1);
+			hashtags.add(hashtag);
+		}
 	}
 	
 	//Métodos get
-	public abstract String getPath();
-	
 	public int getMegusta() {
 		return megusta;
 	}

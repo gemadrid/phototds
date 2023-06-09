@@ -1,5 +1,15 @@
 package umu.tds.controlador;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.eclipse.persistence.internal.jpa.querydef.PathImpl;
+
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
 import umu.tds.modelo.Foto;
@@ -59,8 +69,8 @@ public enum Controlador {
 	
 	
 	//Métodos ventana principal (donde se muestran las fotos más recientes)
-	public String getPathPublicacion(Publicacion publicacion) {
-		return publicacion.getPath();
+	public String getPathFoto(Foto foto) {
+		return foto.getPath();
 	}
 	
 	public int getNumMegusta(Publicacion publicacion) {
@@ -82,10 +92,29 @@ public enum Controlador {
 	
 	
 	//Métodos subir foto
-	public void subirFoto(String titulo, String descripcion, String path) {
-		Foto foto = new Foto(titulo, descripcion, usuarioActual, path);
+	public void subirFoto(String descripcion, String path) {
+		//Movemos la foto a un path relativo (dentro de /umu/tds/fotos)
+		//TODO Comprobar que esté bien (¿mover funcionalidad a clase publicación?)
+		File from = new File(path);
+		File to = new File(Controlador.class.getResource("/umu/tds/fotos/").getPath());
+		try {
+			Files.copy(
+					from.toPath(),
+					Paths.get(to.getAbsolutePath() + "\\" + from.getName()),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String pathRelativo = "/umu/tds/fotos/" + from.getName();
+		
+		//Creamos la foto y la añadimos al catálogo y a la lista del usuario que ha subido la foto
+		Publicacion foto = new Foto("", descripcion, usuarioActual, pathRelativo);
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
 		usuarioActual.addPublicacion(foto);
+		
+		//Creamos una notificación para los seguidores del usuario
+		usuarioActual.notificar(foto);
 	}
 	
 	

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Usuario {
 	
+	//TODO Cambiar fechaNacimiento de String a Date
+	
 	//Atributos
 	private int codigo;
 	
@@ -24,6 +26,7 @@ public class Usuario {
 	private List<Publicacion> publicaciones;
 	private List<Usuario> seguidores;
 	private List<Notificacion> notificaciones;
+	
 	
 	//Constructor
 	public Usuario(String nombre, String apellidos, String email, String nombreUsuario, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
@@ -95,10 +98,27 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
+	
+	
 	//Métodos
 	public void addPublicacion(Publicacion publicacion) {
 		publicaciones.add(publicacion);
 	}
+	
+	public void notificar(Publicacion publicacion) {
+		//Creamos la notificación
+		Notificacion notificacion = new Notificacion(publicacion);
+		//Añadimos la notificación al propio usuario
+		addNotificacion(notificacion);
+		//Mandamos la notificación a los seguidores del usuario
+		seguidores.forEach(usuario -> usuario.addNotificacion(notificacion));
+	}
+	
+	public void addNotificacion(Notificacion notificacion) {
+		notificaciones.add(notificacion);
+	}
+	
+	
 	
 	//Métodos perfil de usuario
 	public int getNumPublicaciones() {

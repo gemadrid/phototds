@@ -25,11 +25,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
-import umu.tds.controlador.Controlador;
-
-public class VentanaSubirFoto extends JDialog {
+public class VentanaSubirFotoOld extends JDialog {
 	
 	private String path;
 	
@@ -50,7 +47,7 @@ public class VentanaSubirFoto extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			VentanaSubirFoto dialog = new VentanaSubirFoto(null, "C:\\Users\\Gema\\Documents\\Gema\\3º Curso\\acceso_aulas_aulario_norte.jpeg");
+			VentanaSubirFotoOld dialog = new VentanaSubirFotoOld(null, "C:\\Users\\Gema\\Documents\\Gema\\3º Curso\\acceso_aulas_aulario_norte.jpeg");
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -61,7 +58,7 @@ public class VentanaSubirFoto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaSubirFoto(JFrame owner, String path) {
+	public VentanaSubirFotoOld(JFrame owner, String path) {
 		super(owner, "Subir Foto", true);
 		this.path = path;
 		
@@ -73,18 +70,32 @@ public class VentanaSubirFoto extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
 		
-		crearLabelFoto();
+		crearPanelFoto();
 		crearPanelComentario();
 		crearPanelBotones();
 	}
 	
-	//JLabel con la foto
-	private void crearLabelFoto() {
-		JLabel lblFoto = new JLabel("");
-		lblFoto.setBorder(new EmptyBorder(0, 20, 0, 0));
-		getContentPane().add(lblFoto, BorderLayout.WEST);
+	//Panel foto
+	private void crearPanelFoto() {
+		JPanel panelFoto = new JPanel();
+		panelFoto.setBackground(fondo);
+		getContentPane().add(panelFoto, BorderLayout.WEST);
+		GridBagLayout gbl_panelFoto = new GridBagLayout();
+		gbl_panelFoto.columnWidths = new int[]{20, 0};
+		gbl_panelFoto.rowHeights = new int[]{0};
+		gbl_panelFoto.columnWeights = new double[]{0.0, 0.0};
+		gbl_panelFoto.rowWeights = new double[]{0.0};
+		panelFoto.setLayout(gbl_panelFoto);
 		
-		ImageIcon foto = redimensionarImagen(path);
+		JLabel lblFoto = new JLabel("");
+		lblFoto.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblFoto = new GridBagConstraints();
+		gbc_lblFoto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblFoto.gridx = 1;
+		gbc_lblFoto.gridy = 0;
+		panelFoto.add(lblFoto, gbc_lblFoto);
+		
+		ImageIcon foto = redimensionarImange(path);
 		lblFoto.setIcon(foto);
 	}
 	
@@ -93,14 +104,23 @@ public class VentanaSubirFoto extends JDialog {
 		JPanel panelComentario = new JPanel();
 		panelComentario.setBackground(fondo);
 		getContentPane().add(panelComentario, BorderLayout.EAST);
-		panelComentario.setLayout(new BorderLayout(0, 10));
-		panelComentario.setBorder(new EmptyBorder(15, 0, 0, 15));
+		GridBagLayout gbl_panelComentario = new GridBagLayout();
+		gbl_panelComentario.columnWidths = new int[]{0, 20, 0};
+		gbl_panelComentario.rowHeights = new int[]{20, 0, 0, 10};
+		gbl_panelComentario.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelComentario.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE, 0.0};
+		panelComentario.setLayout(gbl_panelComentario);
 		
 		//Texto
 		JLabel lblComentario = new JLabel("Escribe un comentario (máximo 200 caracteres)");
 		lblComentario.setForeground(Color.WHITE);
 		lblComentario.setFont(new Font("Poppins", Font.BOLD, 18));
-		panelComentario.add(lblComentario, BorderLayout.NORTH);
+		GridBagConstraints gbc_lblComentario = new GridBagConstraints();
+		gbc_lblComentario.insets = new Insets(0, 0, 5, 5);
+		gbc_lblComentario.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblComentario.gridx = 0;
+		gbc_lblComentario.gridy = 1;
+		panelComentario.add(lblComentario, gbc_lblComentario);
 		
 		//Área de texto
 		textComentario = new JTextArea();
@@ -108,15 +128,20 @@ public class VentanaSubirFoto extends JDialog {
 		textComentario.setWrapStyleWord(true);
 		textComentario.setFont(new Font("Poppins", Font.PLAIN, 18));
 		textComentario.setBackground(areaTexto);
-		panelComentario.add(textComentario, BorderLayout.CENTER);
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.fill = GridBagConstraints.BOTH;
+		gbc_textPane.gridx = 0;
+		gbc_textPane.gridy = 2;
+		panelComentario.add(textComentario, gbc_textPane);
 		
 		addManejadorLimitarCaracteres();
 	}
 	
 	//Panel botones
-	private JPanel crearPanelBotones() {
+	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
-		panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
+		panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 10));
 		panelBotones.setBackground(fondo);
 		getContentPane().add(panelBotones, BorderLayout.SOUTH);
 		
@@ -137,18 +162,11 @@ public class VentanaSubirFoto extends JDialog {
 		
 		addManejadorBotonSubir();
 		addManejadorBotonCancelar();
-		
-		return panelBotones;
 	}
 	
 	//Manejadores de botones
 	private void addManejadorBotonSubir() {
-		btnSubir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Subimos la foto
-				Controlador.INSTANCE.subirFoto(textComentario.getText(), path);
-			}
-		});
+		
 	}
 	
 	private void addManejadorBotonCancelar() {
@@ -160,9 +178,8 @@ public class VentanaSubirFoto extends JDialog {
 	}
 	
 	//Método para redimensionar la imagen
-	//TODO Ajustar mejor la imagen a la ventana
 	//TODO ¿Null?
-	private ImageIcon redimensionarImagen(String path) {
+	private ImageIcon redimensionarImange(String path) {
 		try {
 			BufferedImage foto = ImageIO.read(new File(path));
 			//Ajustamos la imagen a la ventana

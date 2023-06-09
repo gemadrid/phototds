@@ -3,6 +3,8 @@ package umu.tds;
 import java.awt.EventQueue;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.modelo.Foto;
+import umu.tds.modelo.Publicacion;
 import umu.tds.vista.VentanaLogin;
 
 /**

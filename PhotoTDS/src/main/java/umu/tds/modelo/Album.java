@@ -12,12 +12,6 @@ public class Album extends Publicacion {
 
 	//Métodos
 	@Override
-	public String getPath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	public void darMegusta() {
 		for(Foto foto : fotos) {
 			foto.darMegusta();
