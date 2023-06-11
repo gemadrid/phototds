@@ -15,23 +15,21 @@ import javax.swing.JPanel;
 
 import javax.swing.JLabel;
 
-import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.KeyAdapter;
+import javax.swing.JList;
 
-public class VentanaComentario extends JDialog {
-	
-	private Publicacion publicacion;
+public class VentanaPremium extends JDialog {
 	
 	//TextArea
 	private JTextArea textoComentario;
 	
 	//Botones
-	private JButton btnComentar;
+	private JButton btnAceptar;
 	private JButton btnCancelar;
 	
 	//Colores
@@ -44,7 +42,7 @@ public class VentanaComentario extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			VentanaComentario dialog = new VentanaComentario(null, null);
+			VentanaPremium dialog = new VentanaPremium(null);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -55,59 +53,44 @@ public class VentanaComentario extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaComentario(JFrame owner, Publicacion publicacion) {
-		super(owner, "Comentario", true);
-		this.publicacion = publicacion;
-		setSize(500, 400);
+	public VentanaPremium(JFrame owner) {
+		super(owner, "Hacerse premium", true);
+		setSize(400, 500);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
 		
-		crearPanelComentario();
+		crearPanelDescuentos();
+		crearPanelBotones();
 	}
 	
-	private void crearPanelComentario() {
-		JPanel panelComentario = new JPanel();
-		panelComentario.setBackground(fondo);
-		panelComentario.setLayout(new BorderLayout(10, 10));
-		panelComentario.setBorder(new EmptyBorder(15, 15, 15, 15));
-		getContentPane().add(panelComentario, BorderLayout.CENTER);
+	private void crearPanelDescuentos() {
+		//TODO Poner espacio
+		JLabel lblDescuentos = new JLabel("Descuentos disponibles");
+		lblDescuentos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescuentos.setForeground(Color.WHITE);
+		lblDescuentos.setFont(new Font("Poppins SemiBold", Font.PLAIN, 15));
+		getContentPane().add(lblDescuentos, BorderLayout.NORTH);
 		
-		//Texto de cabecera
-		JLabel lblCabecera = new JLabel("Introduce un comentario (máximo 120 caracteres)");
-		lblCabecera.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCabecera.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
-		lblCabecera.setForeground(Color.WHITE);
-		panelComentario.add(lblCabecera, BorderLayout.NORTH);
-		
-		//Area de texto
-		textoComentario = new JTextArea();
-		textoComentario.setLineWrap(true);
-		textoComentario.setWrapStyleWord(true);
-		textoComentario.setBackground(areaTexto);
-		textoComentario.setFont(new Font("Poppins", Font.PLAIN, 15));
-		panelComentario.add(textoComentario, BorderLayout.CENTER);
-		
-		addManejadorLimitarCaracteres();
-		
-		//Botones
-		panelComentario.add(crearPanelBotones(), BorderLayout.SOUTH);
+		//TODO Lista con los descuentos
 	}
 	
-	private JPanel crearPanelBotones() {
+	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(fondo);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+		panelBotones.setBorder(new EmptyBorder(0, 0, 10, 0));
+		getContentPane().add(panelBotones, BorderLayout.SOUTH);
 		
 		//Botón comentar
-		btnComentar = new JButton("Comentar");
-		btnComentar.setForeground(Color.WHITE);
-		btnComentar.setBorderPainted(false);
-		btnComentar.setBackground(resaltado);
-		btnComentar.setFont(new Font("Poppins", Font.BOLD, 15));
-		panelBotones.add(btnComentar);
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setForeground(Color.WHITE);
+		btnAceptar.setBorderPainted(false);
+		btnAceptar.setBackground(resaltado);
+		btnAceptar.setFont(new Font("Poppins", Font.BOLD, 15));
+		panelBotones.add(btnAceptar);
 		
 		//Botón cancelar
 		btnCancelar = new JButton("Cancelar");
@@ -119,13 +102,11 @@ public class VentanaComentario extends JDialog {
 		
 		addManejadorBotonComentar();
 		addManejadorBotonCancelar();
-		
-		return panelBotones;
 	}
 	
 	//Manejadores de botones
 	private void addManejadorBotonComentar() {
-		btnComentar.addActionListener(new ActionListener() {
+		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO
 				//Controlador.INSTANCE.publicarComentario(publicacion);
@@ -139,18 +120,6 @@ public class VentanaComentario extends JDialog {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}
-		});
-	}
-	
-	//Funcionalidad para limitar el número de caracteres
-	private void addManejadorLimitarCaracteres() {
-		textoComentario.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (textoComentario.getText().length() >= 120) {
-					e.consume();
-				}
 			}
 		});
 	}

@@ -10,9 +10,12 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -20,8 +23,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
@@ -32,8 +37,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JScrollBar;
 
 public class VentanaPerfil extends JDialog {
 	
@@ -94,8 +102,7 @@ public class VentanaPerfil extends JDialog {
 		getContentPane().add(panelNorte, BorderLayout.NORTH);
 		panelNorte.setLayout(new BorderLayout(0, 0));
 		
-		//TODO
-		//Foto de perfil
+		//TODO Foto de perfil
 		JLabel lblFotoPerfil = new JLabel("Foto de perfil");
 		lblFotoPerfil.setForeground(Color.WHITE);
 		lblFotoPerfil.setBorder(new EmptyBorder(0, 20, 0, 20));
@@ -118,18 +125,31 @@ public class VentanaPerfil extends JDialog {
 		panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
 		//Texto
-		JLabel lblEmail = new JLabel(Controlador.INSTANCE.getEmailUsuario(usuario));
+		JLabel lblEmail = new JLabel(usuario.getEmail());
 		lblEmail.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblEmail.setForeground(Color.WHITE);
 		panel1.add(lblEmail);
 		
 		//Botón
-		btnEditar = new JButton("Editar perfil");
-		btnEditar.setForeground(Color.WHITE);
-		btnEditar.setBorderPainted(false);
-		btnEditar.setBackground(resaltado);
-		btnEditar.setFont(new Font("Poppins", Font.BOLD, 15));
-		panel1.add(btnEditar);
+		//TODO ¿Factorizar?
+		if(Controlador.INSTANCE.esUsuarioActual(usuario)) {
+			btnEditar = new JButton("Editar perfil");
+			btnEditar.setForeground(Color.WHITE);
+			btnEditar.setBorderPainted(false);
+			btnEditar.setBackground(resaltado);
+			btnEditar.setFont(new Font("Poppins", Font.BOLD, 15));
+			panel1.add(btnEditar);
+			addManejadorBotonEditar();
+		}
+		else {
+			btnSeguir = new JButton("Seguir");
+			btnSeguir.setForeground(Color.WHITE);
+			btnSeguir.setBorderPainted(false);
+			btnSeguir.setBackground(resaltado);
+			btnSeguir.setFont(new Font("Poppins", Font.BOLD, 15));
+			panel1.add(btnSeguir);
+			addManejadorBotonSeguir();
+		}
 		
 		//Línea 2 (n publicaciones, n seguidores, n seguidos)
 		JPanel panel2 = new JPanel();
@@ -138,13 +158,12 @@ public class VentanaPerfil extends JDialog {
 		panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
 		//Texto
-		//TODO ¿Cambiar llamada al controlador por llamada directamente al método del usuario?
-		JLabel lblNPublicaciones = new JLabel(Controlador.INSTANCE.getNumPublicaciones(usuario) + " publicaciones");
+		JLabel lblNPublicaciones = new JLabel(usuario.getNumPublicaciones() + " publicaciones");
 		lblNPublicaciones.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNPublicaciones.setForeground(Color.WHITE);
 		panel2.add(lblNPublicaciones);
 		
-		JLabel lblNSeguidores = new JLabel(Controlador.INSTANCE.getNumSeguidores(usuario) + " seguidores");
+		JLabel lblNSeguidores = new JLabel(usuario.getNumSeguidores() + " seguidores");
 		lblNSeguidores.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNSeguidores.setForeground(Color.WHITE);
 		panel2.add(lblNSeguidores);
@@ -161,7 +180,7 @@ public class VentanaPerfil extends JDialog {
 		panel3.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
 		//Texto
-		JLabel lblNombre = new JLabel(Controlador.INSTANCE.getNombreCompleto(usuario));
+		JLabel lblNombre = new JLabel(usuario.getNombreCompleto());
 		lblNombre.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNombre.setForeground(Color.WHITE);
 		panel3.add(lblNombre);
@@ -195,6 +214,9 @@ public class VentanaPerfil extends JDialog {
 		btnAlbumes.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAlbumes);
 		
+		addManejadorBotonFotos();
+		addManejadorBotonAlbumes();
+		
 		crearPanelMatriz();
 	}
 	
@@ -207,11 +229,61 @@ public class VentanaPerfil extends JDialog {
 		panelMatriz.setBackground(fondo);
 		
 		panelMatriz.add(crearPanelFotos(), "panel_fotos");
+		panelMatriz.add(crearPanelAlbumes(), "panel_albumes");
 	}
 	
 	private JPanel crearPanelFotos() {
 		JPanel panelFotos = new JPanel();
+		//TODO Crear un nuevo PanelPublicacion que contenga la publicacion
+		
+		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
+		panelFotos.setLayout(new GridLayout(0, 3, 5, 5));
+		//TODO Añadimos todas las fotos
+		
 		return panelFotos;
+	}
+	
+	private JPanel crearPanelAlbumes() {
+		JPanel panelAlbumes = new JPanel();
+		return panelAlbumes;
+	}
+	
+	
+	
+	//Manejadores de botones
+	private void addManejadorBotonEditar() {
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+	}
+	
+	private void addManejadorBotonSeguir() {
+		btnSeguir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.INSTANCE.seguirUsuario(usuario);
+				//TODO Hacer algo que indique que se ha seguido al usuario
+			}
+		});
+	}
+	
+	private void addManejadorBotonFotos() {
+		btnFotos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)(panelMatriz.getLayout());
+				cl.show(panelMatriz, "panel_fotos");
+			}
+		});
+	}
+	
+	private void addManejadorBotonAlbumes() {
+		btnAlbumes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)(panelMatriz.getLayout());
+				cl.show(panelMatriz, "panel_albumes");
+			}
+		});
 	}
 	
 	

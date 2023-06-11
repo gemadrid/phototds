@@ -8,20 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import umu.tds.controlador.Controlador;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -29,17 +23,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.CardLayout;
 import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
 
-import javax.swing.JTextField;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -54,6 +41,13 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnBuscar;
 	private JButton btnUsuario;
 	private JButton btnOpciones;
+	
+	//Menú opciones
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmPremium;
+	private JMenuItem mntmPdf;
+	private JMenuItem mntmExcel;
+	private JMenuItem mntmTop;
 	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
@@ -178,13 +172,42 @@ public class VentanaPrincipal extends JFrame {
 		btnUsuario.setContentAreaFilled(false);
 		panelUsuario.add(btnUsuario);
 		
+		//Botón de opciones
 		btnOpciones = new JButton("");
 		btnOpciones.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/resources/IconoOpciones.png")));
 		btnOpciones.setBorder(null);
 		btnOpciones.setContentAreaFilled(false);
 		panelUsuario.add(btnOpciones);
 		
+		//Menú que aparece al pulsar el botón de opciones
+		popupMenu = new JPopupMenu();
+		panelUsuario.add(popupMenu);
+		
+		//Items del menú
+		mntmPremium = new JMenuItem("Premium");
+		mntmPremium.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmPdf = new JMenuItem("Generar PDF");
+		mntmPdf.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmExcel = new JMenuItem("Generar Excel");
+		mntmExcel.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmTop = new JMenuItem("Top Me Gusta");
+		mntmTop.setFont(new Font("Poppins", Font.PLAIN, 13));
+		
+		//TODO Si el usuario actual no es premium, deshabilitar los botones premium
+		//mntmPdf.setEnabled(false);
+		
+		popupMenu.add(mntmPremium);
+		popupMenu.add(mntmPdf);
+		popupMenu.add(mntmExcel);
+		popupMenu.add(mntmTop);
+		
 		addManejadorBotonUsuario();
+		addManejadorBotonOpciones();
+		
+		addManejadorMenuPremium();
+		addManejadorMenuPdf();
+		addManejadorMenuExcel();
+		addManejadorMenuTop();
 		
 		return panelUsuario;
 	}
@@ -235,6 +258,49 @@ public class VentanaPrincipal extends JFrame {
 				VentanaPerfil perfil = new VentanaPerfil(VentanaPrincipal.this, Controlador.INSTANCE.getUsuarioActual());
 				perfil.setLocationRelativeTo(VentanaPrincipal.this);
 				perfil.setVisible(true);
+				
+			}
+		});
+	}
+	
+	private void addManejadorBotonOpciones() {
+		btnOpciones.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	
+	//Manejadores de eventos del menú de opciones
+	private void addManejadorMenuPremium() {
+		mntmPremium.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaPremium ventanaPremium = new VentanaPremium(VentanaPrincipal.this);
+				ventanaPremium.setLocationRelativeTo(VentanaPrincipal.this);
+				ventanaPremium.setVisible(true);
+			}
+		});
+	}
+	
+	private void addManejadorMenuPdf() {
+		mntmPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+	}
+	
+	private void addManejadorMenuExcel() {
+		mntmExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+	}
+	
+	private void addManejadorMenuTop() {
+		mntmTop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});

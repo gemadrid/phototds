@@ -20,6 +20,7 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	//Constructor
+	//TODO ¿Es el constructor vacío necesario?
 	public Publicacion() {};
 	
 	public Publicacion(String titulo, String descripcion, Usuario usuario) {
@@ -60,6 +61,8 @@ public abstract class Publicacion {
 	public String getNombreUsuario() {
 		return usuario.getNombreUsuario();
 	}
+	
+	public abstract String getPath();
 	
 	//Métodos (funcionalidad)
 	public void darMegusta() {

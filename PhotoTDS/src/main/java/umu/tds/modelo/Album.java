@@ -18,4 +18,9 @@ public class Album extends Publicacion {
 		}
 	}
 
+	@Override
+	public String getPath() {
+		return fotos.get(0).getPath();
+	}
+
 }

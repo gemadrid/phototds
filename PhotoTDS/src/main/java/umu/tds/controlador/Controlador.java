@@ -29,6 +29,8 @@ public enum Controlador {
 		//TODO getInstancia() FactoriaDAO
 	}
 	
+	
+	
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
@@ -69,22 +71,6 @@ public enum Controlador {
 	
 	
 	//Métodos ventana principal (donde se muestran las fotos más recientes)
-	public String getPathFoto(Foto foto) {
-		return foto.getPath();
-	}
-	
-	public int getNumMegusta(Publicacion publicacion) {
-		return publicacion.getMegusta();
-	}
-	
-	public String getFotoUsuario(Publicacion publicacion) {
-		return publicacion.getFotoUsuario();
-	}
-	
-	public String getNombreUsuario(Publicacion publicacion) {
-		return publicacion.getNombreUsuario();
-	}
-	
 	public void darMegusta(Publicacion publicacion) {
 		publicacion.darMegusta();
 	}
@@ -96,7 +82,7 @@ public enum Controlador {
 		//Movemos la foto a un path relativo (dentro de /umu/tds/fotos)
 		//TODO Comprobar que esté bien (¿mover funcionalidad a clase publicación?)
 		File from = new File(path);
-		File to = new File(Controlador.class.getResource("/umu/tds/fotos/").getPath());
+		File to = new File("fotos/");
 		try {
 			Files.copy(
 					from.toPath(),
@@ -106,7 +92,7 @@ public enum Controlador {
 			e.printStackTrace();
 		}
 		
-		String pathRelativo = "/umu/tds/fotos/" + from.getName();
+		String pathRelativo = "fotos/" + from.getName();
 		
 		//Creamos la foto y la añadimos al catálogo y a la lista del usuario que ha subido la foto
 		Publicacion foto = new Foto("", descripcion, usuarioActual, pathRelativo);
@@ -120,26 +106,19 @@ public enum Controlador {
 	
 	
 	//Métodos perfil de usuario
-	public String getEmailUsuario(Usuario usuario) {
-		return usuario.getEmail();
-	}
-	
-	public int getNumPublicaciones(Usuario usuario) {
-		return usuario.getNumPublicaciones();
-	}
-	
-	public int getNumSeguidores(Usuario usuario) {
-		return usuario.getNumSeguidores();
-	}
-	
 	public int getNumSeguidos(Usuario usuario) {
 		//TODO Se puede hacer con expresiones lambda
 		//Tenemos que obtener CatalogoUsuarios completo y buscar aquellos que tengan a "usuario" en su lista de seguidores
 		return 0;
 	}
 	
-	public String getNombreCompleto(Usuario usuario) {
-		return usuario.getNombreCompleto();
+	public boolean esUsuarioActual(Usuario usuario) {
+		//TODO Comprobar si está bien
+		return usuario == usuarioActual;
+	}
+	
+	public void seguirUsuario(Usuario usuario) {
+		usuario.addSeguidor(usuarioActual);
 	}
 
 }

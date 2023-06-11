@@ -1,7 +1,13 @@
 package umu.tds.modelo;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Usuario {
 	
@@ -16,6 +22,9 @@ public class Usuario {
 	private String nombreUsuario;
 	private String password;
 	private String fechaNacimiento;
+	//TODO Cambiar fecha de nacimiento a LocalDate
+	private LocalDate nacimiento;
+	
 	private String fotoUsuario;
 	private String presentacion;
 	
@@ -98,6 +107,30 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
+	//Get de las colecciones
+	public List<Publicacion> getPublicaciones() {
+		return Collections.unmodifiableList(publicaciones);
+	}
+	
+	public List<Publicacion> getFotos() {
+		return publicaciones.stream()
+				.filter(Foto.class::isInstance)
+				.collect(Collectors.toList());
+	}
+	
+	public List<Publicacion> getAlbumes() {
+		return publicaciones.stream()
+				.filter(Album.class::isInstance)
+				.collect(Collectors.toList());	
+	}
+	
+	
+	
+	//Métodos get derivados
+	public int getEdad() {
+		return Period.between(nacimiento, LocalDate.now()).getYears();
+	}
+	
 	
 	
 	//Métodos
@@ -143,6 +176,10 @@ public class Usuario {
 	
 	public String getNombreUsuario() {
 		return nombreUsuario;
+	}
+	
+	public void addSeguidor(Usuario usuario) {
+		seguidores.add(usuario);
 	}
 
 }

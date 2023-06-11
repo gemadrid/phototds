@@ -28,7 +28,6 @@ public class PanelPrincipalFoto extends JPanel {
 	private VentanaPrincipal ventana;
 	
 	//Foto
-	//TODO ¿Pasar URL en vez de la publicación directamente?
 	private Publicacion publicacion;
 	
 	//Botones
