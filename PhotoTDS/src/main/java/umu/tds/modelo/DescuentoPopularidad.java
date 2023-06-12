@@ -9,6 +9,7 @@ public class DescuentoPopularidad implements Descuento {
 
 	@Override
 	public boolean esAplicable(Usuario usuario) {
+		//TODO Hacer método en la clase Usuario
 		long numPublicaciones = usuario.getPublicaciones().stream()
 									.filter(p -> p.getMegusta() >= NUM_MEGUSTA)
 									.count();

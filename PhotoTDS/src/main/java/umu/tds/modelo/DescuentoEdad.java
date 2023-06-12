@@ -12,6 +12,7 @@ public class DescuentoEdad implements Descuento {
 	@Override
 	public boolean esAplicable(Usuario usuario) {
 		boolean aplicable = false;
+		//TODO Hacer métodos esMayor() o esJoven() en la clase Usuario
 		int edad = usuario.getEdad();
 		if ((edad >= EDAD_JOVEN_MIN && edad <= EDAD_JOVEN_MAX) || edad >= EDAD_MAYOR)
 			aplicable = true;

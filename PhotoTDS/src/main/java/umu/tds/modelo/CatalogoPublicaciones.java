@@ -26,5 +26,9 @@ public enum CatalogoPublicaciones {
 	public void addPublicacion(Publicacion publicacion) {
 		publicaciones.add(publicacion);
 	}
+	
+	public void removePublicacion(Publicacion publicacion) {
+		publicaciones.remove(publicacion.getNombreUsuario());
+	}
 
 }

@@ -62,6 +62,7 @@ public abstract class Publicacion {
 		return usuario.getNombreUsuario();
 	}
 	
+	//TODO Comprobar si es la mejor opción, o hacer método getMiniatura()
 	public abstract String getPath();
 	
 	//Métodos (funcionalidad)

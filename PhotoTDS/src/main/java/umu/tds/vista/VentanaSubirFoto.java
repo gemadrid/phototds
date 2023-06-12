@@ -147,6 +147,8 @@ public class VentanaSubirFoto extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				//Subimos la foto
 				Controlador.INSTANCE.subirFoto(textComentario.getText(), path);
+				//TODO Avisar de que la foto se ha podido subir correctamente
+				dispose();
 			}
 		});
 	}

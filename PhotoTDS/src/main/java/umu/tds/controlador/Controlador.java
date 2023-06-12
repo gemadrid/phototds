@@ -120,5 +120,10 @@ public enum Controlador {
 	public void seguirUsuario(Usuario usuario) {
 		usuario.addSeguidor(usuarioActual);
 	}
+	
+	public void eliminarPublicacion(Publicacion publicacion) {
+		CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
+		//TODO Eliminar de la base de datos
+	}
 
 }

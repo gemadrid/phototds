@@ -25,12 +25,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 
 import javax.swing.JPasswordField;
@@ -234,17 +236,23 @@ public class VentanaPerfil extends JDialog {
 	
 	private JPanel crearPanelFotos() {
 		JPanel panelFotos = new JPanel();
-		//TODO Crear un nuevo PanelPublicacion que contenga la publicacion
-		
+		//panelFotos.setBackground(fondo);
 		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
 		panelFotos.setLayout(new GridLayout(0, 3, 5, 5));
-		//TODO Añadimos todas las fotos
-		
+		//Añadimos todas las fotos
+		List<Publicacion> fotos = usuario.getFotos();
+		fotos.forEach(f -> panelFotos.add(new PanelPerfilPublicacion(VentanaPerfil.this, f)));
 		return panelFotos;
 	}
 	
 	private JPanel crearPanelAlbumes() {
 		JPanel panelAlbumes = new JPanel();
+		//panelAlbumes.setBackground(fondo);
+		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
+		panelAlbumes.setLayout(new GridLayout(0, 3, 5, 5));
+		//Añadimos todas las fotos
+		List<Publicacion> albumes = usuario.getAlbumes();
+		albumes.forEach(a -> panelAlbumes.add(new PanelPerfilPublicacion(VentanaPerfil.this, a)));
 		return panelAlbumes;
 	}
 	

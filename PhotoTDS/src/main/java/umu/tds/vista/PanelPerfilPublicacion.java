@@ -13,7 +13,10 @@ import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
@@ -28,13 +31,17 @@ import java.awt.event.MouseEvent;
 public class PanelPerfilPublicacion extends JPanel {
 	
 	//Ventana principal
-	private VentanaPrincipal ventana;
+	private VentanaPerfil ventana;
 	
 	//Foto
 	private Publicacion publicacion;
 	
 	//Label
 	JLabel lblFoto;
+	
+	//Menú contextual
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmEliminar;
 	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
@@ -44,46 +51,78 @@ public class PanelPerfilPublicacion extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfilPublicacion(VentanaPrincipal v, Publicacion p) {
+	public PanelPerfilPublicacion(VentanaPerfil v, Publicacion p) {
 		ventana = v;
 		publicacion = p;
 		crearPanelPerfilPublicacion();
+		setMaximumSize(getPreferredSize());
 	}
 	
 	private void crearPanelPerfilPublicacion() {
 		setBackground(fondo);
 		
-		lblFoto = new JLabel("HOLA");
+		lblFoto = new JLabel();
 		lblFoto.setForeground(Color.WHITE);
-		//Redimensionamos la foto para que quepa 
+		//Redimensionamos la foto para que quepa
+		ImageIcon imagen = getImagenRedimensionada();
+		lblFoto.setIcon(imagen);
 		add(lblFoto);
-
+		
+		//Menú contextual
+		popupMenu = new JPopupMenu();
+		add(popupMenu);
+		
+		//Opción eliminar
+		mntmEliminar = new JMenuItem("Eliminar");
+		mntmEliminar.setFont(new Font("Poppins", Font.PLAIN, 13));
+		
+		popupMenu.add(mntmEliminar);
+		
+		addManejadorFotoClick();
+		addManejadorBotonEliminar();
 	}
 	
-	//Método para redimensionar imágenes
-	/*private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		URL url = this.getClass().getResource(path);
-		ImageIcon icon;
+	private ImageIcon getImagenRedimensionada() {
 		try {
-			BufferedImage imagen = ImageIO.read(url);
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
-			icon = new ImageIcon(imagenRedimensionada);
-			return icon;
+			//Leemos la imagen
+			BufferedImage img = ImageIO.read(new File(publicacion.getPath()));
+			//Obtenemos el tamaño de la imagen
+			int ancho = ventana.getWidth() / 3;
+			int alto = ancho * img.getHeight() / img.getWidth();
+			//Reescalamos la imagen
+			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			//Devolvemos la imagen
+			return new ImageIcon(imgNueva);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
-	}*/
-	
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		return null;
 	}
 	
-	//Manejador botón megusta
-	private void addManejadorFotoClickDerecho() {
+	//Manejador click izquierdo y derecho en la foto
+	private void addManejadorFotoClick() {
 		lblFoto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//Si se ha pulsado el botón izquierdo
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					
+				}
+				//Si se ha pulsado el botón derecho
+				else if (SwingUtilities.isRightMouseButton(e)) {
+					popupMenu.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
+	}
+	
+	//Manejador botón eliminar
+	private void addManejadorBotonEliminar() {
+		mntmEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.INSTANCE.eliminarPublicacion(publicacion);
+				//TODO Notificar a VentanaPerfil de que se ha eliminado la publicación para recargarla
+				//dispose();
 			}
 		});
 	}
