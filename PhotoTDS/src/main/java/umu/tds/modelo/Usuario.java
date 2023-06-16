@@ -133,7 +133,17 @@ public class Usuario {
 	
 	
 	
-	//Métodos
+	//Métodos subir foto
+	public Publicacion subirFoto(String descripcion, String path) {
+		//Creamos la foto y la añadimos a la colección de publicaciones del usuario
+		Publicacion foto = new Foto("", descripcion, this, path);
+		addPublicacion(foto);
+		//Notificamos de la subida de la foto
+		notificar(foto);
+		//Devolvemos la foto
+		return foto;
+	}
+	
 	public void addPublicacion(Publicacion publicacion) {
 		publicaciones.add(publicacion);
 	}

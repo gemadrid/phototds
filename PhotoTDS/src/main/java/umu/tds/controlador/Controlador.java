@@ -1,14 +1,10 @@
 package umu.tds.controlador;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
-import org.eclipse.persistence.internal.jpa.querydef.PathImpl;
 
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
@@ -94,13 +90,9 @@ public enum Controlador {
 		
 		String pathRelativo = "fotos/" + from.getName();
 		
-		//Creamos la foto y la añadimos al catálogo y a la lista del usuario que ha subido la foto
-		Publicacion foto = new Foto("", descripcion, usuarioActual, pathRelativo);
+		//Subimos la foto y la añadimos al catálogo de publicaciones
+		Publicacion foto = usuarioActual.subirFoto(descripcion, pathRelativo);
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
-		usuarioActual.addPublicacion(foto);
-		
-		//Creamos una notificación para los seguidores del usuario
-		usuarioActual.notificar(foto);
 	}
 	
 	
@@ -123,6 +115,7 @@ public enum Controlador {
 	
 	public void eliminarPublicacion(Publicacion publicacion) {
 		CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
+		//TODO Si es un álbum hay que eliminar todas las fotos que contiene
 		//TODO Eliminar de la base de datos
 	}
 

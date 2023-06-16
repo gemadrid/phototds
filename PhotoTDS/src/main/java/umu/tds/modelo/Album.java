@@ -18,6 +18,7 @@ public class Album extends Publicacion {
 	//Métodos
 	@Override
 	public void darMegusta() {
+		//TODO Dar me gusta al propio ábum
 		for(Foto foto : fotos) {
 			foto.darMegusta();
 		}
