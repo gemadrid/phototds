@@ -430,7 +430,6 @@ public class VentanaRegistro extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				boolean check = comprobarCampos();
 				if (check) {
-					SimpleDateFormat dateFormat = new SimpleDateFormat(fechaNacimiento.getDateFormatString());
 					//TODO Mover foto a un path relativo
 					boolean registrado = Controlador.INSTANCE.registrarUsuario(
 							textNombre.getText(),
@@ -438,7 +437,7 @@ public class VentanaRegistro extends JDialog {
 							textEmail.getText(),
 							textNombreUsuario.getText(),
 							new String(textPassword.getPassword()),
-							dateFormat.format(fechaNacimiento.getDate()),
+							fechaNacimiento.getDate(),
 							pathFoto,
 							textPresentacion.getText());
 					if (registrado) {

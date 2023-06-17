@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
@@ -47,12 +50,13 @@ public enum Controlador {
 	
 	//Métodos Registro
 	//TODO Añadir foto --> Guardar en umu.tds.resources.usuarios y pasarle el path al usuario al crearlo
-	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
+	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password, Date fechaNacimiento, String fotoUsuario, String presentacion) {
 		if (esUsuarioRegistrado(login)) return false;
 		
 		//TODO Guardar imagen en path local y pasarlo al constructor de Usuario
 		
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, fotoUsuario, presentacion);
+		LocalDate fecha = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fecha, fotoUsuario, presentacion);
 		
 		//TODO FactoriaDAO
 		

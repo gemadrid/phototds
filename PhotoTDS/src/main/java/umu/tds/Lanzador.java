@@ -1,6 +1,7 @@
 package umu.tds;
 
 import java.awt.EventQueue;
+import java.util.Date;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.vista.VentanaLogin;
@@ -28,7 +29,7 @@ public class Lanzador
 	
 	
 	public static void pruebas() {
-		Controlador.INSTANCE.registrarUsuario("Gema", "Madrid Sánchez", "gema@gmail.com", "gema", "gema", "", "", "");
+		Controlador.INSTANCE.registrarUsuario("Gema", "Madrid Sánchez", "gema@gmail.com", "gema", "gema", new Date(), "", "");
 	}
 	
 }

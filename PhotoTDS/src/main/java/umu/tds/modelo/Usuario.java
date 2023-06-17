@@ -21,14 +21,12 @@ public class Usuario {
 	private String email;
 	private String nombreUsuario;
 	private String password;
-	private String fechaNacimiento;
-	//TODO Cambiar fecha de nacimiento a LocalDate
-	private LocalDate nacimiento;
+	private LocalDate fechaNacimiento;
 	
 	private String fotoUsuario;
 	private String presentacion;
 	
-	private boolean isPremium;
+	private boolean premium;
 	
 	//Referencias
 	private Descuento descuento;
@@ -38,7 +36,7 @@ public class Usuario {
 	
 	
 	//Constructor
-	public Usuario(String nombre, String apellidos, String email, String nombreUsuario, String password, String fechaNacimiento, String fotoUsuario, String presentacion) {
+	public Usuario(String nombre, String apellidos, String email, String nombreUsuario, String password, LocalDate fechaNacimiento, String fotoUsuario, String presentacion) {
 		this.codigo = 0;
 		
 		this.nombre = nombre;
@@ -50,12 +48,11 @@ public class Usuario {
 		this.fotoUsuario = fotoUsuario;
 		this.presentacion = presentacion;
 		
-		isPremium = false;
+		premium = false;
 		
 		publicaciones = new LinkedList<>();
 		seguidores = new LinkedList<>();
-		notificaciones = new LinkedList<>();
-		
+		notificaciones = new LinkedList<>();	
 	}
 	
 	//Métodos get y set
@@ -91,6 +88,14 @@ public class Usuario {
 		this.email = email;
 	}
 	
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+	
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -99,19 +104,74 @@ public class Usuario {
 		this.password = password;
 	}
 	
-	public String getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 	
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-	//Get de las colecciones
-	public List<Publicacion> getPublicaciones() {
-		return Collections.unmodifiableList(publicaciones);
+	public String getFotoUsuario() {
+		return fotoUsuario;
 	}
 	
+	public void setFotoUsuario(String fotoUsuario) {
+		this.fotoUsuario = fotoUsuario;
+	}
+	
+	public String getPresentacion() {
+		return presentacion;
+	}
+
+	public void setPresentacion(String presentacion) {
+		this.presentacion = presentacion;
+	}
+
+	public boolean isPremium() {
+		return premium;
+	}
+
+	public void setPremium(boolean premium) {
+		this.premium = premium;
+	}
+
+	public Descuento getDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(Descuento descuento) {
+		this.descuento = descuento;
+	}
+
+	//Getters y setters de las colecciones
+	public List<Usuario> getSeguidores() {
+		return seguidores;
+	}
+
+	public void setSeguidores(List<Usuario> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public List<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+	public void setNotificaciones(List<Notificacion> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
+	
+	public List<Publicacion> getPublicaciones() {
+		return publicaciones;
+	}
+
+	public void setPublicaciones(List<Publicacion> publicaciones) {
+		this.publicaciones = publicaciones;
+	}
+
+	
+	
+	//Get (fotos y álbumes)
 	public List<Publicacion> getFotos() {
 		return publicaciones.stream()
 				.filter(Foto.class::isInstance)
@@ -128,7 +188,7 @@ public class Usuario {
 	
 	//Métodos get derivados
 	public int getEdad() {
-		return Period.between(nacimiento, LocalDate.now()).getYears();
+		return Period.between(fechaNacimiento, LocalDate.now()).getYears();
 	}
 	
 	
@@ -178,14 +238,6 @@ public class Usuario {
 	
 	public String getNombreCompleto() {
 		return nombre + " " + apellidos;
-	}
-
-	public String getFotoUsuario() {
-		return fotoUsuario;
-	}
-	
-	public String getNombreUsuario() {
-		return nombreUsuario;
 	}
 	
 	public void addSeguidor(Usuario usuario) {

@@ -32,6 +32,8 @@ public class TDSComentarioDAO implements ComentarioDAO {
 		else return unicaInstancia;
 	}
 
+	
+	
 	//Crear comentario
 	@Override
 	public void create(Comentario comentario) {
@@ -52,7 +54,7 @@ public class TDSComentarioDAO implements ComentarioDAO {
 		eComentario = new Entidad();
 		eComentario.setNombre("comentario");
 		eComentario.setPropiedades(new ArrayList<Propiedad>(
-				Arrays.asList(new Propiedad("texto", String.valueOf(comentario.getTexto())),
+				Arrays.asList(new Propiedad("texto", comentario.getTexto()),
 						new Propiedad("fecha", dateFormat.format(comentario.getFecha())),
 						new Propiedad("usuario", String.valueOf(comentario.getUsuario().getCodigo())))));
 		
