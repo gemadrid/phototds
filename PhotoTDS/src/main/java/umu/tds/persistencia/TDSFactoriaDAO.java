@@ -6,26 +6,22 @@ public class TDSFactoriaDAO extends FactoriaDAO {
 
 	@Override
 	public UsuarioDAO getUsuarioDAO() {
-		// TODO Auto-generated method stub
-		return null;
+		return TDSUsuarioDAO.getUnicaInstancia();
 	}
 
 	@Override
 	public PublicacionDAO getPublicacionDAO() {
-		// TODO Auto-generated method stub
-		return null;
+		return TDSPublicacionDAO.getUnicaInstancia();
 	}
 
 	@Override
 	public NotificacionDAO getNotificacionDAO() {
-		// TODO Auto-generated method stub
-		return null;
+		return TDSNotificacionDAO.getUnicaInstancia();
 	}
 
 	@Override
 	public ComentarioDAO getComentarioDAO() {
-		// TODO Auto-generated method stub
-		return null;
+		return TDSComentarioDAO.getUnicaInstancia();
 	}
 
 }

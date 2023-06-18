@@ -7,19 +7,32 @@ public class Album extends Publicacion {
 	
 	//Atributos
 	//Referencias
-	private List<Foto> fotos;
-	
+	private List<Publicacion> fotos;
+
 	//Constructor
 	public Album(String titulo, String descripcion, Usuario usuario) {
 		super(titulo, descripcion, usuario);
 		this.fotos = new ArrayList<>();
 	}
+	
+	//Getters y setters
+	public List<Publicacion> getFotos() {
+		return fotos;
+	}
+
+	public void setFotos(List<Publicacion> fotos) {
+		this.fotos = fotos;
+	}
 
 	//Métodos
+	public void addFoto(Publicacion foto) {
+		fotos.add(foto);
+	}
+	
 	@Override
 	public void darMegusta() {
 		//TODO Dar me gusta al propio ábum
-		for(Foto foto : fotos) {
+		for(Publicacion foto : fotos) {
 			foto.darMegusta();
 		}
 	}

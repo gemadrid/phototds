@@ -20,6 +20,7 @@ public class PoolDAO {
 	}
 	
 	//Métodos para manejar el pool (get, add, contains)
+	//Devuelve null si no encuentra el objeto
 	public Object getObjeto(int id) {
 		return pool.get(id);
 	}

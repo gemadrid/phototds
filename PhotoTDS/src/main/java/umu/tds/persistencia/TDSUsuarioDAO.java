@@ -135,13 +135,14 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 			}
 			servPersistencia.modificarPropiedad(prop);
 		}
-		
 	}
 
 	//Obtener usuario
 	@Override
 	public Usuario get(int id) {
-		//TODO PoolDAO - Devolver entidad
+		//TODO PoolDAO - Devolvemos la entidad
+		if (PoolDAO.getUnicaInstancia().contiene(id))
+			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(id);
 		
 		Entidad eUsuario;
 		//Atributos
@@ -181,7 +182,8 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 		usuario.setPremium(premium);
 		//TODO setDescuento
 		
-		//TODO PoolDAO - Añadir cliente al PoolDAO antes de llamar a los otros
+		//TODO PoolDAO - Añadir cliente al PoolDAO antes de llamar a los otros adaptadores
+		PoolDAO.getUnicaInstancia().addObjeto(id, usuario);
 		
 		//Recuperar objetos
 		publicaciones = obtenerPublicacionesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, "publicaciones"));

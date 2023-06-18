@@ -1,7 +1,7 @@
 package umu.tds.modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,10 +11,11 @@ public abstract class Publicacion {
 	//Atributos
 	private int codigo;
 	private String titulo;
-	private Date fecha;
+	private LocalDate fecha;
 	private String descripcion;
 	private int megusta;
 	private List<String> hashtags;
+	
 	//Referencias
 	private Usuario usuario;
 	private List<Comentario> comentarios;
@@ -27,7 +28,7 @@ public abstract class Publicacion {
 		this.codigo = 0;
 		this.titulo = titulo;
 		//Fecha
-		this.fecha = new Date();
+		this.fecha = LocalDate.now();
 		this.descripcion = descripcion;
 		this.megusta = 0;
 		//Obtener hashtags
@@ -66,11 +67,11 @@ public abstract class Publicacion {
 		this.titulo = titulo;
 	}
 
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
@@ -129,6 +130,10 @@ public abstract class Publicacion {
 	//Métodos (funcionalidad)
 	public void darMegusta() {
 		megusta++;
+	}
+	
+	public void addComentario(Comentario comentario) {
+		comentarios.add(comentario);
 	}
 	
 	
