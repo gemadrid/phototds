@@ -31,6 +31,8 @@ import umu.tds.controlador.Controlador;
 
 public class VentanaSubirFoto extends JDialog {
 	
+	private VentanaPrincipal ventana;
+	
 	private String path;
 	
 	//Campos
@@ -61,8 +63,9 @@ public class VentanaSubirFoto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaSubirFoto(JFrame owner, String path) {
+	public VentanaSubirFoto(VentanaPrincipal owner, String path) {
 		super(owner, "Subir Foto", true);
+		this.ventana = owner;
 		this.path = path;
 		
 		setSize(1100, 600);
@@ -148,6 +151,8 @@ public class VentanaSubirFoto extends JDialog {
 				//Subimos la foto
 				Controlador.INSTANCE.subirFoto(textComentario.getText(), path);
 				//TODO Avisar de que la foto se ha podido subir correctamente
+				//Actualizamos la ventana principal
+				ventana.actualizarSubirFoto();
 				dispose();
 			}
 		});

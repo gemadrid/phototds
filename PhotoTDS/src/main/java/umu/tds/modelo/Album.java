@@ -31,7 +31,7 @@ public class Album extends Publicacion {
 	
 	@Override
 	public void darMegusta() {
-		//TODO Dar me gusta al propio ábum
+		super.darMegusta();
 		for(Publicacion foto : fotos) {
 			foto.darMegusta();
 		}

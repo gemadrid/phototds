@@ -50,6 +50,8 @@ public abstract class Publicacion {
 		}
 	}
 	
+	
+	
 	//Getters y setters
 	public int getCodigo() {
 		return codigo;
@@ -115,6 +117,8 @@ public abstract class Publicacion {
 		this.megusta = megusta;
 	}
 	
+	
+	
 	//Otros get
 	public String getFotoUsuario() {
 		return usuario.getFotoUsuario();
@@ -127,9 +131,16 @@ public abstract class Publicacion {
 	//TODO Comprobar si es la mejor opción, o hacer método getMiniatura()
 	public abstract String getPath();
 	
+	
+	
 	//Métodos (funcionalidad)
 	public void darMegusta() {
 		megusta++;
+	}
+	
+	public void comentar(String texto, Usuario usuario) {
+		Comentario comentario = new Comentario(texto, usuario);
+		addComentario(comentario);
 	}
 	
 	public void addComentario(Comentario comentario) {

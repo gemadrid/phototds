@@ -34,6 +34,8 @@ public class VentanaPrincipal extends JFrame {
 	
 	//Paneles
 	private JPanel panelCentro;
+	private PanelPrincipal panelPrincipal;
+	private PanelBuscar panelBuscar;
 	
 	//Botones
 	private JButton btnPrincipal;
@@ -219,9 +221,17 @@ public class VentanaPrincipal extends JFrame {
 		panelCentro.setLayout(new CardLayout(0, 0));
 		panelCentro.setBackground(fondo);
 		
-		panelCentro.add(new PanelPrincipal(VentanaPrincipal.this), "panel_principal");
+		panelPrincipal = new PanelPrincipal(VentanaPrincipal.this);
+		panelBuscar = new PanelBuscar(VentanaPrincipal.this);
+		
+		panelCentro.add(panelPrincipal, "panel_principal");
 		panelCentro.add(new PanelSubir(VentanaPrincipal.this), "panel_subir");
-		panelCentro.add(new PanelBuscar(VentanaPrincipal.this), "panel_buscar");
+		panelCentro.add(panelBuscar, "panel_buscar");
+	}
+	
+	//Actualizar paneles
+	public void actualizarSubirFoto() {
+		panelPrincipal.actualizar();
 	}
 	
 	//Manejadores de eventos de botones (panel norte)

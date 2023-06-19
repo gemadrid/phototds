@@ -8,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+
+import javax.swing.ListModel;
 
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
@@ -71,8 +74,16 @@ public enum Controlador {
 	
 	
 	//Métodos ventana principal (donde se muestran las fotos más recientes)
+	public List<Publicacion> getPublicacionesNotificaciones(int num) {
+		return usuarioActual.getPublicacionesNotificaciones(num);
+	}
+	
 	public void darMegusta(Publicacion publicacion) {
 		publicacion.darMegusta();
+	}
+	
+	public void comentar(Publicacion publicacion, String texto) {
+		publicacion.comentar(texto, usuarioActual);
 	}
 	
 	

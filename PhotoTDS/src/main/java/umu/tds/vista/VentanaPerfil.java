@@ -61,6 +61,7 @@ public class VentanaPerfil extends JDialog {
 	private JButton btnSeguir;
 	private JButton btnFotos;
 	private JButton btnAlbumes;
+	private JButton btnNuevoAlbum;
 	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
@@ -132,7 +133,7 @@ public class VentanaPerfil extends JDialog {
 		lblEmail.setForeground(Color.WHITE);
 		panel1.add(lblEmail);
 		
-		//Botón
+		//Botón editar perfil / seguir
 		//TODO ¿Factorizar?
 		if(Controlador.INSTANCE.esUsuarioActual(usuario)) {
 			btnEditar = new JButton("Editar perfil");
@@ -216,6 +217,16 @@ public class VentanaPerfil extends JDialog {
 		btnAlbumes.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAlbumes);
 		
+		//Botón para añadir un álbum
+		if(Controlador.INSTANCE.esUsuarioActual(usuario)) {
+			btnNuevoAlbum = new JButton("A+");
+			btnNuevoAlbum.setForeground(Color.WHITE);
+			btnNuevoAlbum.setBorderPainted(false);
+			btnNuevoAlbum.setBackground(resaltado);
+			btnNuevoAlbum.setFont(new Font("Poppins", Font.BOLD, 15));
+			panelBotones.add(btnNuevoAlbum);	
+		}
+		
 		addManejadorBotonFotos();
 		addManejadorBotonAlbumes();
 		
@@ -230,18 +241,24 @@ public class VentanaPerfil extends JDialog {
 		panelMatriz.setLayout(new CardLayout(0, 0));
 		panelMatriz.setBackground(fondo);
 		
-		panelMatriz.add(crearPanelFotos(), "panel_fotos");
+		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, usuario), "panel_fotos");
 		panelMatriz.add(crearPanelAlbumes(), "panel_albumes");
 	}
 	
 	private JPanel crearPanelFotos() {
-		JPanel panelFotos = new JPanel();
+		/*
+		 * JPanel panelFotos = new JPanel();
 		//panelFotos.setBackground(fondo);
 		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
 		panelFotos.setLayout(new GridLayout(0, 3, 5, 5));
 		//Añadimos todas las fotos
 		List<Publicacion> fotos = usuario.getFotos();
 		fotos.forEach(f -> panelFotos.add(new PanelPerfilPublicacion(VentanaPerfil.this, f)));
+		*/
+		
+		JPanel panelFotos = new JPanel();
+		panelFotos.add(new PanelMatriz(VentanaPerfil.this, usuario));
+		
 		return panelFotos;
 	}
 	
@@ -290,6 +307,14 @@ public class VentanaPerfil extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)(panelMatriz.getLayout());
 				cl.show(panelMatriz, "panel_albumes");
+			}
+		});
+	}
+	
+	private void addManejadorBotonNuevoAlbum() {
+		btnNuevoAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
 			}
 		});
 	}

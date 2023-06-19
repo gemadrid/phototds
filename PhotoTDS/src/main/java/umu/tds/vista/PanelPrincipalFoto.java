@@ -7,8 +7,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,6 +30,10 @@ public class PanelPrincipalFoto extends JPanel {
 	//Foto
 	private Publicacion publicacion;
 	
+	//Label
+	private JLabel lblFoto;
+	private JLabel lblNumMegusta;
+	
 	//Botones
 	private JButton btnMegusta;
 	private JButton btnComentario;
@@ -46,6 +50,7 @@ public class PanelPrincipalFoto extends JPanel {
 		ventana = v;
 		publicacion = p;
 		crearPanelPrincipalFoto();
+		//setMaximumSize(getPreferredSize());
 	}
 	
 	private void crearPanelPrincipalFoto() {
@@ -54,16 +59,13 @@ public class PanelPrincipalFoto extends JPanel {
 		
 		//TODO Ver qué tamaño es mejor para la foto
 		//Foto redimensionada
-		//ImageIcon fotoRedimensionada = getImagenRedimensionada(Controlador.INSTANCE.getPathPublicacion(publicacion), 100, 50);
-		ImageIcon fotoRedimensionada = getImagenRedimensionada("/umu/tds/resources/fotoperfil.jpg", 240, 135);
+		ImageIcon fotoRedimensionada = getImagenRedimensionada(publicacion.getPath(), 240, 135);
 		
-		JLabel lblFoto = new JLabel();
+		lblFoto = new JLabel();
 		lblFoto.setIcon(fotoRedimensionada);
 		add(lblFoto, BorderLayout.WEST);
 		
 		add(crearPanelInfo(), BorderLayout.CENTER);
-		
-		//setMaximumSize(getPreferredSize());
 	}
 	
 	//Panel con los botones, número de megusta e información del usuario
@@ -99,8 +101,7 @@ public class PanelPrincipalFoto extends JPanel {
 		panelBotones.add(btnComentario);
 		
 		//Número de megusta
-		//JLabel lblNumMegusta = new JLabel(Controlador.INSTANCE.getNumMegusta(publicacion) + " Me gusta");
-		JLabel lblNumMegusta = new JLabel("x Me gusta");
+		lblNumMegusta = new JLabel(publicacion.getMegusta() + " Me gusta");
 		lblNumMegusta.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblNumMegusta.setForeground(Color.WHITE);
 		panelBotones.add(lblNumMegusta);
@@ -118,14 +119,12 @@ public class PanelPrincipalFoto extends JPanel {
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Obtenemos la foto de perfil y la redimensionamos
-		//ImageIcon fotoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuario(publicacion), 30, 30);
+		ImageIcon fotoPerfil = getImagenRedimensionada(publicacion.getFotoUsuario(), 30, 30);
 		
 		//Label con el nombre de usuario y su foto
-		JLabel lblUsuario = new JLabel();
+		JLabel lblUsuario = new JLabel(publicacion.getNombreUsuario());
 		lblUsuario.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblUsuario.setForeground(Color.WHITE);
-		//lblUsuario.setText(Controlador.INSTANCE.getNombreUsuario(publicacion));
-		lblUsuario.setText("usuario");
 		//lblUsuario.setIcon(fotoPerfil);
 		panelUsuario.add(lblUsuario);
 		
@@ -134,13 +133,12 @@ public class PanelPrincipalFoto extends JPanel {
 	
 	//Método para redimensionar imágenes
 	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		URL url = this.getClass().getResource(path);
-		ImageIcon icon;
 		try {
-			BufferedImage imagen = ImageIO.read(url);
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
-			icon = new ImageIcon(imagenRedimensionada);
-			return icon;
+			//Leemos la imagen
+			BufferedImage imagen = ImageIO.read(new File(path));
+			//Redimensionamos la imagen
+			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			return new ImageIcon(imagenRedimensionada);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -152,6 +150,7 @@ public class PanelPrincipalFoto extends JPanel {
 		btnMegusta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.darMegusta(publicacion);
+				lblNumMegusta.setText(publicacion.getMegusta() + " Me gusta");
 			}
 		});
 	}
