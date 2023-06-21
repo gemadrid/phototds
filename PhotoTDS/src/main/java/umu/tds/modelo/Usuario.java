@@ -2,12 +2,9 @@ package umu.tds.modelo;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Usuario {
@@ -190,6 +187,13 @@ public class Usuario {
 				.sorted(Comparator.comparing(Notificacion::getFecha).reversed())
 				.limit(num)
 				.map(Notificacion::getPublicacion)
+				.collect(Collectors.toList());
+	}
+	
+	public List<Publicacion> getTopPublicaciones() {
+		return publicaciones.stream()
+				.sorted(Comparator.comparing(Publicacion::getMegusta).reversed())
+				.limit(10)
 				.collect(Collectors.toList());
 	}
 	

@@ -46,6 +46,9 @@ public class PanelMatriz extends JPanel {
 	//Usuario
 	private Usuario usuario;
 	
+	//Lista
+	JList<Publicacion> listaFotos;
+	
 	//Menú contextual
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmEliminar;
@@ -69,11 +72,8 @@ public class PanelMatriz extends JPanel {
 	}
 	
 	private void crearPanelMatriz() {
-		JScrollPane panelMatriz = new JScrollPane();
-		panelMatriz.setBackground(fondo);
-		add(panelMatriz, BorderLayout.CENTER);
-		
-		JList<Publicacion> listaFotos = new JList<Publicacion>();
+		//JList con la matriz de publicaciones
+		listaFotos = new JList<Publicacion>();
 		DefaultListModel<Publicacion> fotosListModel = new DefaultListModel<Publicacion>();
 		listaFotos.setModel(fotosListModel);
 		usuario.getFotos().forEach(f -> fotosListModel.addElement(f));
@@ -82,17 +82,24 @@ public class PanelMatriz extends JPanel {
 		listaFotos.ensureIndexIsVisible(getHeight());
 		listaFotos.setCellRenderer(crearListCellRenderer());
 		listaFotos.setBackground(fondo);
-		panelMatriz.setViewportView(listaFotos);
+		
+		//JScrollPane
+		JScrollPane panelMatriz = new JScrollPane(listaFotos);
+		panelMatriz.setBorder(null);
+		panelMatriz.setBackground(fondo);
+		add(panelMatriz, BorderLayout.CENTER);
 		
 		//Menú contextual
-		/*popupMenu = new JPopupMenu();
-		add(popupMenu);
+		popupMenu = new JPopupMenu();
 		
 		//Opción eliminar
 		mntmEliminar = new JMenuItem("Eliminar");
 		mntmEliminar.setFont(new Font("Poppins", Font.PLAIN, 13));
 		
-		popupMenu.add(mntmEliminar);*/
+		popupMenu.add(mntmEliminar);
+		
+		addManejadorFotoClick();
+		addManejadorBotonEliminar();
 	}
 	
 	//ListCellRenderer
@@ -113,33 +120,21 @@ public class PanelMatriz extends JPanel {
 			}
 		};
 	}
+		
 	
-	private ImageIcon getImagenRedimensionada(Publicacion publicacion) {
-		try {
-			//Leemos la imagen
-			BufferedImage img = ImageIO.read(new File(publicacion.getPath()));
-			//Obtenemos el tamaño de la imagen
-			int ancho = getWidth() / 3 - 10;
-			int alto = ancho * img.getHeight() / img.getWidth();
-			//Reescalamos la imagen
-			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			//Devolvemos la imagen
-			return new ImageIcon(imgNueva);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/*
 	//Manejador click izquierdo y derecho en la foto
 	private void addManejadorFotoClick() {
-		lblFoto.addMouseListener(new MouseAdapter() {
+		listaFotos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//Si se ha pulsado el botón izquierdo
+				int celda = listaFotos.locationToIndex(e.getPoint());
+				listaFotos.setSelectedIndex(celda);
+				//Si se ha pulsado el botón izquierdo abrimos la foto
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					
+					Publicacion publicacion = listaFotos.getSelectedValue();
+					VentanaVerFotoComentario verFotoComentario = new VentanaVerFotoComentario(ventana, publicacion);
+					verFotoComentario.setLocationRelativeTo(ventana);
+					verFotoComentario.setVisible(true);
 				}
 				//Si se ha pulsado el botón derecho
 				else if (SwingUtilities.isRightMouseButton(e)) {
@@ -153,12 +148,31 @@ public class PanelMatriz extends JPanel {
 	private void addManejadorBotonEliminar() {
 		mntmEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controlador.INSTANCE.eliminarPublicacion(publicacion);
+				Publicacion publicacion = listaFotos.getSelectedValue();
+				//TODO Controlador.INSTANCE.eliminarPublicacion(publicacion);
 				//TODO Notificar a VentanaPerfil de que se ha eliminado la publicación para recargarla
-				//dispose();
 			}
 		});
 	}
-	*/
+	
+	
+	private ImageIcon getImagenRedimensionada(Publicacion publicacion) {
+		try {
+			//Leemos la imagen
+			BufferedImage img = ImageIO.read(new File(publicacion.getPath()));
+			//TODO Ver qué tamaño es mejor
+			//Obtenemos el tamaño de la imagen
+			int ancho = getWidth() / 3 - 10;
+			//int alto = ancho * img.getHeight() / img.getWidth();
+			int alto = ancho * 10 / 16;
+			//Reescalamos la imagen
+			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			//Devolvemos la imagen
+			return new ImageIcon(imgNueva);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

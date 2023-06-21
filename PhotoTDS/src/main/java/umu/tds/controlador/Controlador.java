@@ -52,14 +52,19 @@ public enum Controlador {
 	
 	
 	//Métodos Registro
-	//TODO Añadir foto --> Guardar en umu.tds.resources.usuarios y pasarle el path al usuario al crearlo
 	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password, Date fechaNacimiento, String fotoUsuario, String presentacion) {
 		if (esUsuarioRegistrado(login)) return false;
 		
-		//TODO Guardar imagen en path local y pasarlo al constructor de Usuario
+		String pathFotoUsuario;
+		if (fotoUsuario.isEmpty()) {
+			pathFotoUsuario = Controlador.class.getResource("/umu/tds/resources/fotoperfil.jpg").getPath();
+		}
+		else {
+			pathFotoUsuario = copiarImagen(fotoUsuario, "fotosperfil/");
+		}
 		
 		LocalDate fecha = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fecha, fotoUsuario, presentacion);
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fecha, pathFotoUsuario, presentacion);
 		
 		//TODO FactoriaDAO
 		
@@ -74,6 +79,10 @@ public enum Controlador {
 	
 	
 	//Métodos ventana principal (donde se muestran las fotos más recientes)
+	public String getFotoUsuarioActual() {
+		return usuarioActual.getFotoUsuario();
+	}
+	
 	public List<Publicacion> getPublicacionesNotificaciones(int num) {
 		return usuarioActual.getPublicacionesNotificaciones(num);
 	}
@@ -82,28 +91,16 @@ public enum Controlador {
 		publicacion.darMegusta();
 	}
 	
-	public void comentar(Publicacion publicacion, String texto) {
-		publicacion.comentar(texto, usuarioActual);
+	public void publicarComentario(Publicacion publicacion, String texto) {
+		publicacion.publicarComentario(texto, usuarioActual);
 	}
 	
 	
 	
 	//Métodos subir foto
 	public void subirFoto(String descripcion, String path) {
-		//Movemos la foto a un path relativo (dentro de /umu/tds/fotos)
-		//TODO Comprobar que esté bien (¿mover funcionalidad a clase publicación?)
-		File from = new File(path);
-		File to = new File("fotos/");
-		try {
-			Files.copy(
-					from.toPath(),
-					Paths.get(to.getAbsolutePath() + "\\" + from.getName()),
-					StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String pathRelativo = "fotos/" + from.getName();
+		//Movemos la foto a un path relativo (dentro de fotos/)
+		String pathRelativo = copiarImagen(path, "fotos/");
 		
 		//Subimos la foto y la añadimos al catálogo de publicaciones
 		Publicacion foto = usuarioActual.subirFoto(descripcion, pathRelativo);
@@ -112,15 +109,19 @@ public enum Controlador {
 	
 	
 	
+	//Métodos búsqueda
+	public List<Usuario> buscarUsuarios(String nombre) {
+		return CatalogoUsuarios.INSTANCE.getUsuariosPorNombre(nombre);
+	}
+	
+	
+	
 	//Métodos perfil de usuario
 	public int getNumSeguidos(Usuario usuario) {
-		//TODO Se puede hacer con expresiones lambda
-		//Tenemos que obtener CatalogoUsuarios completo y buscar aquellos que tengan a "usuario" en su lista de seguidores
-		return 0;
+		return CatalogoUsuarios.INSTANCE.getUsuariosSeguidos(usuario).size();
 	}
 	
 	public boolean esUsuarioActual(Usuario usuario) {
-		//TODO Comprobar si está bien
 		return usuario == usuarioActual;
 	}
 	
@@ -132,6 +133,26 @@ public enum Controlador {
 		CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
 		//TODO Si es un álbum hay que eliminar todas las fotos que contiene
 		//TODO Eliminar de la base de datos
+	}
+	
+	
+	
+	//Método para copiar una imagen a un path del proyecto
+	private String copiarImagen(String pathImagen, String pathFolderDestino) {
+		File from = new File(pathImagen);
+		File to = new File(pathFolderDestino);
+		try {
+			Files.copy(
+					from.toPath(),
+					Paths.get(to.getAbsolutePath() + "\\" + from.getName()),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String pathRelativo = pathFolderDestino + from.getName();
+		
+		return pathRelativo;
 	}
 
 }

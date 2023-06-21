@@ -12,10 +12,14 @@ import umu.tds.controlador.Controlador;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -165,11 +169,9 @@ public class VentanaPrincipal extends JFrame {
 		panelUsuario.setBackground(fondo);
 		
 		//TODO Poner de icono la foto de perfil del usuario
-		ImageIcon iconoPerfil = new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/resources/fotoperfil.jpg"));
-		Image fotoPerfil = iconoPerfil.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-		ImageIcon perfil = new ImageIcon(fotoPerfil);
+		ImageIcon iconoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuarioActual(), 40, 40);
 		btnUsuario = new JButton("");
-		btnUsuario.setIcon(perfil);
+		btnUsuario.setIcon(iconoPerfil);
 		btnUsuario.setBorder(null);
 		btnUsuario.setContentAreaFilled(false);
 		panelUsuario.add(btnUsuario);
@@ -314,6 +316,20 @@ public class VentanaPrincipal extends JFrame {
 				
 			}
 		});
+	}
+	
+	//Método para redimensionar imágenes
+	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
+		try {
+			//Leemos la imagen
+			BufferedImage imagen = ImageIO.read(new File(path));
+			//Redimensionamos la imagen
+			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			return new ImageIcon(imagenRedimensionada);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

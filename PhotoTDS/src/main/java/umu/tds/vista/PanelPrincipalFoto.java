@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +52,6 @@ public class PanelPrincipalFoto extends JPanel {
 		ventana = v;
 		publicacion = p;
 		crearPanelPrincipalFoto();
-		//setMaximumSize(getPreferredSize());
 	}
 	
 	private void crearPanelPrincipalFoto() {
@@ -64,6 +65,8 @@ public class PanelPrincipalFoto extends JPanel {
 		lblFoto = new JLabel();
 		lblFoto.setIcon(fotoRedimensionada);
 		add(lblFoto, BorderLayout.WEST);
+		
+		addManejadorLabelFoto();
 		
 		add(crearPanelInfo(), BorderLayout.CENTER);
 	}
@@ -112,7 +115,7 @@ public class PanelPrincipalFoto extends JPanel {
 		return panelBotones;
 	}
 	
-	//Línea 2 (foto y nombre de usuario)
+	//Panel 2 (foto y nombre de usuario)
 	private JPanel crearPanelUsuario() {
 		JPanel panelUsuario = new JPanel();
 		panelUsuario.setBackground(fondo);
@@ -125,24 +128,22 @@ public class PanelPrincipalFoto extends JPanel {
 		JLabel lblUsuario = new JLabel(publicacion.getNombreUsuario());
 		lblUsuario.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
 		lblUsuario.setForeground(Color.WHITE);
-		//lblUsuario.setIcon(fotoPerfil);
+		lblUsuario.setIcon(fotoPerfil);
 		panelUsuario.add(lblUsuario);
 		
 		return panelUsuario;
 	}
 	
-	//Método para redimensionar imágenes
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage imagen = ImageIO.read(new File(path));
-			//Redimensionamos la imagen
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			return new ImageIcon(imagenRedimensionada);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+	//Manejador label foto
+	private void addManejadorLabelFoto() {
+		lblFoto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVerFoto verFoto = new VentanaVerFoto(ventana, publicacion);
+				verFoto.setLocationRelativeTo(ventana);
+				verFoto.setVisible(true);
+			}
+		});
 	}
 	
 	//Manejador botón megusta
@@ -164,6 +165,20 @@ public class PanelPrincipalFoto extends JPanel {
 				comentario.setVisible(true);
 			}
 		});
+	}
+	
+	//Método para redimensionar imágenes
+	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
+		try {
+			//Leemos la imagen
+			BufferedImage imagen = ImageIO.read(new File(path));
+			//Redimensionamos la imagen
+			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			return new ImageIcon(imagenRedimensionada);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

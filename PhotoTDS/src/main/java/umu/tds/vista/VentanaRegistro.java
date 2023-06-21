@@ -27,7 +27,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -91,17 +90,18 @@ public class VentanaRegistro extends JDialog {
 	 */
 	public VentanaRegistro(JFrame owner) {
 		super(owner, "Registro", true);
-		setSize(600, 625);
+		setSize(600, 650);
 		//setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
+		
+		pathFoto = "";
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
 		
 		crearPanelRegistro();
 		crearPanelBotones();
-		
 	}
 	
 	private void crearPanelRegistro() {
@@ -430,7 +430,6 @@ public class VentanaRegistro extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				boolean check = comprobarCampos();
 				if (check) {
-					//TODO Mover foto a un path relativo
 					boolean registrado = Controlador.INSTANCE.registrarUsuario(
 							textNombre.getText(),
 							textApellidos.getText(),
@@ -512,11 +511,11 @@ public class VentanaRegistro extends JDialog {
 	}
 	
 	//Método para redimensionar la imagen
-	//TODO ¿Null?
 	private ImageIcon redimensionarImagen(String path, int ancho, int alto) {
 		try {
+			//Leemos la imagen
 			BufferedImage foto = ImageIO.read(new File(path));
-			//TODO ¿Cambiar método de escalado de imagen?
+			//Redimensionamos la imagen
 			Image fotoAjustada = foto.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
 			return new ImageIcon(fotoAjustada);
 		} catch (IOException e) {

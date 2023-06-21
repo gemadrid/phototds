@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -105,10 +108,12 @@ public class VentanaPerfil extends JDialog {
 		getContentPane().add(panelNorte, BorderLayout.NORTH);
 		panelNorte.setLayout(new BorderLayout(0, 0));
 		
-		//TODO Foto de perfil
-		JLabel lblFotoPerfil = new JLabel("Foto de perfil");
+		//Foto de perfil
+		JLabel lblFotoPerfil = new JLabel();
 		lblFotoPerfil.setForeground(Color.WHITE);
 		lblFotoPerfil.setBorder(new EmptyBorder(0, 20, 0, 20));
+		ImageIcon fotoPerfil = getImagenRedimensionada(usuario.getFotoUsuario(), 100, 100);
+		lblFotoPerfil.setIcon(fotoPerfil);
 		panelNorte.add(lblFotoPerfil, BorderLayout.WEST);
 		
 		crearPanelInfo();
@@ -317,6 +322,20 @@ public class VentanaPerfil extends JDialog {
 				//TODO
 			}
 		});
+	}
+	
+	//Método para redimensionar imágenes
+	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
+		try {
+			//Leemos la imagen
+			BufferedImage imagen = ImageIO.read(new File(path));
+			//Redimensionamos la imagen
+			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
+			return new ImageIcon(imagenRedimensionada);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	

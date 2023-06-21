@@ -2,6 +2,7 @@ package umu.tds.modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,6 +35,7 @@ public abstract class Publicacion {
 		//Obtener hashtags
 		obtenerHashtags();
 		this.usuario = usuario;
+		this.comentarios = new LinkedList<>();
 	}
 	
 	//Métodos privados
@@ -138,7 +140,7 @@ public abstract class Publicacion {
 		megusta++;
 	}
 	
-	public void comentar(String texto, Usuario usuario) {
+	public void publicarComentario(String texto, Usuario usuario) {
 		Comentario comentario = new Comentario(texto, usuario);
 		addComentario(comentario);
 	}

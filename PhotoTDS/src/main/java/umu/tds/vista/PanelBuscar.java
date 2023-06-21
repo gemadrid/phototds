@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -54,7 +56,21 @@ public class PanelBuscar extends JPanel {
 		textBuscar.setColumns(25);
 		panelBuscarNorte.add(textBuscar);
 		
+		addManejadorTextBuscar();
+		
 		//TODO Panel de resultados de búsqueda (separados por usuarios / hashtags)
+	}
+	
+	//Manejador del campo de búsqueda
+	private void addManejadorTextBuscar() {
+		textBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaBusquedaUsuario busquedaUsuario = new VentanaBusquedaUsuario(ventana, textBuscar.getText());
+				busquedaUsuario.setLocationRelativeTo(ventana);
+				busquedaUsuario.setVisible(true);
+			}
+		});
 	}
 
 }

@@ -127,10 +127,9 @@ public class VentanaComentario extends JDialog {
 	private void addManejadorBotonComentar() {
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
-				//Controlador.INSTANCE.publicarComentario(publicacion);
-				//Ventana de diálogo confirmando que se ha publicado el comentario
-				//dispose();
+				Controlador.INSTANCE.publicarComentario(publicacion, textoComentario.getText());
+				//TODO Ventana de diálogo confirmando que se ha publicado el comentario
+				dispose();
 			}
 		});
 	}

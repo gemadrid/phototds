@@ -3,6 +3,7 @@ package umu.tds;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,13 +23,11 @@ import umu.tds.vista.VentanaLogin;
 public class Pruebas 
 {
 	public static void main(String[] args) {
-		File from = new File("C:\\Users\\Gema\\Documents\\Gema\\3º Curso\\acceso_aulas_aulario_norte.jpeg");
-		System.out.println(from.getAbsolutePath());
-		System.out.println();
-		
-		File to = new File("fotos/");
-		System.out.println(to.getAbsolutePath() + "\\" + from.getName());
-		System.out.println();
+		URL url = Controlador.class.getResource("/umu/tds/resources/fotoperfil.jpg");
+		System.out.println(url);
+		System.out.println(url.getPath());
+		File file = new File(url.getPath());
+		System.out.println(file.getPath());
 		
 		/*File to2 = new File(Controlador.class.getResource("/umu/tds/fotos/").getPath());
 		System.out.println(to2.getAbsolutePath() + "\\" + from.getName());*/

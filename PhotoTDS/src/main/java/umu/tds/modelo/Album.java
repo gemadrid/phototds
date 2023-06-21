@@ -1,6 +1,6 @@
 package umu.tds.modelo;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Album extends Publicacion {
@@ -12,7 +12,7 @@ public class Album extends Publicacion {
 	//Constructor
 	public Album(String titulo, String descripcion, Usuario usuario) {
 		super(titulo, descripcion, usuario);
-		this.fotos = new ArrayList<>();
+		this.fotos = new LinkedList<>();
 	}
 	
 	//Getters y setters

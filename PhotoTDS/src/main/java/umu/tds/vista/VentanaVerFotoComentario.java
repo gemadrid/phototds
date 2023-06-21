@@ -21,23 +21,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.border.EmptyBorder;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.modelo.Publicacion;
 
-public class VentanaSubirFoto extends JDialog {
+public class VentanaVerFotoComentario extends JDialog {
 	
-	private VentanaPrincipal ventana;
+	private VentanaPerfil ventana;
 	
-	private String path;
+	private Publicacion publicacion;
 	
 	//Campos
 	JTextArea textComentario;
 	
 	//Botones
-	private JButton btnSubir;
+	private JButton btnComentar;
 	private JButton btnCancelar;
 	
 	//Colores
@@ -46,25 +49,12 @@ public class VentanaSubirFoto extends JDialog {
 	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VentanaSubirFoto dialog = new VentanaSubirFoto(null, "C:\\Users\\Gema\\Documents\\Gema\\3º Curso\\acceso_aulas_aulario_norte.jpeg");
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public VentanaSubirFoto(VentanaPrincipal owner, String path) {
-		super(owner, "Subir Foto", true);
+	public VentanaVerFotoComentario(VentanaPerfil owner, Publicacion publicacion) {
+		super(owner, "", true);
 		this.ventana = owner;
-		this.path = path;
+		this.publicacion = publicacion;
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
@@ -85,7 +75,7 @@ public class VentanaSubirFoto extends JDialog {
 		lblFoto.setBorder(new EmptyBorder(15, 15, 0, 15));
 		getContentPane().add(lblFoto, BorderLayout.WEST);
 		
-		ImageIcon foto = redimensionarImagen(path);
+		ImageIcon foto = redimensionarImagen(publicacion.getPath());
 		lblFoto.setIcon(foto);
 	}
 	
@@ -98,7 +88,7 @@ public class VentanaSubirFoto extends JDialog {
 		panelComentario.setBorder(new EmptyBorder(15, 0, 0, 15));
 		
 		//Texto
-		JLabel lblComentario = new JLabel("Escribe un comentario (máximo 200 caracteres)");
+		JLabel lblComentario = new JLabel("Escribe un comentario (máximo 120 caracteres)");
 		lblComentario.setForeground(Color.WHITE);
 		lblComentario.setFont(new Font("Poppins", Font.BOLD, 18));
 		panelComentario.add(lblComentario, BorderLayout.NORTH);
@@ -124,12 +114,12 @@ public class VentanaSubirFoto extends JDialog {
 		getContentPane().add(panelBotones, BorderLayout.SOUTH);
 		
 		//Botones
-		btnSubir = new JButton("Subir foto");
-		btnSubir.setForeground(Color.WHITE);
-		btnSubir.setBorderPainted(false);
-		btnSubir.setBackground(resaltado);
-		btnSubir.setFont(new Font("Poppins", Font.BOLD, 15));
-		panelBotones.add(btnSubir);
+		btnComentar = new JButton("Comentar");
+		btnComentar.setForeground(Color.WHITE);
+		btnComentar.setBorderPainted(false);
+		btnComentar.setBackground(resaltado);
+		btnComentar.setFont(new Font("Poppins", Font.BOLD, 15));
+		panelBotones.add(btnComentar);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
@@ -138,21 +128,19 @@ public class VentanaSubirFoto extends JDialog {
 		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnCancelar);
 		
-		addManejadorBotonSubir();
+		addManejadorBotonComentar();
 		addManejadorBotonCancelar();
 		
 		return panelBotones;
 	}
 	
 	//Manejadores de botones
-	private void addManejadorBotonSubir() {
-		btnSubir.addActionListener(new ActionListener() {
+	private void addManejadorBotonComentar() {
+		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Subimos la foto
-				Controlador.INSTANCE.subirFoto(textComentario.getText(), path);
-				//TODO Avisar de que la foto se ha podido subir correctamente
-				//Actualizamos la ventana principal
-				ventana.actualizarSubirFoto();
+				//TODO Comprobar que el comentario no esté vacío
+				//Publicamos el comentario
+				Controlador.INSTANCE.publicarComentario(publicacion, textComentario.getText());
 				dispose();
 			}
 		});
@@ -171,7 +159,7 @@ public class VentanaSubirFoto extends JDialog {
 		textComentario.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if (textComentario.getText().length() >= 200) {
+				if (textComentario.getText().length() >= 120) {
 					e.consume();
 				}
 			}
