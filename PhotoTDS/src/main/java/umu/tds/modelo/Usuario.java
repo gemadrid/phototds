@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 public class Usuario {
 	
 	//TODO Cambiar fechaNacimiento de String a Date
@@ -190,6 +192,7 @@ public class Usuario {
 				.collect(Collectors.toList());
 	}
 	
+	//Get Top 10 Fotos con más megusta
 	public List<Publicacion> getTopPublicaciones() {
 		return publicaciones.stream()
 				.sorted(Comparator.comparing(Publicacion::getMegusta).reversed())
@@ -215,6 +218,21 @@ public class Usuario {
 		notificar(foto);
 		//Devolvemos la foto
 		return foto;
+	}
+	
+	public Publicacion crearAlbum(String titulo, Publicacion primeraFoto) {
+		//Creamos el album y lo añadimos a la colección de publicaciones
+		Album album = new Album(titulo, "", this);
+		addPublicacion(album);
+		//Añadimos la primera foto
+		album.addFoto(primeraFoto);
+		//Devolvemos el album
+		return album;
+	}
+	
+	public void addFotoAlbum(Publicacion album, Publicacion foto) {
+		//TODO Ver si hay mejor forma de hacerlo
+		((Album)album).addFoto(foto);
 	}
 	
 	public void addPublicacion(Publicacion publicacion) {
@@ -255,6 +273,19 @@ public class Usuario {
 	
 	public void addSeguidor(Usuario usuario) {
 		seguidores.add(usuario);
+	}
+	
+	public boolean esTituloAlbumValido(String titulo) {
+		return getAlbumes().stream()
+				.noneMatch(a -> a.isTitulo(titulo));
+	}
+	
+	public void editarPerfil(String pathFotoPerfil, String password, String presentacion) {
+		if (!pathFotoPerfil.isEmpty())
+			setFotoUsuario(pathFotoPerfil);
+		if (!password.isEmpty())
+			setPassword(password);
+		setPresentacion(presentacion);
 	}
 
 }

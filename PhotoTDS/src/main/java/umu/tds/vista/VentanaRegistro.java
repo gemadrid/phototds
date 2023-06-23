@@ -27,12 +27,15 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.modelo.Usuario;
 
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -532,6 +535,47 @@ public class VentanaRegistro extends JDialog {
 				if (textPresentacion.getText().length() >= 200) {
 					e.consume();
 				}
+			}
+		});
+	}
+	
+	
+	
+	//Modificar la ventana para editar perfil
+	public void modificarParaEdicion(Usuario usuario) {
+		setTitle("Editar perfil");
+		
+		//Campos deshabilitados
+		textNombre.setText(usuario.getNombre());
+		textNombre.setEnabled(false);
+		textApellidos.setText(usuario.getApellidos());
+		textApellidos.setEnabled(false);
+		textEmail.setText(usuario.getEmail());
+		textEmail.setEnabled(false);
+		textNombreUsuario.setText(usuario.getNombreUsuario());
+		textNombreUsuario.setEnabled(false);
+		fechaNacimiento.setDate(Date.from(usuario.getFechaNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		fechaNacimiento.setEnabled(false);
+		
+		//Campos habilitados
+		btnFoto.setIcon(redimensionarImagen(usuario.getFotoUsuario(), 75, 75));
+		textPresentacion.setText(usuario.getPresentacion());
+		
+		//Modificar btnAceptar
+		for (ActionListener l : btnAceptar.getActionListeners())
+			btnAceptar.removeActionListener(l);
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Comprobar contraseña
+				String password = new String(textPassword.getPassword());
+				String passwordRepeat = new String(textPasswordRepeat.getPassword());
+				if (!password.equals(passwordRepeat))  {
+					lblError.setText("Las contraseñas no coinciden.");
+					lblError.setVisible(true);
+					return;
+				}
+				Controlador.INSTANCE.editarPerfil(pathFoto, password, textPresentacion.getText());
+				dispose();
 			}
 		});
 	}

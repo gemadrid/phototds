@@ -50,6 +50,8 @@ import javax.swing.JScrollBar;
 
 public class VentanaPerfil extends JDialog {
 	
+	private VentanaPrincipal ventana;
+	
 	private Usuario usuario;
 	
 	//Paneles
@@ -72,27 +74,15 @@ public class VentanaPerfil extends JDialog {
 	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VentanaPerfil dialog = new VentanaPerfil(null, null);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public VentanaPerfil(JFrame owner, Usuario usuario) {
-		super(owner, "Perfil", true);
+	public VentanaPerfil(VentanaPrincipal ventana, Usuario usuario) {
+		super(ventana, "Perfil", true);
+		this.ventana = ventana;
 		this.usuario = usuario;
 		setSize(625, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
@@ -229,7 +219,8 @@ public class VentanaPerfil extends JDialog {
 			btnNuevoAlbum.setBorderPainted(false);
 			btnNuevoAlbum.setBackground(resaltado);
 			btnNuevoAlbum.setFont(new Font("Poppins", Font.BOLD, 15));
-			panelBotones.add(btnNuevoAlbum);	
+			panelBotones.add(btnNuevoAlbum);
+			addManejadorBotonNuevoAlbum();
 		}
 		
 		addManejadorBotonFotos();
@@ -246,36 +237,8 @@ public class VentanaPerfil extends JDialog {
 		panelMatriz.setLayout(new CardLayout(0, 0));
 		panelMatriz.setBackground(fondo);
 		
-		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, usuario), "panel_fotos");
-		panelMatriz.add(crearPanelAlbumes(), "panel_albumes");
-	}
-	
-	private JPanel crearPanelFotos() {
-		/*
-		 * JPanel panelFotos = new JPanel();
-		//panelFotos.setBackground(fondo);
-		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
-		panelFotos.setLayout(new GridLayout(0, 3, 5, 5));
-		//Añadimos todas las fotos
-		List<Publicacion> fotos = usuario.getFotos();
-		fotos.forEach(f -> panelFotos.add(new PanelPerfilPublicacion(VentanaPerfil.this, f)));
-		*/
-		
-		JPanel panelFotos = new JPanel();
-		panelFotos.add(new PanelMatriz(VentanaPerfil.this, usuario));
-		
-		return panelFotos;
-	}
-	
-	private JPanel crearPanelAlbumes() {
-		JPanel panelAlbumes = new JPanel();
-		//panelAlbumes.setBackground(fondo);
-		//Ponemos un GridLayout con 3 columnas y una separación de 5 píxeles entre componentes
-		panelAlbumes.setLayout(new GridLayout(0, 3, 5, 5));
-		//Añadimos todas las fotos
-		List<Publicacion> albumes = usuario.getAlbumes();
-		albumes.forEach(a -> panelAlbumes.add(new PanelPerfilPublicacion(VentanaPerfil.this, a)));
-		return panelAlbumes;
+		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, ventana, usuario, 0), "panel_fotos");
+		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, ventana, usuario, 1), "panel_albumes");
 	}
 	
 	
@@ -284,9 +247,19 @@ public class VentanaPerfil extends JDialog {
 	private void addManejadorBotonEditar() {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				editarPerfil();
+				//TODO Recargar ventana principal
+				//TODO Recargar ventana de perfil
 			}
 		});
+	}
+	
+	//Mostrar ventana de registro modificada para editar el perfil
+	private void editarPerfil() {
+		VentanaRegistro ventanaEditar = new VentanaRegistro(null);
+		ventanaEditar.modificarParaEdicion(usuario);
+		ventanaEditar.setLocationRelativeTo(this);
+		ventanaEditar.setVisible(true);
 	}
 	
 	private void addManejadorBotonSeguir() {
@@ -298,6 +271,7 @@ public class VentanaPerfil extends JDialog {
 		});
 	}
 	
+	//Botones para cambiar entre fotos y álbumes
 	private void addManejadorBotonFotos() {
 		btnFotos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -316,12 +290,45 @@ public class VentanaPerfil extends JDialog {
 		});
 	}
 	
+	//Botón para crear un álbum
 	private void addManejadorBotonNuevoAlbum() {
 		btnNuevoAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				String tituloAlbum;
+				boolean esTituloValido = false;
+				//Mientras no se escoja un título válido
+				while (!esTituloValido) {
+					tituloAlbum = JOptionPane.showInputDialog("Introduce un título para el álbum");
+					//Si se ha pulsado cancelar, salimos
+					if (tituloAlbum == null) {
+						break;
+					}
+					esTituloValido = Controlador.INSTANCE.esTituloAlbumValido(tituloAlbum);
+					if (esTituloValido) {
+						crearAlbum(tituloAlbum);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Título vacío o ya existe un álbum con ese título");
+					}
+				}
 			}
 		});
+	}
+	
+	//Pantalla para subir la primera foto
+	private void crearAlbum(String tituloAlbum) {
+		//Indicamos que vamos a crear un álbum
+		Controlador.INSTANCE.modoAlbum();
+		//Ventana de diálogo para subir la primera foto
+		JDialog subirFoto = new JDialog(VentanaPerfil.this, "Subir foto", true);
+		subirFoto.add(new PanelSubir(ventana));
+		subirFoto.setSize(900, 500);
+		subirFoto.setResizable(false);
+		subirFoto.setLocationRelativeTo(VentanaPerfil.this);
+		subirFoto.setVisible(true);
+		subirFoto.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		//Creamos el álbum cuando se cierre la ventana de subir la primera foto
+		Controlador.INSTANCE.crearAlbum(tituloAlbum);
 	}
 	
 	//Método para redimensionar imágenes

@@ -25,6 +25,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PanelSubir extends JEditorPane {
 	
+	//Título de la publicación
+	private String titulo;
+	
 	//Ventana principal
 	private VentanaPrincipal ventana;
 	
@@ -40,7 +43,7 @@ public class PanelSubir extends JEditorPane {
 	 * Create the panel.
 	 */
 	public PanelSubir(VentanaPrincipal v) {
-		ventana = v;
+		this.ventana = v;
 		crearPanelSubir();
 	}
 	
@@ -107,7 +110,6 @@ public class PanelSubir extends JEditorPane {
 	
 	//Método para subir fotos
 	private void subirFoto(String path) {
-		//TODO Comprobar validez de la foto
 		VentanaSubirFoto subirFoto = new VentanaSubirFoto(ventana, path);
 		subirFoto.setLocationRelativeTo(this);
 		subirFoto.setVisible(true);

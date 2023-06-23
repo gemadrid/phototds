@@ -270,7 +270,6 @@ public class VentanaPrincipal extends JFrame {
 				VentanaPerfil perfil = new VentanaPerfil(VentanaPrincipal.this, Controlador.INSTANCE.getUsuarioActual());
 				perfil.setLocationRelativeTo(VentanaPrincipal.this);
 				perfil.setVisible(true);
-				
 			}
 		});
 	}
@@ -315,7 +314,9 @@ public class VentanaPrincipal extends JFrame {
 	private void addManejadorMenuTop() {
 		mntmTop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				VentanaTopMegusta ventanaTop = new VentanaTopMegusta(VentanaPrincipal.this);
+				ventanaTop.setLocationRelativeTo(VentanaPrincipal.this);
+				ventanaTop.setVisible(true);
 			}
 		});
 	}

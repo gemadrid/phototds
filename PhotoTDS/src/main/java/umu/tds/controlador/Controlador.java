@@ -10,6 +10,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
 import umu.tds.modelo.Publicacion;
@@ -24,6 +26,10 @@ public enum Controlador {
 	//Atributos
 	private Usuario usuarioActual;
 	//private FactoriaDAO factoria;
+	
+	//Atributos
+	private boolean isModoAlbum;
+	private Publicacion publicacionAlbum;
 	
 	//Constructor
 	private Controlador() {
@@ -97,7 +103,7 @@ public enum Controlador {
 	
 	
 	
-	//Métodos subir foto
+	//Subir foto
 	public void subirFoto(String descripcion, String path) {
 		//Movemos la foto a un path relativo (dentro de fotos/)
 		String pathRelativo = copiarImagen(path, "fotos/");
@@ -105,6 +111,33 @@ public enum Controlador {
 		//Subimos la foto y la añadimos al catálogo de publicaciones
 		Publicacion foto = usuarioActual.subirFoto(descripcion, pathRelativo);
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
+		
+		//Si la foto es para un álbum, guardamos el objeto para luego añadirlo al álbum
+		if (isModoAlbum)
+			publicacionAlbum = foto;
+	}
+	
+	//Indicar que se está trabajando sobre un álbum
+	public void modoAlbum() {
+		isModoAlbum = true;
+	}
+	
+	//
+	public void crearAlbum(String tituloAlbum) {
+		//Creamos el álbum (si se ha subido la primera foto) y lo añadimos al catálogo de publicaciones
+		if (publicacionAlbum != null) {
+			Publicacion album = usuarioActual.crearAlbum(tituloAlbum, publicacionAlbum);
+			CatalogoPublicaciones.INSTANCE.addPublicacion(album);
+		}
+		publicacionAlbum = null;
+		isModoAlbum = false;
+	}
+	
+	public void addPublicacionAlbum(Publicacion album) {
+		if (publicacionAlbum != null)
+			usuarioActual.addFotoAlbum(album, publicacionAlbum);
+		publicacionAlbum = null;
+		isModoAlbum = false;
 	}
 	
 	
@@ -176,6 +209,10 @@ public enum Controlador {
 	
 	public void generarExcel() {
 		GeneradorInforme.generarInforme(usuarioActual, new BuilderExcel());
+	}
+	
+	public List<Publicacion> getTopMeGusta() {
+		return usuarioActual.getTopPublicaciones();
 	}
 
 }

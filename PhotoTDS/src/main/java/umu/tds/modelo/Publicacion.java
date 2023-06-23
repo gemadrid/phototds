@@ -149,6 +149,10 @@ public abstract class Publicacion {
 		comentarios.add(comentario);
 	}
 	
+	public boolean isTitulo(String titulo) {
+		return this.titulo.equals(titulo);
+	}
+	
 	
 
 }

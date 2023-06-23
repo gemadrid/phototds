@@ -46,19 +46,6 @@ public class VentanaSubirFoto extends JDialog {
 	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VentanaSubirFoto dialog = new VentanaSubirFoto(null, "C:\\Users\\Gema\\Documents\\Gema\\3º Curso\\acceso_aulas_aulario_norte.jpeg");
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public VentanaSubirFoto(VentanaPrincipal owner, String path) {
@@ -198,7 +185,6 @@ public class VentanaSubirFoto extends JDialog {
 				alto = (int)(altoPantalla / 1.5);
 				ancho = foto.getWidth()*alto/foto.getHeight();
 			}
-			//TODO ¿Cambiar método de escalado de imagen?
 			Image fotoAjustada = foto.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
 			ImageIcon fotoFinal = new ImageIcon(fotoAjustada);
 			return fotoFinal;

@@ -29,7 +29,7 @@ public class Lanzador
 	
 	
 	public static void pruebas() {
-		Controlador.INSTANCE.registrarUsuario("Gema", "Madrid Sánchez", "gema@gmail.com", "gema", "gema", new Date(), "", "");
+		Controlador.INSTANCE.registrarUsuario("Gema", "Madrid Sánchez", "gema@gmail.com", "gema", "gema", new Date(), "", "hola");
 	}
 	
 }
