@@ -297,7 +297,8 @@ public class VentanaPrincipal extends JFrame {
 	private void addManejadorMenuPdf() {
 		mntmPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Controlador.INSTANCE.generarPDF();
+				//TODO Añadir confirmación de que se ha creado satisfactoriamente
 			}
 		});
 	}
@@ -305,7 +306,8 @@ public class VentanaPrincipal extends JFrame {
 	private void addManejadorMenuExcel() {
 		mntmExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Controlador.INSTANCE.generarExcel();
+				//TODO Añadir confirmación de que se ha creado satisfactoriamente
 			}
 		});
 	}

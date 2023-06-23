@@ -10,13 +10,13 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.ListModel;
-
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
-import umu.tds.modelo.Foto;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
+import umu.tds.servicios.BuilderExcel;
+import umu.tds.servicios.BuilderPDF;
+import umu.tds.servicios.GeneradorInforme;
 
 public enum Controlador {
 	INSTANCE;
@@ -125,8 +125,20 @@ public enum Controlador {
 		return usuario == usuarioActual;
 	}
 	
+	public void editarPerfil(String pathFoto, String password, String presentacion) {
+		String pathRelativo = pathFoto;
+		if (!pathFoto.isEmpty()) {
+			pathRelativo = copiarImagen(pathFoto, "fotosperfil/");
+		}
+		usuarioActual.editarPerfil(pathRelativo, password, presentacion);
+	}
+	
 	public void seguirUsuario(Usuario usuario) {
 		usuario.addSeguidor(usuarioActual);
+	}
+	
+	public boolean esTituloAlbumValido(String titulo) {
+		return !titulo.isEmpty() && usuarioActual.esTituloAlbumValido(titulo);
 	}
 	
 	public void eliminarPublicacion(Publicacion publicacion) {
@@ -153,6 +165,17 @@ public enum Controlador {
 		String pathRelativo = pathFolderDestino + from.getName();
 		
 		return pathRelativo;
+	}
+	
+	
+	
+	//Funcionalidad premium
+	public void generarPDF() {
+		GeneradorInforme.generarInforme(usuarioActual, new BuilderPDF());
+	}
+	
+	public void generarExcel() {
+		GeneradorInforme.generarInforme(usuarioActual, new BuilderExcel());
 	}
 
 }
