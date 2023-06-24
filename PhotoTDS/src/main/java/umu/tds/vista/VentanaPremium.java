@@ -7,14 +7,17 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javax.swing.JLabel;
 
+import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
 
 import javax.swing.JTextArea;
@@ -22,15 +25,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.KeyAdapter;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class VentanaPremium extends JDialog {
-	
-	//TextArea
-	private JTextArea textoComentario;
 	
 	//Botones
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	
+	//Panel
+	private JPanel panelPremium;
+	
+	//ComboBox
+	private JComboBox<String> comboBox;
 	
 	//Colores
 	private Color fondo = new Color(43, 44, 62);
@@ -38,51 +45,50 @@ public class VentanaPremium extends JDialog {
 	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VentanaPremium dialog = new VentanaPremium(null);
-			dialog.setLocationRelativeTo(null);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public VentanaPremium(JFrame owner) {
 		super(owner, "Hacerse premium", true);
-		setSize(400, 500);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(fondo);
 		
+		panelPremium = new JPanel();
+		panelPremium.setBackground(fondo);
+		panelPremium.setLayout(new BorderLayout(10, 10));
+		panelPremium.setBorder(new EmptyBorder(10, 10, 10, 10));
+		getContentPane().add(panelPremium, BorderLayout.CENTER);
+		
 		crearPanelDescuentos();
 		crearPanelBotones();
+		
+		pack();
 	}
 	
 	private void crearPanelDescuentos() {
-		//TODO Poner espacio
+		//Label descuentos
 		JLabel lblDescuentos = new JLabel("Descuentos disponibles");
 		lblDescuentos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescuentos.setForeground(Color.WHITE);
 		lblDescuentos.setFont(new Font("Poppins SemiBold", Font.PLAIN, 15));
-		getContentPane().add(lblDescuentos, BorderLayout.NORTH);
+		panelPremium.add(lblDescuentos, BorderLayout.NORTH);
 		
-		//TODO Lista con los descuentos
+		//Lista con los descuentos
+		List<String> descuentos = Controlador.INSTANCE.getDescuentosAplicables();
+		comboBox = new JComboBox<String>();
+		comboBox.setBackground(areaTexto);
+		comboBox.setFont(new Font("Poppins", Font.PLAIN, 15));
+		descuentos.forEach(d -> comboBox.addItem(d));
+		panelPremium.add(comboBox, BorderLayout.CENTER);
+		
 	}
 	
 	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(fondo);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-		panelBotones.setBorder(new EmptyBorder(0, 0, 10, 0));
-		getContentPane().add(panelBotones, BorderLayout.SOUTH);
+		panelPremium.add(panelBotones, BorderLayout.SOUTH);
 		
 		//Botón comentar
 		btnAceptar = new JButton("Aceptar");
@@ -108,10 +114,10 @@ public class VentanaPremium extends JDialog {
 	private void addManejadorBotonComentar() {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
-				//Controlador.INSTANCE.publicarComentario(publicacion);
-				//Ventana de diálogo confirmando que se ha publicado el comentario
-				//dispose();
+				String descuentoEscogido = (String) comboBox.getSelectedItem();
+				if (descuentoEscogido == null) descuentoEscogido = "Null";
+				double precio = Controlador.INSTANCE.hacersePremium(descuentoEscogido);
+				JOptionPane.showMessageDialog(VentanaPremium.this, "Cantidad a pagar: " + precio + " euros", "Precio", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	}

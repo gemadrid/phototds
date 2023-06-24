@@ -7,15 +7,22 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
+import umu.tds.modelo.descuento.Descuento;
+import umu.tds.modelo.descuento.DescuentoJoven;
+import umu.tds.modelo.descuento.DescuentoMayor;
+import umu.tds.modelo.descuento.DescuentoPopularidad;
+import umu.tds.modelo.descuento.FactoriaDescuento;
 import umu.tds.servicios.BuilderExcel;
 import umu.tds.servicios.BuilderPDF;
 import umu.tds.servicios.GeneradorInforme;
@@ -23,18 +30,32 @@ import umu.tds.servicios.GeneradorInforme;
 public enum Controlador {
 	INSTANCE;
 	
+	private static final double PRECIO_PREMIUM = 8;
+	
 	//Atributos
 	private Usuario usuarioActual;
 	//private FactoriaDAO factoria;
 	
-	//Atributos
+	//Atributos álbum
 	private boolean isModoAlbum;
 	private Publicacion publicacionAlbum;
+	
+	//Descuentos disponibles
+	private List<Descuento> descuentosDisponibles;
+	
+	//TODO Componente CargadorFotos
 	
 	//Constructor
 	private Controlador() {
 		usuarioActual = null;
+		inicializarDescuentos();
 		//TODO getInstancia() FactoriaDAO
+	}
+	
+	//Inicializaciones
+	private void inicializarDescuentos() {
+		descuentosDisponibles = new LinkedList<>();
+		Collections.addAll(descuentosDisponibles, new DescuentoJoven(), new DescuentoMayor(), new DescuentoPopularidad());
 	}
 	
 	
@@ -203,6 +224,20 @@ public enum Controlador {
 	
 	
 	//Funcionalidad premium
+	public List<String> getDescuentosAplicables() {
+		return descuentosDisponibles.stream()
+					.filter(d -> d.esAplicable(usuarioActual))
+					.map(d -> d.getNombre())
+					.collect(Collectors.toList());
+	}
+	
+	//TODO ¿Hacer mejor?
+	public double hacersePremium(String nombreDescuento) {
+		Descuento descuento = FactoriaDescuento.getUnicaInstancia().crearDescuento(nombreDescuento);
+		usuarioActual.hacersePremium(descuento);
+		return descuento.aplicarDescuento(PRECIO_PREMIUM);
+	}
+	
 	public void generarPDF() {
 		GeneradorInforme.generarInforme(usuarioActual, new BuilderPDF());
 	}

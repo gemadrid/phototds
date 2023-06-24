@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 
 import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
+import umu.tds.modelo.descuento.Descuento;
+import umu.tds.modelo.descuento.FactoriaDescuento;
+
 public class Usuario {
-	
-	//TODO Cambiar fechaNacimiento de String a Date
 	
 	//Atributos
 	private int codigo;
@@ -48,11 +49,14 @@ public class Usuario {
 		this.fotoUsuario = fotoUsuario;
 		this.presentacion = presentacion;
 		
-		premium = false;
+		this.premium = false;
 		
-		publicaciones = new LinkedList<>();
-		seguidores = new LinkedList<>();
-		notificaciones = new LinkedList<>();	
+		//Descuento null por defecto
+		this.descuento = FactoriaDescuento.getUnicaInstancia().crearDescuento();
+		
+		this.publicaciones = new LinkedList<>();
+		this.seguidores = new LinkedList<>();
+		this.notificaciones = new LinkedList<>();	
 	}
 	
 	//Métodos get y set
@@ -207,6 +211,22 @@ public class Usuario {
 		return Period.between(fechaNacimiento, LocalDate.now()).getYears();
 	}
 	
+	//Métodos para ver si un descuento es aplicable
+	public boolean isJoven() {
+		return getEdad() >= 18 && getEdad() <= 25;
+	}
+	
+	public boolean isMayor() {
+		return getEdad() >= 65;
+	}
+	
+	public boolean isPopular() {
+		long numPublicaciones = publicaciones.stream()
+				.filter(p -> p.getMegusta() >= 100)
+				.count();
+		return numPublicaciones >= 25;
+	}
+	
 	
 	
 	//Métodos subir foto
@@ -286,6 +306,14 @@ public class Usuario {
 		if (!password.isEmpty())
 			setPassword(password);
 		setPresentacion(presentacion);
+	}
+	
+	
+	
+	//Hacerse premium
+	public void hacersePremium(Descuento descuento) {
+		this.premium = true;
+		this.descuento = descuento;
 	}
 
 }
