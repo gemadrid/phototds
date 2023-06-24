@@ -9,11 +9,16 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import umu.tds.fotos.CargadorFotos;
+import umu.tds.fotos.Foto;
+import umu.tds.fotos.Fotos;
+import umu.tds.fotos.FotosEvent;
+import umu.tds.fotos.FotosListener;
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
 import umu.tds.modelo.Publicacion;
@@ -27,7 +32,7 @@ import umu.tds.servicios.BuilderExcel;
 import umu.tds.servicios.BuilderPDF;
 import umu.tds.servicios.GeneradorInforme;
 
-public enum Controlador {
+public enum Controlador implements FotosListener {
 	INSTANCE;
 	
 	private static final double PRECIO_PREMIUM = 8;
@@ -43,11 +48,16 @@ public enum Controlador {
 	//Descuentos disponibles
 	private List<Descuento> descuentosDisponibles;
 	
-	//TODO Componente CargadorFotos
+	//Componente CargadorFotos
+	CargadorFotos cargadorFotos;
 	
 	//Constructor
 	private Controlador() {
 		usuarioActual = null;
+		//Cargador fotos
+		cargadorFotos = new CargadorFotos();
+		cargadorFotos.addFotosListener(this);
+		//Descuentos
 		inicializarDescuentos();
 		//TODO getInstancia() FactoriaDAO
 	}
@@ -125,7 +135,7 @@ public enum Controlador {
 	
 	
 	//Subir foto
-	public void subirFoto(String descripcion, String path) {
+	public Publicacion subirFoto(String descripcion, String path) {
 		//Movemos la foto a un path relativo (dentro de fotos/)
 		String pathRelativo = copiarImagen(path, "fotos/");
 		
@@ -136,6 +146,8 @@ public enum Controlador {
 		//Si la foto es para un álbum, guardamos el objeto para luego añadirlo al álbum
 		if (isModoAlbum)
 			publicacionAlbum = foto;
+		
+		return foto;
 	}
 	
 	//Indicar que se está trabajando sobre un álbum
@@ -248,6 +260,35 @@ public enum Controlador {
 	
 	public List<Publicacion> getTopMeGusta() {
 		return usuarioActual.getTopPublicaciones();
+	}
+	
+	
+	
+	//Funcionalidad CargadorFotos
+	public void cargarFotos(String archivoXml) {
+		cargadorFotos.setArchivoFotos(archivoXml);
+	}
+
+	@Override
+	public void notificaNuevasFotos(EventObject evento) {
+		if (evento instanceof FotosEvent) {
+			Fotos fotos = ((FotosEvent)evento).getFotos();
+			extraerNuevasFotos(fotos);
+		}
+	}
+	
+	private void extraerNuevasFotos(Fotos fotos) {
+		List<Foto> listaFoto = fotos.getFoto();
+		for (Foto foto : listaFoto) {
+			//Si la foto existe la subimos
+			if (new File(foto.getPath()).exists()) {
+				Publicacion publicacion = subirFoto(foto.getDescripcion(), foto.getPath());
+				publicacion.setTitulo(foto.getTitulo());
+				publicacion.setHashtags(foto.getHashTags().stream()
+											.flatMap(h -> h.getHashTag().stream())
+											.collect(Collectors.toList()));
+			}
+		}
 	}
 
 }

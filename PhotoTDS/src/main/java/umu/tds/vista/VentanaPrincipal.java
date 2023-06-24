@@ -7,12 +7,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import pulsador.IEncendidoListener;
 import pulsador.Luz;
 import umu.tds.controlador.Controlador;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -23,6 +26,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventObject;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -60,21 +64,6 @@ public class VentanaPrincipal extends JFrame {
 	private JMenuItem mntmExcel;
 	private JMenuItem mntmTop;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
-					frame.mostrarVentana();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	//Mostrar ventana
 	public void mostrarVentana() {
@@ -163,6 +152,8 @@ public class VentanaPrincipal extends JFrame {
 		addManejadorBotonPrincipal();
 		addManejadorBotonSubir();
 		addManejadorBotonBuscar();
+		
+		addManejadorPulsador();
 		
 		return panelBotones;
 	}
@@ -270,7 +261,23 @@ public class VentanaPrincipal extends JFrame {
 	}
 	
 	private void addManejadorPulsador() {
-		//TODO
+		pulsador.addEncendidoListener(new IEncendidoListener() {
+			@Override
+			public void enteradoCambioEncendido(EventObject e) {
+				JFileChooser chooser = new JFileChooser();
+				//Filtramos para que solo aparezcan archivos XML
+				FileNameExtensionFilter xmlFilter = new FileNameExtensionFilter("Ficheros XML (*.xml)", "xml");
+				chooser.setFileFilter(xmlFilter);
+				chooser.setAcceptAllFileFilterUsed(false);
+				//Opción seleccionada
+				int seleccion = chooser.showOpenDialog(VentanaPrincipal.this);
+				//Si se ha seleccionado una foto, obtenemos el path
+				if (seleccion == JFileChooser.APPROVE_OPTION) {
+					String path = chooser.getSelectedFile().getPath();
+					Controlador.INSTANCE.cargarFotos(path);
+				}
+			}
+		});
 	}
 	
 	private void addManejadorBotonUsuario() {
