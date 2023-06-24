@@ -70,11 +70,6 @@ public class VentanaRegistro extends JDialog {
 	
 	//Path foto de perfil
 	private String pathFoto;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Launch the application.
@@ -101,7 +96,7 @@ public class VentanaRegistro extends JDialog {
 		pathFoto = "";
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(fondo);
+		getContentPane().setBackground(Colores.FONDO);
 		
 		crearPanelRegistro();
 		crearPanelBotones();
@@ -109,7 +104,7 @@ public class VentanaRegistro extends JDialog {
 	
 	private void crearPanelRegistro() {
 		panelRegistro = new JPanel();
-		panelRegistro.setBackground(fondo);
+		panelRegistro.setBackground(Colores.FONDO);
 		getContentPane().add(panelRegistro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelRegistro_1 = new GridBagLayout();
 		gbl_panelRegistro_1.columnWidths = new int[]{30, 0, 10, 0, 30, 0};
@@ -136,7 +131,7 @@ public class VentanaRegistro extends JDialog {
 	//TODO Crear panel foto
 	private void crearPanelFoto() {
 		JPanel panelFoto = new JPanel();
-		panelFoto.setBackground(fondo);
+		panelFoto.setBackground(Colores.FONDO);
 		GridBagConstraints gbc_panelFoto = new GridBagConstraints();
 		gbc_panelFoto.gridwidth = 5;
 		gbc_panelFoto.insets = new Insets(0, 0, 5, 0);
@@ -168,7 +163,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textNombre = new JTextField();
-		textNombre.setBackground(areaTexto);
+		textNombre.setBackground(Colores.AREA_TEXTO);
 		textNombre.setBorder(null);
 		textNombre.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textNombre = new GridBagConstraints();
@@ -194,7 +189,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textApellidos = new JTextField();
-		textApellidos.setBackground(areaTexto);
+		textApellidos.setBackground(Colores.AREA_TEXTO);
 		textApellidos.setBorder(null);
 		textApellidos.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textApellidos = new GridBagConstraints();
@@ -220,7 +215,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textEmail = new JTextField();
-		textEmail.setBackground(areaTexto);
+		textEmail.setBackground(Colores.AREA_TEXTO);
 		textEmail.setBorder(null);
 		textEmail.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textEmail = new GridBagConstraints();
@@ -245,7 +240,7 @@ public class VentanaRegistro extends JDialog {
 		
 		//JTextField
 		textNombreUsuario = new JTextField();
-		textNombreUsuario.setBackground(areaTexto);
+		textNombreUsuario.setBackground(Colores.AREA_TEXTO);
 		textNombreUsuario.setBorder(null);
 		textNombreUsuario.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textNombreUsuario = new GridBagConstraints();
@@ -272,7 +267,7 @@ public class VentanaRegistro extends JDialog {
 		//JPasswordField
 		textPassword = new JPasswordField();
 		textPassword.setColumns(20);
-		textPassword.setBackground(areaTexto);
+		textPassword.setBackground(Colores.AREA_TEXTO);
 		textPassword.setBorder(null);
 		textPassword.setFont(new Font("Poppins Black", Font.PLAIN, 15));
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
@@ -298,7 +293,7 @@ public class VentanaRegistro extends JDialog {
 		//JPasswordField
 		textPasswordRepeat = new JPasswordField();
 		textPasswordRepeat.setColumns(20);
-		textPasswordRepeat.setBackground(areaTexto);
+		textPasswordRepeat.setBackground(Colores.AREA_TEXTO);
 		textPasswordRepeat.setBorder(null);
 		textPasswordRepeat.setFont(new Font("Poppins Black", Font.PLAIN, 15));
 		GridBagConstraints gbc_passwordFieldRepeat = new GridBagConstraints();
@@ -325,7 +320,7 @@ public class VentanaRegistro extends JDialog {
 		fechaNacimiento = new JDateChooser();
 		fechaNacimiento.setDateFormatString("dd/MM/yyyy");
 		for(Component c : fechaNacimiento.getComponents()) {
-			((JComponent)c).setBackground(areaTexto); 
+			((JComponent)c).setBackground(Colores.AREA_TEXTO); 
 		}
 		fechaNacimiento.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_fechaNacimiento = new GridBagConstraints();
@@ -354,7 +349,7 @@ public class VentanaRegistro extends JDialog {
 		textPresentacion = new JTextArea();
 		textPresentacion.setLineWrap(true);
 		textPresentacion.setWrapStyleWord(true);
-		textPresentacion.setBackground(areaTexto);
+		textPresentacion.setBackground(Colores.AREA_TEXTO);
 		textPresentacion.setFont(new Font("Poppins", Font.PLAIN, 15));
 		GridBagConstraints gbc_textPresentacion = new GridBagConstraints();
 		gbc_textPresentacion.gridheight = 2;
@@ -370,7 +365,7 @@ public class VentanaRegistro extends JDialog {
 	private void crearLineaError() {
 		lblError = new JLabel("");
 		lblError.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
-		lblError.setForeground(resaltado);
+		lblError.setForeground(Colores.RESALTADO);
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.gridwidth = 5;
@@ -384,20 +379,20 @@ public class VentanaRegistro extends JDialog {
 	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER));
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		getContentPane().add(panelBotones, BorderLayout.SOUTH);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setForeground(Color.WHITE);
 		btnAceptar.setBorderPainted(false);
-		btnAceptar.setBackground(resaltado);
+		btnAceptar.setBackground(Colores.RESALTADO);
 		btnAceptar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
-		btnCancelar.setBackground(resaltado);
+		btnCancelar.setBackground(Colores.RESALTADO);
 		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnCancelar);
 		

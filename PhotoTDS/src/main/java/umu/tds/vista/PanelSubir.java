@@ -33,11 +33,6 @@ public class PanelSubir extends JEditorPane {
 	
 	//Botones
 	private JButton btnSubirFoto;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the panel.
@@ -48,7 +43,7 @@ public class PanelSubir extends JEditorPane {
 	}
 	
 	private void crearPanelSubir() {
-		setBackground(fondo);
+		setBackground(Colores.FONDO);
 		GridBagLayout gbl_panelSubir = new GridBagLayout();
 		gbl_panelSubir.columnWidths = new int[]{0};
 		gbl_panelSubir.rowHeights = new int[]{0, 0, 30, 0, 60};
@@ -81,7 +76,7 @@ public class PanelSubir extends JEditorPane {
 		btnSubirFoto = new JButton("Subir foto de tu ordenador");
 		btnSubirFoto.setForeground(Color.WHITE);
 		btnSubirFoto.setBorderPainted(false);
-		btnSubirFoto.setBackground(resaltado);
+		btnSubirFoto.setBackground(Colores.RESALTADO);
 		btnSubirFoto.setFont(new Font("Poppins", Font.BOLD, 20));
 		GridBagConstraints gbc_btnSubirFoto = new GridBagConstraints();
 		gbc_btnSubirFoto.gridx = 0;

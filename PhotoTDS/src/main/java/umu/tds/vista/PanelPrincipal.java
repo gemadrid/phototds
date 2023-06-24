@@ -17,32 +17,27 @@ public class PanelPrincipal extends JPanel {
 	
 	//Ventana principal
 	private VentanaPrincipal ventana;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelPrincipal(VentanaPrincipal v) {
 		ventana = v;
-		setBackground(fondo);
+		setBackground(Colores.FONDO);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		crearPanelPrincipal();
 	}
 	
 	private void crearPanelPrincipal() {
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
-		panelPrincipal.setBackground(fondo);
+		panelPrincipal.setBackground(Colores.FONDO);
 		
 		//Obtenemos las 20 notificaciones más recientes
 		List<Publicacion> publicaciones = Controlador.INSTANCE.getPublicacionesNotificaciones(20);
 		
 		//Panel que contiene las publicaciones
 		JPanel panelPublicaciones = new JPanel(new GridLayout(0, 1, 0, 10));
-		panelPublicaciones.setBackground(fondo);
+		panelPublicaciones.setBackground(Colores.FONDO);
 		//Añadimos las publicaciones
 		publicaciones.forEach(p -> panelPublicaciones.add(new PanelPrincipalFoto(ventana, p)));
 		
@@ -51,7 +46,7 @@ public class PanelPrincipal extends JPanel {
 		//ScrollPane (que contiene el panelPrincipal)
 		JScrollPane scrollPane = new JScrollPane(panelPrincipal);
 		scrollPane.setBorder(null);
-		scrollPane.setBackground(fondo);
+		scrollPane.setBackground(Colores.FONDO);
 		add(scrollPane);
 	}
 	

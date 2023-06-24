@@ -165,7 +165,7 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 		
 		//Recuperar propiedades que no son objetos
 		titulo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, "titulo");
-		fecha = LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(ePublicacion, "fecha"));
+		fecha = LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(ePublicacion, "fecha"), dateFormat);
 		descripcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, "descripcion");
 		megusta = Integer.valueOf(servPersistencia.recuperarPropiedadEntidad(ePublicacion, "megusta"));
 		hashtags = obtenerHashtagsSeparados(servPersistencia.recuperarPropiedadEntidad(ePublicacion, "hashtags"));

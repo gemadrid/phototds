@@ -31,11 +31,6 @@ public class VentanaTopMegusta extends JDialog {
 	
 	//Texto de búsqueda
 	private String busqueda;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the dialog.
@@ -46,7 +41,7 @@ public class VentanaTopMegusta extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(fondo);
+		getContentPane().setBackground(Colores.FONDO);
 		
 		crearPanelPublicaciones();
 		

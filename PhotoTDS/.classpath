@@ -25,5 +25,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Gema/Desktop/TDS/0_practica/CargadorFotos.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gema/Desktop/TDS/0_practica/Pulsador.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

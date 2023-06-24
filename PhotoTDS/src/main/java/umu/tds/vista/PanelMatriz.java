@@ -20,20 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Album;
-import umu.tds.modelo.Foto;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 
 import java.awt.BorderLayout;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -71,11 +68,6 @@ public class PanelMatriz extends JPanel {
 	//Menú contextual
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmEliminar;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the panel.
@@ -86,7 +78,7 @@ public class PanelMatriz extends JPanel {
 		this.usuario = u;
 		this.tipo = tipo;
 		
-		setBackground(fondo);
+		setBackground(Colores.FONDO);
 		setLayout(new BorderLayout());
 		
 		crearPanelNorte();
@@ -96,7 +88,7 @@ public class PanelMatriz extends JPanel {
 	//Panel con botones atrás / añadir foto (álbum)
 	private void crearPanelNorte() {
 		panelBotones = new JPanel();
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		add(panelBotones, BorderLayout.NORTH);
 		
@@ -104,14 +96,14 @@ public class PanelMatriz extends JPanel {
 		btnRetroceder = new JButton("<");
 		btnRetroceder.setForeground(Color.WHITE);
 		btnRetroceder.setBorderPainted(false);
-		btnRetroceder.setBackground(resaltado);
+		btnRetroceder.setBackground(Colores.RESALTADO);
 		btnRetroceder.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnRetroceder);
 		
 		btnAddFoto = new JButton("+");
 		btnAddFoto.setForeground(Color.WHITE);
 		btnAddFoto.setBorderPainted(false);
-		btnAddFoto.setBackground(resaltado);
+		btnAddFoto.setBackground(Colores.RESALTADO);
 		btnAddFoto.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAddFoto);
 		
@@ -137,12 +129,12 @@ public class PanelMatriz extends JPanel {
 		listaFotos.setVisibleRowCount(-1);
 		listaFotos.ensureIndexIsVisible(getHeight());
 		listaFotos.setCellRenderer(crearListCellRenderer());
-		listaFotos.setBackground(fondo);
+		listaFotos.setBackground(Colores.FONDO);
 		
 		//JScrollPane
 		JScrollPane panelMatriz = new JScrollPane(listaFotos);
 		panelMatriz.setBorder(null);
-		panelMatriz.setBackground(fondo);
+		panelMatriz.setBackground(Colores.FONDO);
 		add(panelMatriz, BorderLayout.CENTER);
 		
 		//Menú contextual
@@ -170,7 +162,7 @@ public class PanelMatriz extends JPanel {
 					label.setIcon(getImagenRedimensionada(publicacion));
 					label.setText("");
 					if (!isSelected)
-						label.setBackground(fondo);
+						label.setBackground(Colores.FONDO);
 				}
 				return c;
 			}

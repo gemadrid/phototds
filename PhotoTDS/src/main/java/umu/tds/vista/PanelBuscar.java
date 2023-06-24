@@ -18,11 +18,6 @@ public class PanelBuscar extends JPanel {
 	
 	//TextField para introducir la búsqueda
 	private JTextField textBuscar;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the panel.
@@ -33,13 +28,13 @@ public class PanelBuscar extends JPanel {
 	}
 	
 	private void crearPanelBuscar() {
-		setBackground(fondo);
+		setBackground(Colores.FONDO);
 		setLayout(new BorderLayout(0, 0));
 		
 		//Panel de búsqueda
 		JPanel panelBuscarNorte = new JPanel();
 		panelBuscarNorte.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
-		panelBuscarNorte.setBackground(fondo);
+		panelBuscarNorte.setBackground(Colores.FONDO);
 		add(panelBuscarNorte, BorderLayout.NORTH);
 		
 		//Texto Buscar
@@ -51,7 +46,7 @@ public class PanelBuscar extends JPanel {
 		//Área buscar
 		textBuscar = new JTextField();
 		textBuscar.setFont(new Font("Poppins", Font.PLAIN, 20));
-		textBuscar.setBackground(areaTexto);
+		textBuscar.setBackground(Colores.AREA_TEXTO);
 		textBuscar.setBorder(null);
 		textBuscar.setColumns(25);
 		panelBuscarNorte.add(textBuscar);

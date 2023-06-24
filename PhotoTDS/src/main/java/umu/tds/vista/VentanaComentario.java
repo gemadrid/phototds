@@ -33,11 +33,6 @@ public class VentanaComentario extends JDialog {
 	//Botones
 	private JButton btnComentar;
 	private JButton btnCancelar;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Launch the application.
@@ -63,14 +58,14 @@ public class VentanaComentario extends JDialog {
 		setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(fondo);
+		getContentPane().setBackground(Colores.FONDO);
 		
 		crearPanelComentario();
 	}
 	
 	private void crearPanelComentario() {
 		JPanel panelComentario = new JPanel();
-		panelComentario.setBackground(fondo);
+		panelComentario.setBackground(Colores.FONDO);
 		panelComentario.setLayout(new BorderLayout(10, 10));
 		panelComentario.setBorder(new EmptyBorder(15, 15, 15, 15));
 		getContentPane().add(panelComentario, BorderLayout.CENTER);
@@ -86,7 +81,7 @@ public class VentanaComentario extends JDialog {
 		textoComentario = new JTextArea();
 		textoComentario.setLineWrap(true);
 		textoComentario.setWrapStyleWord(true);
-		textoComentario.setBackground(areaTexto);
+		textoComentario.setBackground(Colores.AREA_TEXTO);
 		textoComentario.setFont(new Font("Poppins", Font.PLAIN, 15));
 		panelComentario.add(textoComentario, BorderLayout.CENTER);
 		
@@ -98,14 +93,14 @@ public class VentanaComentario extends JDialog {
 	
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
 		
 		//Botón comentar
 		btnComentar = new JButton("Comentar");
 		btnComentar.setForeground(Color.WHITE);
 		btnComentar.setBorderPainted(false);
-		btnComentar.setBackground(resaltado);
+		btnComentar.setBackground(Colores.RESALTADO);
 		btnComentar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnComentar);
 		
@@ -113,7 +108,7 @@ public class VentanaComentario extends JDialog {
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
-		btnCancelar.setBackground(resaltado);
+		btnCancelar.setBackground(Colores.RESALTADO);
 		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnCancelar);
 		

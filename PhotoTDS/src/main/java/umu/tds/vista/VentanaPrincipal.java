@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import pulsador.Luz;
 import umu.tds.controlador.Controlador;
 
 import java.awt.BorderLayout;
@@ -18,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
@@ -29,6 +32,7 @@ import java.awt.CardLayout;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import java.awt.Rectangle;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -46,17 +50,15 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnUsuario;
 	private JButton btnOpciones;
 	
+	//Pulsador
+	Luz pulsador;
+	
 	//Menú opciones
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmPremium;
 	private JMenuItem mntmPdf;
 	private JMenuItem mntmExcel;
 	private JMenuItem mntmTop;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Launch the application.
@@ -95,7 +97,7 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.setBackground(fondo);
+		contentPane.setBackground(Colores.FONDO);
 		
 		//Creamos los diferentes paneles
 		crearPanelNorte();
@@ -117,11 +119,11 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel crearPanelLogo() {
 		JPanel panelLogo = new JPanel();
 		panelLogo.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
-		panelLogo.setBackground(fondo);
+		panelLogo.setBackground(Colores.FONDO);
 		
 		JLabel lblLogo = new JLabel("PhotoTDS");
 		lblLogo.setFont(new Font("Poppins Black", Font.PLAIN, 20));
-		lblLogo.setForeground(resaltado);
+		lblLogo.setForeground(Colores.RESALTADO);
 		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/resources/IconoLogo.png")));
 		panelLogo.add(lblLogo);
 		
@@ -132,7 +134,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		
 		//Botones
 		btnPrincipal = new JButton("");
@@ -153,6 +155,11 @@ public class VentanaPrincipal extends JFrame {
 		btnBuscar.setContentAreaFilled(false);
 		panelBotones.add(btnBuscar);
 		
+		//Pulsador
+		pulsador = new Luz();
+		pulsador.setColor(Colores.RESALTADO);
+		panelBotones.add(pulsador);
+		
 		addManejadorBotonPrincipal();
 		addManejadorBotonSubir();
 		addManejadorBotonBuscar();
@@ -164,7 +171,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel crearPanelUsuario() {
 		JPanel panelUsuario = new JPanel();
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 10));
-		panelUsuario.setBackground(fondo);
+		panelUsuario.setBackground(Colores.FONDO);
 		
 		//TODO Poner de icono la foto de perfil del usuario
 		ImageIcon iconoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuarioActual(), 40, 40);
@@ -219,7 +226,7 @@ public class VentanaPrincipal extends JFrame {
 		panelCentro = new JPanel();
 		contentPane.add(panelCentro, BorderLayout.CENTER);
 		panelCentro.setLayout(new CardLayout(0, 0));
-		panelCentro.setBackground(fondo);
+		panelCentro.setBackground(Colores.FONDO);
 		
 		panelPrincipal = new PanelPrincipal(VentanaPrincipal.this);
 		panelBuscar = new PanelBuscar(VentanaPrincipal.this);
@@ -260,6 +267,10 @@ public class VentanaPrincipal extends JFrame {
 				cl.show(panelCentro, "panel_buscar");
 			}
 		});
+	}
+	
+	private void addManejadorPulsador() {
+		//TODO
 	}
 	
 	private void addManejadorBotonUsuario() {

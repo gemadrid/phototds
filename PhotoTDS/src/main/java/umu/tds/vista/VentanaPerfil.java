@@ -67,11 +67,6 @@ public class VentanaPerfil extends JDialog {
 	private JButton btnFotos;
 	private JButton btnAlbumes;
 	private JButton btnNuevoAlbum;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the dialog.
@@ -85,7 +80,7 @@ public class VentanaPerfil extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(fondo);
+		getContentPane().setBackground(Colores.FONDO);
 		
 		crearPanelNorte();
 		crearPanelCentro();
@@ -94,7 +89,7 @@ public class VentanaPerfil extends JDialog {
 	//Panel con la foto e información sobre el usuario
 	private void crearPanelNorte() {
 		panelNorte = new JPanel();
-		panelNorte.setBackground(fondo);
+		panelNorte.setBackground(Colores.FONDO);
 		getContentPane().add(panelNorte, BorderLayout.NORTH);
 		panelNorte.setLayout(new BorderLayout(0, 0));
 		
@@ -112,13 +107,13 @@ public class VentanaPerfil extends JDialog {
 	//Panel con la información sobre el usuario
 	private void crearPanelInfo() {
 		JPanel panelInfo = new JPanel();
-		panelInfo.setBackground(fondo);
+		panelInfo.setBackground(Colores.FONDO);
 		panelNorte.add(panelInfo, BorderLayout.CENTER);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 		
 		//Línea 1 (email usuario, botón editar/seguir)
 		JPanel panel1 = new JPanel();
-		panel1.setBackground(fondo);
+		panel1.setBackground(Colores.FONDO);
 		panelInfo.add(panel1, BorderLayout.NORTH);
 		panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
@@ -134,7 +129,7 @@ public class VentanaPerfil extends JDialog {
 			btnEditar = new JButton("Editar perfil");
 			btnEditar.setForeground(Color.WHITE);
 			btnEditar.setBorderPainted(false);
-			btnEditar.setBackground(resaltado);
+			btnEditar.setBackground(Colores.RESALTADO);
 			btnEditar.setFont(new Font("Poppins", Font.BOLD, 15));
 			panel1.add(btnEditar);
 			addManejadorBotonEditar();
@@ -143,7 +138,7 @@ public class VentanaPerfil extends JDialog {
 			btnSeguir = new JButton("Seguir");
 			btnSeguir.setForeground(Color.WHITE);
 			btnSeguir.setBorderPainted(false);
-			btnSeguir.setBackground(resaltado);
+			btnSeguir.setBackground(Colores.RESALTADO);
 			btnSeguir.setFont(new Font("Poppins", Font.BOLD, 15));
 			panel1.add(btnSeguir);
 			addManejadorBotonSeguir();
@@ -151,7 +146,7 @@ public class VentanaPerfil extends JDialog {
 		
 		//Línea 2 (n publicaciones, n seguidores, n seguidos)
 		JPanel panel2 = new JPanel();
-		panel2.setBackground(fondo);
+		panel2.setBackground(Colores.FONDO);
 		panelInfo.add(panel2, BorderLayout.CENTER);
 		panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
@@ -173,7 +168,7 @@ public class VentanaPerfil extends JDialog {
 		
 		//Línea 3 (nombre de usuario)
 		JPanel panel3 = new JPanel();
-		panel3.setBackground(fondo);
+		panel3.setBackground(Colores.FONDO);
 		panelInfo.add(panel3, BorderLayout.SOUTH);
 		panel3.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		
@@ -187,28 +182,28 @@ public class VentanaPerfil extends JDialog {
 	//Panel que muestra las fotos y los álbumes
 	private void crearPanelCentro() {
 		panelCentro = new JPanel();
-		panelCentro.setBackground(fondo);
+		panelCentro.setBackground(Colores.FONDO);
 		getContentPane().add(panelCentro, BorderLayout.CENTER);
 		panelCentro.setLayout(new BorderLayout(0, 0));
 		
 		//Línea Fotos/Álbumes
 		JPanel panelBotones = new JPanel();
 		panelCentro.add(panelBotones, BorderLayout.NORTH);
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		
 		//Botones
 		btnFotos = new JButton("Fotos");
 		btnFotos.setForeground(Color.WHITE);
 		btnFotos.setBorderPainted(false);
-		btnFotos.setBackground(resaltado);
+		btnFotos.setBackground(Colores.RESALTADO);
 		btnFotos.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnFotos);
 		
 		btnAlbumes = new JButton("Álbumes");
 		btnAlbumes.setForeground(Color.WHITE);
 		btnAlbumes.setBorderPainted(false);
-		btnAlbumes.setBackground(resaltado);
+		btnAlbumes.setBackground(Colores.RESALTADO);
 		btnAlbumes.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAlbumes);
 		
@@ -217,7 +212,7 @@ public class VentanaPerfil extends JDialog {
 			btnNuevoAlbum = new JButton("A+");
 			btnNuevoAlbum.setForeground(Color.WHITE);
 			btnNuevoAlbum.setBorderPainted(false);
-			btnNuevoAlbum.setBackground(resaltado);
+			btnNuevoAlbum.setBackground(Colores.RESALTADO);
 			btnNuevoAlbum.setFont(new Font("Poppins", Font.BOLD, 15));
 			panelBotones.add(btnNuevoAlbum);
 			addManejadorBotonNuevoAlbum();
@@ -235,7 +230,7 @@ public class VentanaPerfil extends JDialog {
 		panelMatriz = new JPanel();
 		panelCentro.add(panelMatriz, BorderLayout.CENTER);
 		panelMatriz.setLayout(new CardLayout(0, 0));
-		panelMatriz.setBackground(fondo);
+		panelMatriz.setBackground(Colores.FONDO);
 		
 		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, ventana, usuario, 0), "panel_fotos");
 		panelMatriz.add(new PanelMatriz(VentanaPerfil.this, ventana, usuario, 1), "panel_albumes");

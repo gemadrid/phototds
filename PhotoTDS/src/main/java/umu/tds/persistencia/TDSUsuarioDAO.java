@@ -15,6 +15,7 @@ import tds.driver.ServicioPersistencia;
 import umu.tds.modelo.Notificacion;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
+import umu.tds.modelo.descuento.FactoriaDescuento;
 
 public class TDSUsuarioDAO implements UsuarioDAO {
 	
@@ -77,7 +78,7 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 						new Propiedad("fotousuario", usuario.getFotoUsuario()),
 						new Propiedad("presentacion", usuario.getPresentacion()),
 						new Propiedad("premium", String.valueOf(usuario.isPremium())),
-						//TODO new Propiedad("descuento", ...),
+						new Propiedad("descuento", usuario.getDescuento().getNombre()),
 						new Propiedad("publicaciones", obtenerCodigosPublicaciones(usuario.getPublicaciones())),
 						new Propiedad("seguidores", obtenerCodigosSeguidores(usuario.getSeguidores())),
 						new Propiedad("notificaciones", obtenerCodigosNotificaciones(usuario.getNotificaciones())))));
@@ -122,7 +123,8 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 				prop.setValor(usuario.getPresentacion());
 			} else if (prop.getNombre().equals("premium")) {
 				prop.setValor(String.valueOf(usuario.isPremium()));
-			//TODO Descuento
+			} else if (prop.getNombre().equals("descuento")) {
+				prop.setValor(usuario.getDescuento().getNombre());
 			} else if (prop.getNombre().equals("publicaciones")) {
 				String publicaciones = obtenerCodigosPublicaciones(usuario.getPublicaciones());
 				prop.setValor(publicaciones);
@@ -156,7 +158,7 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 		String presentacion;
 		boolean premium;
 		//Referencias
-		//TODO Descuento descuento
+		String nombreDescuento;
 		List<Publicacion> publicaciones;
 		List<Usuario> seguidores;
 		List<Notificacion> notificaciones;
@@ -170,17 +172,17 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 		email = servPersistencia.recuperarPropiedadEntidad(eUsuario, "email");
 		nombreUsuario = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombreusuario");
 		password = servPersistencia.recuperarPropiedadEntidad(eUsuario, "password");
-		fechaNacimiento = LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechanacimiento"));
+		fechaNacimiento = LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechanacimiento"), dateFormat);
 		fotoUsuario = servPersistencia.recuperarPropiedadEntidad(eUsuario, "fotousuario");
 		presentacion = servPersistencia.recuperarPropiedadEntidad(eUsuario, "presentacion");
 		premium = Boolean.valueOf(servPersistencia.recuperarPropiedadEntidad(eUsuario, "premium"));
-		//TODO Descuento
+		nombreDescuento = servPersistencia.recuperarPropiedadEntidad(eUsuario, "descuento");
 		
 		//Creamos el usuario
 		Usuario usuario = new Usuario(nombre, apellidos, email, nombreUsuario, password, fechaNacimiento, fotoUsuario, presentacion);
 		usuario.setCodigo(id);
 		usuario.setPremium(premium);
-		//TODO setDescuento
+		usuario.setDescuento(FactoriaDescuento.getUnicaInstancia().crearDescuento(nombreDescuento));
 		
 		//TODO PoolDAO - Añadir cliente al PoolDAO antes de llamar a los otros adaptadores
 		PoolDAO.getUnicaInstancia().addObjeto(id, usuario);

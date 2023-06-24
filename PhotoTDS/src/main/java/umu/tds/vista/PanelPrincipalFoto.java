@@ -39,11 +39,6 @@ public class PanelPrincipalFoto extends JPanel {
 	//Botones
 	private JButton btnMegusta;
 	private JButton btnComentario;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Create the panel.
@@ -55,7 +50,7 @@ public class PanelPrincipalFoto extends JPanel {
 	}
 	
 	private void crearPanelPrincipalFoto() {
-		setBackground(fondo);
+		setBackground(Colores.FONDO);
 		setLayout(new BorderLayout(0, 0));
 		
 		//TODO Ver qué tamaño es mejor para la foto
@@ -74,7 +69,7 @@ public class PanelPrincipalFoto extends JPanel {
 	//Panel con los botones, número de megusta e información del usuario
 	private JPanel crearPanelInfo() {
 		JPanel panelInfo = new JPanel();
-		panelInfo.setBackground(fondo);
+		panelInfo.setBackground(Colores.FONDO);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 		
 		panelInfo.add(crearPanelBotones(), BorderLayout.NORTH);
@@ -86,21 +81,21 @@ public class PanelPrincipalFoto extends JPanel {
 	//Panel 1 (botones y número de megusta)
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Botón megusta
 		btnMegusta = new JButton();
 		btnMegusta.setIcon(new ImageIcon(PanelPrincipalFoto.class.getResource("/umu/tds/resources/megusta.png")));
 		btnMegusta.setBorderPainted(false);
-		btnMegusta.setBackground(resaltado);
+		btnMegusta.setBackground(Colores.RESALTADO);
 		panelBotones.add(btnMegusta);
 		
 		//Botón comentario
 		btnComentario = new JButton();
 		btnComentario.setIcon(new ImageIcon(PanelPrincipalFoto.class.getResource("/umu/tds/resources/comentario.png")));
 		btnComentario.setBorderPainted(false);
-		btnComentario.setBackground(resaltado);
+		btnComentario.setBackground(Colores.RESALTADO);
 		panelBotones.add(btnComentario);
 		
 		//Número de megusta
@@ -118,7 +113,7 @@ public class PanelPrincipalFoto extends JPanel {
 	//Panel 2 (foto y nombre de usuario)
 	private JPanel crearPanelUsuario() {
 		JPanel panelUsuario = new JPanel();
-		panelUsuario.setBackground(fondo);
+		panelUsuario.setBackground(Colores.FONDO);
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Obtenemos la foto de perfil y la redimensionamos

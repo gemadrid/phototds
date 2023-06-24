@@ -38,11 +38,7 @@ public class VentanaPremium extends JDialog {
 	
 	//ComboBox
 	private JComboBox<String> comboBox;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
+
 
 	/**
 	 * Create the dialog.
@@ -52,10 +48,10 @@ public class VentanaPremium extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(fondo);
+		getContentPane().setBackground(Colores.FONDO);
 		
 		panelPremium = new JPanel();
-		panelPremium.setBackground(fondo);
+		panelPremium.setBackground(Colores.FONDO);
 		panelPremium.setLayout(new BorderLayout(10, 10));
 		panelPremium.setBorder(new EmptyBorder(10, 10, 10, 10));
 		getContentPane().add(panelPremium, BorderLayout.CENTER);
@@ -77,7 +73,7 @@ public class VentanaPremium extends JDialog {
 		//Lista con los descuentos
 		List<String> descuentos = Controlador.INSTANCE.getDescuentosAplicables();
 		comboBox = new JComboBox<String>();
-		comboBox.setBackground(areaTexto);
+		comboBox.setBackground(Colores.AREA_TEXTO);
 		comboBox.setFont(new Font("Poppins", Font.PLAIN, 15));
 		descuentos.forEach(d -> comboBox.addItem(d));
 		panelPremium.add(comboBox, BorderLayout.CENTER);
@@ -86,7 +82,7 @@ public class VentanaPremium extends JDialog {
 	
 	private void crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
 		panelPremium.add(panelBotones, BorderLayout.SOUTH);
 		
@@ -94,7 +90,7 @@ public class VentanaPremium extends JDialog {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setForeground(Color.WHITE);
 		btnAceptar.setBorderPainted(false);
-		btnAceptar.setBackground(resaltado);
+		btnAceptar.setBackground(Colores.RESALTADO);
 		btnAceptar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnAceptar);
 		
@@ -102,7 +98,7 @@ public class VentanaPremium extends JDialog {
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
-		btnCancelar.setBackground(resaltado);
+		btnCancelar.setBackground(Colores.RESALTADO);
 		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnCancelar);
 		

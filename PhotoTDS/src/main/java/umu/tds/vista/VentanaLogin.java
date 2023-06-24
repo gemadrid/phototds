@@ -32,11 +32,6 @@ public class VentanaLogin {
 	private JFrame frameLogin;
 	private JTextField textUsuario;
 	private JPasswordField textPassword;
-	
-	//Colores
-	private Color fondo = new Color(43, 44, 62);
-	private Color resaltado = new Color(235, 110, 96);
-	private Color areaTexto = new Color(242, 242, 242);
 
 	/**
 	 * Launch the application.
@@ -72,7 +67,7 @@ public class VentanaLogin {
 		frameLogin = new JFrame();
 		frameLogin.setTitle("PhotoTDS");
 		
-		frameLogin.getContentPane().setBackground(fondo);
+		frameLogin.getContentPane().setBackground(Colores.FONDO);
 		frameLogin.setResizable(false);
 		frameLogin.setSize(850, 550);
 		frameLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +97,7 @@ public class VentanaLogin {
 	
 	private void crearPanelDer() {
 		JPanel panelDer = new JPanel();
-		panelDer.setBackground(fondo);
+		panelDer.setBackground(Colores.FONDO);
 		GridBagConstraints gbc_panelDer = new GridBagConstraints();
 		gbc_panelDer.insets = new Insets(0, 0, 5, 0);
 		gbc_panelDer.fill = GridBagConstraints.BOTH;
@@ -117,7 +112,7 @@ public class VentanaLogin {
 	
 	private JPanel crearPanelTitulo() {
 		JPanel panelTitulo = new JPanel();
-		panelTitulo.setBackground(fondo);
+		panelTitulo.setBackground(Colores.FONDO);
 		panelTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
 		
 		JLabel lblTitulo = new JLabel("Login");
@@ -130,7 +125,7 @@ public class VentanaLogin {
 	
 	private JPanel crearPanelLogin() {
 		JPanel panelLogin = new JPanel();
-		panelLogin.setBackground(fondo);
+		panelLogin.setBackground(Colores.FONDO);
 		panelLogin.setLayout(new BorderLayout(0, 0));
 		
 		panelLogin.add(crearPanelCampos(), BorderLayout.CENTER);
@@ -141,7 +136,7 @@ public class VentanaLogin {
 	
 	private JPanel crearPanelCampos() {
 		JPanel panelCampos = new JPanel();
-		panelCampos.setBackground(fondo);
+		panelCampos.setBackground(Colores.FONDO);
 		panelCampos.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
 		
 		JLabel lblUsuario = new JLabel("Usuario");
@@ -153,7 +148,7 @@ public class VentanaLogin {
 		textUsuario.setFont(new Font("Poppins", Font.PLAIN, 20));
 		textUsuario.setColumns(18);
 		textUsuario.setBorder(null);
-		textUsuario.setBackground(areaTexto);
+		textUsuario.setBackground(Colores.AREA_TEXTO);
 		panelCampos.add(textUsuario);
 		
 		JLabel lblPassword = new JLabel("Contraseña");
@@ -164,7 +159,7 @@ public class VentanaLogin {
 		//TODO Comprobar que la contraseña se vea bien
 		textPassword = new JPasswordField();
 		textPassword.setBorder(null);
-		textPassword.setBackground(areaTexto);
+		textPassword.setBackground(Colores.AREA_TEXTO);
 		textPassword.setFont(new Font("Poppins", Font.PLAIN, 20));
 		textPassword.setColumns(18);
 		panelCampos.add(textPassword);
@@ -175,13 +170,13 @@ public class VentanaLogin {
 	//TODO ¿Cambiar el BoxLayout?
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
-		panelBotones.setBackground(fondo);
+		panelBotones.setBackground(Colores.FONDO);
 		panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
 		
 		JButton btnLogin = new JButton("Iniciar sesión");
 		btnLogin.setForeground(Color.WHITE);
 		btnLogin.setBorderPainted(false);
-		btnLogin.setBackground(resaltado);
+		btnLogin.setBackground(Colores.RESALTADO);
 		btnLogin.setFont(new Font("Poppins", Font.BOLD, 18));
 		btnLogin.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		panelBotones.add(btnLogin);
@@ -191,7 +186,7 @@ public class VentanaLogin {
 		JButton btnRegistro = new JButton("Registrarse");
 		btnRegistro.setForeground(Color.WHITE);
 		btnRegistro.setBorderPainted(false);
-		btnRegistro.setBackground(resaltado);
+		btnRegistro.setBackground(Colores.RESALTADO);
 		btnRegistro.setFont(new Font("Poppins", Font.BOLD, 18));
 		btnRegistro.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		panelBotones.add(btnRegistro);
