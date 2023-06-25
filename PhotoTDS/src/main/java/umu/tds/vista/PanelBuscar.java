@@ -86,6 +86,7 @@ public class PanelBuscar extends JPanel {
 		
 		//Lista con los hashtags
 		listaHashtag = new JList<String>();
+		listaHashtag.setFont(new Font("Poppins", Font.PLAIN, 13));
 		hashtagListModel = new DefaultListModel<String>();
 		listaHashtag.setModel(hashtagListModel);
 		listaHashtag.setBackground(Colores.AREA_TEXTO);

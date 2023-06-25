@@ -109,6 +109,7 @@ public class VentanaPremium extends JDialog {
 				if (descuentoEscogido == null) descuentoEscogido = "Null";
 				double precio = Controlador.INSTANCE.hacersePremium(descuentoEscogido);
 				JOptionPane.showMessageDialog(VentanaPremium.this, "Cantidad a pagar: " + precio + " euros", "Precio", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			}
 		});
 	}
