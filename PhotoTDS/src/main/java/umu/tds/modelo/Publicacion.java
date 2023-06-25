@@ -140,9 +140,10 @@ public abstract class Publicacion {
 		megusta++;
 	}
 	
-	public void publicarComentario(String texto, Usuario usuario) {
+	public Comentario publicarComentario(String texto, Usuario usuario) {
 		Comentario comentario = new Comentario(texto, usuario);
 		addComentario(comentario);
+		return comentario;
 	}
 	
 	public void addComentario(Comentario comentario) {

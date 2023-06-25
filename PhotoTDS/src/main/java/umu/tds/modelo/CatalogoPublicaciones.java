@@ -4,31 +4,45 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import umu.tds.persistencia.DAOException;
+import umu.tds.persistencia.FactoriaDAO;
+
 public enum CatalogoPublicaciones {
 	INSTANCE;
 	
 	//private FactoriaDAO factoria;
 	
-	//private HashMap<String, Publicacion> publicaciones;
-	private List<Publicacion> publicaciones;
+	private HashMap<Integer, Publicacion> publicacionesPorID;
 	
-	//TODO Ver qué tipo de contenedor utilizar (HashMap con código generado por la FactoriaDAO)
 	//Constructor
 	private CatalogoPublicaciones() {
-		//publicaciones = new HashMap<String, Publicacion>();
-		publicaciones = new ArrayList<Publicacion>();
+		publicacionesPorID = new HashMap<Integer, Publicacion>();
+		
+		try {
+			FactoriaDAO factoria = FactoriaDAO.getInstancia();
+			//Obtenemos todas las publicaciones
+			List<Publicacion> listaPublicaciones = factoria.getPublicacionDAO().getAll();
+			for (Publicacion publicacion : listaPublicaciones) {
+				publicacionesPorID.put(publicacion.getCodigo(), publicacion);
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	//public List<Publicacion> findPublicaciones() throws DAOException
+
 	
 	//Métodos
-	//public Publicacion findPublicacion() 
+	public Publicacion findPublicacion(int id) {
+		return publicacionesPorID.get(id);
+	}
+	
 	public void addPublicacion(Publicacion publicacion) {
-		publicaciones.add(publicacion);
+		publicacionesPorID.put(publicacion.getCodigo(), publicacion);
 	}
 	
 	public void removePublicacion(Publicacion publicacion) {
-		publicaciones.remove(publicacion.getNombreUsuario());
+		publicacionesPorID.remove(publicacion.getCodigo());
 	}
 
 }

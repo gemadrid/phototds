@@ -92,7 +92,7 @@ public class TDSNotificacionDAO implements NotificacionDAO {
 	//Obtener notificación
 	@Override
 	public Notificacion get(int id) {
-		//TODO PoolDAO - Devolvemos la entidad
+		//PoolDAO - Devolvemos la entidad
 		if (PoolDAO.getUnicaInstancia().contiene(id))
 			return (Notificacion) PoolDAO.getUnicaInstancia().getObjeto(id);
 		
@@ -112,17 +112,14 @@ public class TDSNotificacionDAO implements NotificacionDAO {
 		notificacion.setCodigo(id);
 		notificacion.setFecha(fecha);
 		
-		//TODO PoolDAO - Añadimos la notificación antes de llamar al adaptador de publicaciones
+		//PoolDAO - Añadimos la notificación antes de llamar al adaptador de publicaciones
 		PoolDAO.getUnicaInstancia().addObjeto(id, notificacion);
 		
 		//Para recuperar la publicación la solicitamos al TDSPublicacionDAO
 		TDSPublicacionDAO publicacionDAO = TDSPublicacionDAO.getUnicaInstancia();
 		publicacion = publicacionDAO.get(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eNotificacion, "publicacion")));
 		
-		//Creamos la notificación
-		/*Notificacion notificacion = new Notificacion(publicacion);
-		notificacion.setCodigo(id);
-		notificacion.setFecha(fecha);*/
+		//Le asignamos la publicación
 		notificacion.setPublicacion(publicacion);
 		
 		return notificacion;

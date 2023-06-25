@@ -7,8 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
 import umu.tds.modelo.descuento.Descuento;
 import umu.tds.modelo.descuento.FactoriaDescuento;
 
@@ -234,8 +232,6 @@ public class Usuario {
 		//Creamos la foto y la añadimos a la colección de publicaciones del usuario
 		Publicacion foto = new Foto("", descripcion, this, path);
 		addPublicacion(foto);
-		//Notificamos de la subida de la foto
-		notificar(foto);
 		//Devolvemos la foto
 		return foto;
 	}
@@ -259,13 +255,14 @@ public class Usuario {
 		publicaciones.add(publicacion);
 	}
 	
-	public void notificar(Publicacion publicacion) {
+	public Notificacion notificar(Publicacion publicacion) {
 		//Creamos la notificación
 		Notificacion notificacion = new Notificacion(publicacion);
 		//Añadimos la notificación al propio usuario
 		addNotificacion(notificacion);
 		//Mandamos la notificación a los seguidores del usuario
 		seguidores.forEach(usuario -> usuario.addNotificacion(notificacion));
+		return notificacion;
 	}
 	
 	public void addNotificacion(Notificacion notificacion) {
@@ -292,7 +289,8 @@ public class Usuario {
 	}
 	
 	public void addSeguidor(Usuario usuario) {
-		seguidores.add(usuario);
+		//Añadir seguidor solo si no es ya seguidor
+		if (!seguidores.contains(usuario)) seguidores.add(usuario);
 	}
 	
 	public boolean esTituloAlbumValido(String titulo) {
@@ -311,9 +309,13 @@ public class Usuario {
 	
 	
 	//Hacerse premium
-	public void hacersePremium(Descuento descuento) {
+	public void hacersePremium(String nombreDescuento) {
 		this.premium = true;
-		this.descuento = descuento;
+		this.descuento = FactoriaDescuento.getUnicaInstancia().crearDescuento(nombreDescuento);
+	}
+	
+	public double calcularDescuento(double precio) {
+		return descuento.aplicarDescuento(precio);
 	}
 
 }

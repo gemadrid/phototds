@@ -67,7 +67,6 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 				publicacionDAO.create(p);
 		}
 		
-		//TODO No sería necesario guardar los hashtags, porque se obtienen desde la descripción
 		//Creamos la entidad publicación con sus atributos
 		ePublicacion = new Entidad();
 		ePublicacion.setNombre("publicacion");
@@ -102,6 +101,8 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 	public boolean delete(Publicacion publicacion) {
 		Entidad ePublicacion = servPersistencia.recuperarEntidad(publicacion.getCodigo());
 		return servPersistencia.borrarEntidad(ePublicacion);
+		
+		//TODO Si es un album hay que eliminar todas las foto
 	}
 
 	//Actualizar publicación
@@ -140,7 +141,7 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 	//Obtener publicación
 	@Override
 	public Publicacion get(int id) {
-		//TODO PoolDAO - Devolver entidad
+		//PoolDAO - Devolver entidad
 		if (PoolDAO.getUnicaInstancia().contiene(id))
 			return (Publicacion) PoolDAO.getUnicaInstancia().getObjeto(id);
 		
@@ -189,7 +190,7 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 		publicacion.setMegusta(megusta);
 		publicacion.setHashtags(hashtags);
 		
-		//TODO PoolDAO - Añadir publicación antes de llamar a los otros adaptadores
+		//PoolDAO - Añadir publicación antes de llamar a los otros adaptadores
 		PoolDAO.getUnicaInstancia().addObjeto(id, publicacion);
 		
 		//Recuperamos los objetos

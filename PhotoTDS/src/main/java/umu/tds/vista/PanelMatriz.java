@@ -100,15 +100,19 @@ public class PanelMatriz extends JPanel {
 		btnRetroceder.setFont(new Font("Poppins", Font.BOLD, 15));
 		panelBotones.add(btnRetroceder);
 		
-		btnAddFoto = new JButton("+");
-		btnAddFoto.setForeground(Color.WHITE);
-		btnAddFoto.setBorderPainted(false);
-		btnAddFoto.setBackground(Colores.RESALTADO);
-		btnAddFoto.setFont(new Font("Poppins", Font.BOLD, 15));
-		panelBotones.add(btnAddFoto);
-		
 		addManejadorBotonRetroceder();
-		addManejadorBotonAddFoto();
+		
+		//Si es el usuario actual añadimos la opción de añadir fotos al álbum
+		if (Controlador.INSTANCE.esUsuarioActual(usuario)) { 
+			btnAddFoto = new JButton("+");
+			btnAddFoto.setForeground(Color.WHITE);
+			btnAddFoto.setBorderPainted(false);
+			btnAddFoto.setBackground(Colores.RESALTADO);
+			btnAddFoto.setFont(new Font("Poppins", Font.BOLD, 15));
+			panelBotones.add(btnAddFoto);
+		
+			addManejadorBotonAddFoto();
+		}
 		
 		panelBotones.setVisible(false);
 	}
@@ -137,17 +141,21 @@ public class PanelMatriz extends JPanel {
 		panelMatriz.setBackground(Colores.FONDO);
 		add(panelMatriz, BorderLayout.CENTER);
 		
-		//Menú contextual
-		popupMenu = new JPopupMenu();
+		//Si es el usuario actual añadimos la opción de eliminar publicaciones
+		if (Controlador.INSTANCE.esUsuarioActual(usuario)) { 
+			//Menú contextual
+			popupMenu = new JPopupMenu();
+			
+			//Opción eliminar
+			mntmEliminar = new JMenuItem("Eliminar");
+			mntmEliminar.setFont(new Font("Poppins", Font.PLAIN, 13));
 		
-		//Opción eliminar
-		mntmEliminar = new JMenuItem("Eliminar");
-		mntmEliminar.setFont(new Font("Poppins", Font.PLAIN, 13));
+			popupMenu.add(mntmEliminar);
 		
-		popupMenu.add(mntmEliminar);
+			addManejadorBotonEliminar();
+		}
 		
 		addManejadorFotoClick();
-		addManejadorBotonEliminar();
 	}
 	
 	//ListCellRenderer

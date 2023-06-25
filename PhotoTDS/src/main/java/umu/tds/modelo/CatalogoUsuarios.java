@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import umu.tds.persistencia.DAOException;
+import umu.tds.persistencia.FactoriaDAO;
+
 public enum CatalogoUsuarios {
 	//Implementado como enumerado
 	INSTANCE;
@@ -13,13 +16,25 @@ public enum CatalogoUsuarios {
 	//private FactoriaDAO factoria;
 	
 	private HashMap<String, Usuario> usuarios;
+	private HashMap<Integer, Usuario> usuariosPorID;
 
 	//Constructor
 	private CatalogoUsuarios() {
 		usuarios = new HashMap<String, Usuario>();
+		usuariosPorID = new HashMap<Integer, Usuario>();
+		
+		try {
+			FactoriaDAO factoria = FactoriaDAO.getInstancia();
+			//Obtenemos todos los usuarios
+			List<Usuario> listaUsuarios = factoria.getUsuarioDAO().getAll();
+			for (Usuario usuario : listaUsuarios) {
+				usuarios.put(usuario.getNombreUsuario(), usuario);
+				usuariosPorID.put(usuario.getCodigo(), usuario);
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	//public List<Usuario> findUsuarios() throws DAOException
 	
 	
 	
@@ -28,12 +43,18 @@ public enum CatalogoUsuarios {
 		return usuarios.get(login);
 	}
 	
+	public Usuario findUsuario(int id) {
+		return usuariosPorID.get(id);
+	}
+	
 	public void addUsuario(Usuario usuario) {
 		usuarios.put(usuario.getNombreUsuario(), usuario);
+		usuariosPorID.put(usuario.getCodigo(), usuario);
 	}
 	
 	public void removeUsuario(Usuario usuario) {
 		usuarios.remove(usuario.getNombreUsuario());
+		usuariosPorID.remove(usuario.getCodigo());
 	}
 	
 	

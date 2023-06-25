@@ -200,8 +200,7 @@ public class VentanaLogin {
 	private void addManejadorBotonLogin(JButton btnLogin) {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean login = Controlador.INSTANCE
-						.loginUsuario(textUsuario.getText(), new String(textPassword.getPassword()));
+				boolean login = Controlador.INSTANCE.loginUsuario(textUsuario.getText(), new String(textPassword.getPassword()));
 				if (login) {
 					VentanaPrincipal principal = new VentanaPrincipal();
 					principal.mostrarVentana();

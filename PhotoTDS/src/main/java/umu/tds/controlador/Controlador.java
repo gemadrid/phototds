@@ -19,15 +19,23 @@ import umu.tds.fotos.Foto;
 import umu.tds.fotos.Fotos;
 import umu.tds.fotos.FotosEvent;
 import umu.tds.fotos.FotosListener;
+import umu.tds.modelo.Album;
 import umu.tds.modelo.CatalogoPublicaciones;
 import umu.tds.modelo.CatalogoUsuarios;
+import umu.tds.modelo.Comentario;
+import umu.tds.modelo.Notificacion;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 import umu.tds.modelo.descuento.Descuento;
 import umu.tds.modelo.descuento.DescuentoJoven;
 import umu.tds.modelo.descuento.DescuentoMayor;
 import umu.tds.modelo.descuento.DescuentoPopularidad;
-import umu.tds.modelo.descuento.FactoriaDescuento;
+import umu.tds.persistencia.ComentarioDAO;
+import umu.tds.persistencia.DAOException;
+import umu.tds.persistencia.FactoriaDAO;
+import umu.tds.persistencia.NotificacionDAO;
+import umu.tds.persistencia.PublicacionDAO;
+import umu.tds.persistencia.UsuarioDAO;
 import umu.tds.servicios.BuilderExcel;
 import umu.tds.servicios.BuilderPDF;
 import umu.tds.servicios.GeneradorInforme;
@@ -51,21 +59,46 @@ public enum Controlador implements FotosListener {
 	//Componente CargadorFotos
 	CargadorFotos cargadorFotos;
 	
+	//Adaptadores DAO
+	private UsuarioDAO usuarioDAO;
+	private PublicacionDAO publicacionDAO;
+	private NotificacionDAO notificacionDAO;
+	private ComentarioDAO comentarioDAO;
+	
+	
+	
 	//Constructor
 	private Controlador() {
+		//Adaptadores
+		inicializarAdaptadores();
+		
 		usuarioActual = null;
+		
 		//Cargador fotos
 		cargadorFotos = new CargadorFotos();
 		cargadorFotos.addFotosListener(this);
+		
 		//Descuentos
 		inicializarDescuentos();
-		//TODO getInstancia() FactoriaDAO
 	}
 	
 	//Inicializaciones
 	private void inicializarDescuentos() {
 		descuentosDisponibles = new LinkedList<>();
 		Collections.addAll(descuentosDisponibles, new DescuentoJoven(), new DescuentoMayor(), new DescuentoPopularidad());
+	}
+	
+	private void inicializarAdaptadores() {
+		FactoriaDAO factoria = null;
+		try {
+			factoria = FactoriaDAO.getInstancia();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		usuarioDAO = factoria.getUsuarioDAO();
+		publicacionDAO = factoria.getPublicacionDAO();
+		notificacionDAO = factoria.getNotificacionDAO();
+		comentarioDAO = factoria.getComentarioDAO();
 	}
 	
 	
@@ -103,9 +136,10 @@ public enum Controlador implements FotosListener {
 		LocalDate fecha = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fecha, pathFotoUsuario, presentacion);
 		
-		//TODO FactoriaDAO
-		
+		//Registrar usuario
+		usuarioDAO.create(usuario);
 		CatalogoUsuarios.INSTANCE.addUsuario(usuario);
+		
 		return true;
 	}
 	
@@ -126,10 +160,16 @@ public enum Controlador implements FotosListener {
 	
 	public void darMegusta(Publicacion publicacion) {
 		publicacion.darMegusta();
+		publicacionDAO.update(publicacion);
+		//TODO Si la publicación es un álbum también hay que actualizar sus fotos
+		if (publicacion instanceof Album)
+			((Album)publicacion).getFotos().forEach(f -> publicacionDAO.update(f));
 	}
 	
 	public void publicarComentario(Publicacion publicacion, String texto) {
-		publicacion.publicarComentario(texto, usuarioActual);
+		Comentario comentario = publicacion.publicarComentario(texto, usuarioActual);
+		comentarioDAO.create(comentario);
+		publicacionDAO.update(publicacion);
 	}
 	
 	
@@ -141,7 +181,14 @@ public enum Controlador implements FotosListener {
 		
 		//Subimos la foto y la añadimos al catálogo de publicaciones
 		Publicacion foto = usuarioActual.subirFoto(descripcion, pathRelativo);
+		publicacionDAO.create(foto);
 		CatalogoPublicaciones.INSTANCE.addPublicacion(foto);
+		//Creamos la notificación
+		Notificacion notificacion = usuarioActual.notificar(foto);
+		notificacionDAO.create(notificacion);
+		//Actualizamos el usuario y sus seguidores
+		usuarioDAO.update(usuarioActual);
+		usuarioActual.getSeguidores().forEach(s -> usuarioDAO.update(s));
 		
 		//Si la foto es para un álbum, guardamos el objeto para luego añadirlo al álbum
 		if (isModoAlbum)
@@ -160,15 +207,20 @@ public enum Controlador implements FotosListener {
 		//Creamos el álbum (si se ha subido la primera foto) y lo añadimos al catálogo de publicaciones
 		if (publicacionAlbum != null) {
 			Publicacion album = usuarioActual.crearAlbum(tituloAlbum, publicacionAlbum);
+			publicacionDAO.create(album);
 			CatalogoPublicaciones.INSTANCE.addPublicacion(album);
+			usuarioDAO.update(usuarioActual);
 		}
 		publicacionAlbum = null;
 		isModoAlbum = false;
 	}
 	
 	public void addPublicacionAlbum(Publicacion album) {
-		if (publicacionAlbum != null)
+		if (publicacionAlbum != null) {
 			usuarioActual.addFotoAlbum(album, publicacionAlbum);
+			publicacionDAO.update(album);
+			usuarioDAO.update(usuarioActual);
+		}
 		publicacionAlbum = null;
 		isModoAlbum = false;
 	}
@@ -197,10 +249,12 @@ public enum Controlador implements FotosListener {
 			pathRelativo = copiarImagen(pathFoto, "fotosperfil/");
 		}
 		usuarioActual.editarPerfil(pathRelativo, password, presentacion);
+		usuarioDAO.update(usuarioActual);
 	}
 	
 	public void seguirUsuario(Usuario usuario) {
 		usuario.addSeguidor(usuarioActual);
+		usuarioDAO.update(usuario);
 	}
 	
 	public boolean esTituloAlbumValido(String titulo) {
@@ -208,7 +262,7 @@ public enum Controlador implements FotosListener {
 	}
 	
 	public void eliminarPublicacion(Publicacion publicacion) {
-		CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
+		//TODO CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
 		//TODO Si es un álbum hay que eliminar todas las fotos que contiene
 		//TODO Eliminar de la base de datos
 	}
@@ -243,11 +297,10 @@ public enum Controlador implements FotosListener {
 					.collect(Collectors.toList());
 	}
 	
-	//TODO ¿Hacer mejor?
 	public double hacersePremium(String nombreDescuento) {
-		Descuento descuento = FactoriaDescuento.getUnicaInstancia().crearDescuento(nombreDescuento);
-		usuarioActual.hacersePremium(descuento);
-		return descuento.aplicarDescuento(PRECIO_PREMIUM);
+		usuarioActual.hacersePremium(nombreDescuento);
+		usuarioDAO.update(usuarioActual);
+		return usuarioActual.calcularDescuento(PRECIO_PREMIUM);
 	}
 	
 	public void generarPDF() {

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Album extends Publicacion {
 	
-	//Atributos
 	//Referencias
 	private List<Publicacion> fotos;
 

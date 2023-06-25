@@ -142,7 +142,7 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 	//Obtener usuario
 	@Override
 	public Usuario get(int id) {
-		//TODO PoolDAO - Devolvemos la entidad
+		//PoolDAO - Devolvemos la entidad si está en el PoolDAO
 		if (PoolDAO.getUnicaInstancia().contiene(id))
 			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(id);
 		
@@ -184,7 +184,7 @@ public class TDSUsuarioDAO implements UsuarioDAO {
 		usuario.setPremium(premium);
 		usuario.setDescuento(FactoriaDescuento.getUnicaInstancia().crearDescuento(nombreDescuento));
 		
-		//TODO PoolDAO - Añadir cliente al PoolDAO antes de llamar a los otros adaptadores
+		//PoolDAO - Añadir cliente al PoolDAO antes de llamar a los otros adaptadores
 		PoolDAO.getUnicaInstancia().addObjeto(id, usuario);
 		
 		//Recuperar objetos
