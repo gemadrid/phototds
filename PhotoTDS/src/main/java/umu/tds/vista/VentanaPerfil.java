@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,6 +19,9 @@ import javax.swing.ImageIcon;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Usuario;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import javax.swing.border.EmptyBorder;
 
@@ -94,7 +96,7 @@ public class VentanaPerfil extends JDialog {
 		
 		//Texto
 		JLabel lblEmail = new JLabel(usuario.getEmail());
-		lblEmail.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblEmail.setFont(FontManager.getFuente(15f));
 		lblEmail.setForeground(Color.WHITE);
 		panel1.add(lblEmail);
 		
@@ -104,7 +106,7 @@ public class VentanaPerfil extends JDialog {
 			btnEditar.setForeground(Color.WHITE);
 			btnEditar.setBorderPainted(false);
 			btnEditar.setBackground(Colores.RESALTADO);
-			btnEditar.setFont(new Font("Poppins", Font.BOLD, 15));
+			btnEditar.setFont(FontManager.getFuenteBold(15f));
 			panel1.add(btnEditar);
 			addManejadorBotonEditar();
 		}
@@ -113,7 +115,7 @@ public class VentanaPerfil extends JDialog {
 			btnSeguir.setForeground(Color.WHITE);
 			btnSeguir.setBorderPainted(false);
 			btnSeguir.setBackground(Colores.RESALTADO);
-			btnSeguir.setFont(new Font("Poppins", Font.BOLD, 15));
+			btnSeguir.setFont(FontManager.getFuenteBold(15f));
 			panel1.add(btnSeguir);
 			addManejadorBotonSeguir();
 		}
@@ -126,17 +128,17 @@ public class VentanaPerfil extends JDialog {
 		
 		//Texto
 		JLabel lblNPublicaciones = new JLabel(usuario.getNumPublicaciones() + " publicaciones");
-		lblNPublicaciones.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblNPublicaciones.setFont(FontManager.getFuente(15f));
 		lblNPublicaciones.setForeground(Color.WHITE);
 		panel2.add(lblNPublicaciones);
 		
 		JLabel lblNSeguidores = new JLabel(usuario.getNumSeguidores() + " seguidores");
-		lblNSeguidores.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblNSeguidores.setFont(FontManager.getFuente(15f));
 		lblNSeguidores.setForeground(Color.WHITE);
 		panel2.add(lblNSeguidores);
 		
 		JLabel lblNSeguidos = new JLabel(Controlador.INSTANCE.getNumSeguidos(usuario) + " seguidos");
-		lblNSeguidos.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblNSeguidos.setFont(FontManager.getFuente(15f));
 		lblNSeguidos.setForeground(Color.WHITE);
 		panel2.add(lblNSeguidos);
 		
@@ -148,7 +150,7 @@ public class VentanaPerfil extends JDialog {
 		
 		//Texto
 		JLabel lblNombre = new JLabel(usuario.getNombreCompleto());
-		lblNombre.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblNombre.setFont(FontManager.getFuente(15f));
 		lblNombre.setForeground(Color.WHITE);
 		panel3.add(lblNombre);
 	}
@@ -171,14 +173,14 @@ public class VentanaPerfil extends JDialog {
 		btnFotos.setForeground(Color.WHITE);
 		btnFotos.setBorderPainted(false);
 		btnFotos.setBackground(Colores.RESALTADO);
-		btnFotos.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnFotos.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnFotos);
 		
 		btnAlbumes = new JButton("Álbumes");
 		btnAlbumes.setForeground(Color.WHITE);
 		btnAlbumes.setBorderPainted(false);
 		btnAlbumes.setBackground(Colores.RESALTADO);
-		btnAlbumes.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnAlbumes.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnAlbumes);
 		
 		//Botón para añadir un álbum
@@ -187,7 +189,7 @@ public class VentanaPerfil extends JDialog {
 			btnNuevoAlbum.setForeground(Color.WHITE);
 			btnNuevoAlbum.setBorderPainted(false);
 			btnNuevoAlbum.setBackground(Colores.RESALTADO);
-			btnNuevoAlbum.setFont(new Font("Poppins", Font.BOLD, 15));
+			btnNuevoAlbum.setFont(FontManager.getFuenteBold(15f));
 			panelBotones.add(btnNuevoAlbum);
 			addManejadorBotonNuevoAlbum();
 		}

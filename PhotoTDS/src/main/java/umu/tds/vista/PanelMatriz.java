@@ -3,7 +3,6 @@ package umu.tds.vista;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +22,9 @@ import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Album;
 import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import java.awt.BorderLayout;
 
@@ -91,7 +93,7 @@ public class PanelMatriz extends JPanel {
 		btnRetroceder.setForeground(Color.WHITE);
 		btnRetroceder.setBorderPainted(false);
 		btnRetroceder.setBackground(Colores.RESALTADO);
-		btnRetroceder.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnRetroceder.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnRetroceder);
 		
 		addManejadorBotonRetroceder();
@@ -102,7 +104,7 @@ public class PanelMatriz extends JPanel {
 			btnAddFoto.setForeground(Color.WHITE);
 			btnAddFoto.setBorderPainted(false);
 			btnAddFoto.setBackground(Colores.RESALTADO);
-			btnAddFoto.setFont(new Font("Poppins", Font.BOLD, 15));
+			btnAddFoto.setFont(FontManager.getFuenteBold(15f));
 			panelBotones.add(btnAddFoto);
 		
 			addManejadorBotonAddFoto();
@@ -142,7 +144,7 @@ public class PanelMatriz extends JPanel {
 			
 			//Opción eliminar
 			mntmEliminar = new JMenuItem("Eliminar");
-			mntmEliminar.setFont(new Font("Poppins", Font.PLAIN, 13));
+			mntmEliminar.setFont(FontManager.getFuente(13f));
 		
 			popupMenu.add(mntmEliminar);
 		

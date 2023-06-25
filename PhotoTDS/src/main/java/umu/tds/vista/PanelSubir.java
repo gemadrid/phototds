@@ -1,7 +1,6 @@
 package umu.tds.vista;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,6 +20,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
 
 public class PanelSubir extends JEditorPane {
 	
@@ -50,7 +52,7 @@ public class PanelSubir extends JEditorPane {
 		//Textos
 		JLabel lblSubir = new JLabel("Subir Foto");
 		lblSubir.setForeground(Color.WHITE);
-		lblSubir.setFont(new Font("Poppins", Font.BOLD, 30));
+		lblSubir.setFont(FontManager.getFuenteBold(30f));
 		GridBagConstraints gbc_lblSubir = new GridBagConstraints();
 		gbc_lblSubir.anchor = GridBagConstraints.WEST;
 		gbc_lblSubir.insets = new Insets(0, 0, 5, 0);
@@ -60,7 +62,7 @@ public class PanelSubir extends JEditorPane {
 		
 		JLabel lblSubirTexto = new JLabel("<html>Sube una foto para compartirla con tus amigos.<br>Puedes arrastrar el fichero aquí o seleccionarlo desde el explorador de archivos.");
 		lblSubirTexto.setForeground(Color.WHITE);
-		lblSubirTexto.setFont(new Font("Poppins", Font.PLAIN, 20));
+		lblSubirTexto.setFont(FontManager.getFuente(20f));
 		GridBagConstraints gbc_lblSubirTexto = new GridBagConstraints();
 		gbc_lblSubirTexto.insets = new Insets(0, 0, 5, 0);
 		gbc_lblSubirTexto.anchor = GridBagConstraints.WEST;
@@ -73,7 +75,7 @@ public class PanelSubir extends JEditorPane {
 		btnSubirFoto.setForeground(Color.WHITE);
 		btnSubirFoto.setBorderPainted(false);
 		btnSubirFoto.setBackground(Colores.RESALTADO);
-		btnSubirFoto.setFont(new Font("Poppins", Font.BOLD, 20));
+		btnSubirFoto.setFont(FontManager.getFuenteBold(20f));
 		GridBagConstraints gbc_btnSubirFoto = new GridBagConstraints();
 		gbc_btnSubirFoto.gridx = 0;
 		gbc_btnSubirFoto.gridy = 3;

@@ -3,7 +3,6 @@ package umu.tds.vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +18,9 @@ import javax.swing.event.ListSelectionListener;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -57,12 +59,12 @@ public class PanelBuscar extends JPanel {
 		//Texto Buscar
 		JLabel lblBuscar = new JLabel("Buscar:");
 		lblBuscar.setForeground(Color.WHITE);
-		lblBuscar.setFont(new Font("Poppins", Font.BOLD, 25));
+		lblBuscar.setFont(FontManager.getFuenteBold(25f));
 		panelBuscarNorte.add(lblBuscar);
 		
 		//Área buscar
 		textBuscar = new JTextField();
-		textBuscar.setFont(new Font("Poppins", Font.PLAIN, 20));
+		textBuscar.setFont(FontManager.getFuente(20f));
 		textBuscar.setBackground(Colores.AREA_TEXTO);
 		textBuscar.setBorder(null);
 		textBuscar.setColumns(25);
@@ -86,7 +88,7 @@ public class PanelBuscar extends JPanel {
 		
 		//Lista con los hashtags
 		listaHashtag = new JList<String>();
-		listaHashtag.setFont(new Font("Poppins", Font.PLAIN, 13));
+		listaHashtag.setFont(FontManager.getFuente(13f));
 		hashtagListModel = new DefaultListModel<String>();
 		listaHashtag.setModel(hashtagListModel);
 		listaHashtag.setBackground(Colores.AREA_TEXTO);

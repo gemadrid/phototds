@@ -2,7 +2,6 @@ package umu.tds.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -13,6 +12,9 @@ import javax.swing.JList;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Usuario;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
@@ -71,7 +73,7 @@ public class VentanaBusquedaUsuario extends JDialog {
 					Usuario usuario = (Usuario) value;
 					label.setIcon(Utilidades.getImagenRedimensionada(usuario.getFotoUsuario(), 40, 40));
 					label.setText(usuario.getNombreCompleto());
-					label.setFont(new Font("Poppins", Font.PLAIN, 13));
+					label.setFont(FontManager.getFuente(13f));
 					//if (!isSelected) label.setBackground(fondo);
 				}
 				return c;

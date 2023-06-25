@@ -3,7 +3,6 @@ package umu.tds.vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -17,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -62,14 +63,14 @@ public class VentanaPremium extends JDialog {
 		JLabel lblDescuentos = new JLabel("Descuentos disponibles");
 		lblDescuentos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescuentos.setForeground(Color.WHITE);
-		lblDescuentos.setFont(new Font("Poppins SemiBold", Font.PLAIN, 15));
+		lblDescuentos.setFont(FontManager.getFuenteBold(15f));
 		panelPremium.add(lblDescuentos, BorderLayout.NORTH);
 		
 		//Lista con los descuentos
 		List<String> descuentos = Controlador.INSTANCE.getDescuentosAplicables();
 		comboBox = new JComboBox<String>();
 		comboBox.setBackground(Colores.AREA_TEXTO);
-		comboBox.setFont(new Font("Poppins", Font.PLAIN, 15));
+		comboBox.setFont(FontManager.getFuente(15f));
 		descuentos.forEach(d -> comboBox.addItem(d));
 		panelPremium.add(comboBox, BorderLayout.CENTER);
 		
@@ -86,7 +87,7 @@ public class VentanaPremium extends JDialog {
 		btnAceptar.setForeground(Color.WHITE);
 		btnAceptar.setBorderPainted(false);
 		btnAceptar.setBackground(Colores.RESALTADO);
-		btnAceptar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnAceptar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnAceptar);
 		
 		//Botón cancelar
@@ -94,7 +95,7 @@ public class VentanaPremium extends JDialog {
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setBackground(Colores.RESALTADO);
-		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnCancelar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnCancelar);
 		
 		addManejadorBotonComentar();

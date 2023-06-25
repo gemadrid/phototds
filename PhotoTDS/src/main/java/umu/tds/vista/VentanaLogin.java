@@ -1,7 +1,5 @@
 package umu.tds.vista;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -14,10 +12,11 @@ import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.Font;
 import javax.swing.JTextField;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -32,22 +31,6 @@ public class VentanaLogin {
 	private JFrame frameLogin;
 	private JTextField textUsuario;
 	private JPasswordField textPassword;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaLogin window = new VentanaLogin();
-					window.frameLogin.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -117,7 +100,7 @@ public class VentanaLogin {
 		
 		JLabel lblTitulo = new JLabel("Login");
 		lblTitulo.setForeground(Color.WHITE);
-		lblTitulo.setFont(new Font("Poppins", Font.BOLD, 30));
+		lblTitulo.setFont(FontManager.getFuenteBold(30f));
 		panelTitulo.add(lblTitulo);
 		
 		return panelTitulo;
@@ -141,26 +124,26 @@ public class VentanaLogin {
 		
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setFont(new Font("Poppins", Font.BOLD, 20));
+		lblUsuario.setFont(FontManager.getFuenteBold(20f));
 		panelCampos.add(lblUsuario);
 		
 		textUsuario = new JTextField();
-		textUsuario.setFont(new Font("Poppins", Font.PLAIN, 20));
-		textUsuario.setColumns(18);
+		textUsuario.setFont(FontManager.getFuente(20f));
+		textUsuario.setColumns(21);
 		textUsuario.setBorder(null);
 		textUsuario.setBackground(Colores.AREA_TEXTO);
 		panelCampos.add(textUsuario);
 		
 		JLabel lblPassword = new JLabel("Contraseña");
 		lblPassword.setForeground(Color.WHITE);
-		lblPassword.setFont(new Font("Poppins", Font.BOLD, 20));
+		lblPassword.setFont(FontManager.getFuenteBold(20f));
 		panelCampos.add(lblPassword);
 		
 		textPassword = new JPasswordField();
 		textPassword.setBorder(null);
 		textPassword.setBackground(Colores.AREA_TEXTO);
-		textPassword.setFont(new Font("Poppins", Font.PLAIN, 20));
-		textPassword.setColumns(18);
+		textPassword.setFont(FontManager.getFuente(20f));
+		textPassword.setColumns(21);
 		panelCampos.add(textPassword);
 		
 		return panelCampos;
@@ -175,7 +158,7 @@ public class VentanaLogin {
 		btnLogin.setForeground(Color.WHITE);
 		btnLogin.setBorderPainted(false);
 		btnLogin.setBackground(Colores.RESALTADO);
-		btnLogin.setFont(new Font("Poppins", Font.BOLD, 18));
+		btnLogin.setFont(FontManager.getFuenteBold(18f));
 		btnLogin.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		panelBotones.add(btnLogin);
 		
@@ -185,7 +168,7 @@ public class VentanaLogin {
 		btnRegistro.setForeground(Color.WHITE);
 		btnRegistro.setBorderPainted(false);
 		btnRegistro.setBackground(Colores.RESALTADO);
-		btnRegistro.setFont(new Font("Poppins", Font.BOLD, 18));
+		btnRegistro.setFont(FontManager.getFuenteBold(18f));
 		btnRegistro.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		panelBotones.add(btnRegistro);
 		

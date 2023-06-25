@@ -10,6 +10,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import pulsador.IEncendidoListener;
 import pulsador.Luz;
 import umu.tds.controlador.Controlador;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -22,7 +25,6 @@ import java.util.EventObject;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.CardLayout;
 
 import javax.swing.JMenuItem;
@@ -102,7 +104,7 @@ public class VentanaPrincipal extends JFrame {
 		panelLogo.setBackground(Colores.FONDO);
 		
 		JLabel lblLogo = new JLabel("PhotoTDS");
-		lblLogo.setFont(new Font("Poppins Black", Font.PLAIN, 20));
+		lblLogo.setFont(FontManager.getFuenteBold(25f));
 		lblLogo.setForeground(Colores.RESALTADO);
 		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/resources/IconoLogo.png")));
 		panelLogo.add(lblLogo);
@@ -176,15 +178,15 @@ public class VentanaPrincipal extends JFrame {
 		
 		//Items del menú
 		mntmPremium = new JMenuItem("Premium");
-		mntmPremium.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmPremium.setFont(FontManager.getFuente(13f));
 		mntmPdf = new JMenuItem("Generar PDF");
-		mntmPdf.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmPdf.setFont(FontManager.getFuente(13f));
 		mntmExcel = new JMenuItem("Generar Excel");
-		mntmExcel.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmExcel.setFont(FontManager.getFuente(13f));
 		mntmTop = new JMenuItem("Top Me Gusta");
-		mntmTop.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmTop.setFont(FontManager.getFuente(13f));
 		mntmLogout = new JMenuItem("Cerrar sesión");
-		mntmLogout.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmLogout.setFont(FontManager.getFuente(13f));
 		
 		//TODO Si el usuario actual no es premium, deshabilitar los botones premium
 		//mntmPdf.setEnabled(false);

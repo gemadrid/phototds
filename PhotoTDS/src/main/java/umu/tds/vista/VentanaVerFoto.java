@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
 
 public class VentanaVerFoto extends JDialog {
 	

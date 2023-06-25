@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
 
 import javax.swing.BoxLayout;
 

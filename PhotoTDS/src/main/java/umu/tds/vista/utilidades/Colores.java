@@ -1,4 +1,4 @@
-package umu.tds.vista;
+package umu.tds.vista.utilidades;
 
 import java.awt.Color;
 

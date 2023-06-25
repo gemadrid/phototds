@@ -2,7 +2,6 @@ package umu.tds.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -13,6 +12,9 @@ import javax.swing.JList;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
@@ -68,7 +70,7 @@ public class VentanaTopMegusta extends JDialog {
 					Publicacion publicacion = (Publicacion) value;
 					label.setIcon(Utilidades.getImagenRedimensionada(publicacion.getPath(), 240, 135));
 					label.setText(publicacion.getMegusta() + " Me gusta");
-					label.setFont(new Font("Poppins", Font.PLAIN, 13));
+					label.setFont(FontManager.getFuente(13f));
 				}
 				return c;
 			}

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -27,6 +26,8 @@ import javax.swing.border.EmptyBorder;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
 
 public class VentanaVerFotoComentario extends JDialog {
 	
@@ -83,14 +84,14 @@ public class VentanaVerFotoComentario extends JDialog {
 		//Texto
 		JLabel lblComentario = new JLabel("Escribe un comentario (máximo 120 caracteres)");
 		lblComentario.setForeground(Color.WHITE);
-		lblComentario.setFont(new Font("Poppins", Font.BOLD, 18));
+		lblComentario.setFont(FontManager.getFuenteBold(18f));
 		panelComentario.add(lblComentario, BorderLayout.NORTH);
 		
 		//Área de texto
 		textComentario = new JTextArea();
 		textComentario.setLineWrap(true);
 		textComentario.setWrapStyleWord(true);
-		textComentario.setFont(new Font("Poppins", Font.PLAIN, 18));
+		textComentario.setFont(FontManager.getFuente(18f));
 		textComentario.setBackground(Colores.AREA_TEXTO);
 		JScrollPane scrollPane = new JScrollPane(textComentario);
 		scrollPane.setBorder(null);
@@ -111,14 +112,14 @@ public class VentanaVerFotoComentario extends JDialog {
 		btnComentar.setForeground(Color.WHITE);
 		btnComentar.setBorderPainted(false);
 		btnComentar.setBackground(Colores.RESALTADO);
-		btnComentar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnComentar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnComentar);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setBackground(Colores.RESALTADO);
-		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnCancelar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnCancelar);
 		
 		addManejadorBotonComentar();

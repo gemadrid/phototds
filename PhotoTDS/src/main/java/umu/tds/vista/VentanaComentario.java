@@ -3,7 +3,6 @@ package umu.tds.vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,6 +16,8 @@ import javax.swing.JLabel;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
@@ -73,7 +74,7 @@ public class VentanaComentario extends JDialog {
 		//Texto de cabecera
 		JLabel lblCabecera = new JLabel("Introduce un comentario (máximo 120 caracteres)");
 		lblCabecera.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCabecera.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblCabecera.setFont(FontManager.getFuente(15f));
 		lblCabecera.setForeground(Color.WHITE);
 		panelComentario.add(lblCabecera, BorderLayout.NORTH);
 		
@@ -82,7 +83,7 @@ public class VentanaComentario extends JDialog {
 		textoComentario.setLineWrap(true);
 		textoComentario.setWrapStyleWord(true);
 		textoComentario.setBackground(Colores.AREA_TEXTO);
-		textoComentario.setFont(new Font("Poppins", Font.PLAIN, 15));
+		textoComentario.setFont(FontManager.getFuente(15f));
 		panelComentario.add(textoComentario, BorderLayout.CENTER);
 		
 		addManejadorLimitarCaracteres();
@@ -101,7 +102,7 @@ public class VentanaComentario extends JDialog {
 		btnComentar.setForeground(Color.WHITE);
 		btnComentar.setBorderPainted(false);
 		btnComentar.setBackground(Colores.RESALTADO);
-		btnComentar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnComentar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnComentar);
 		
 		//Botón cancelar
@@ -109,7 +110,7 @@ public class VentanaComentario extends JDialog {
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setBackground(Colores.RESALTADO);
-		btnCancelar.setFont(new Font("Poppins", Font.BOLD, 15));
+		btnCancelar.setFont(FontManager.getFuenteBold(15f));
 		panelBotones.add(btnCancelar);
 		
 		addManejadorBotonComentar();

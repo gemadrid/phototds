@@ -2,15 +2,11 @@ package umu.tds.vista;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,6 +14,9 @@ import javax.swing.JPanel;
 
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Publicacion;
+import umu.tds.vista.utilidades.Colores;
+import umu.tds.vista.utilidades.FontManager;
+import umu.tds.vista.utilidades.Utilidades;
 
 import java.awt.BorderLayout;
 
@@ -99,7 +98,7 @@ public class PanelPrincipalFoto extends JPanel {
 		
 		//Número de megusta
 		lblNumMegusta = new JLabel(publicacion.getMegusta() + " Me gusta");
-		lblNumMegusta.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblNumMegusta.setFont(FontManager.getFuente(15f));
 		lblNumMegusta.setForeground(Color.WHITE);
 		panelBotones.add(lblNumMegusta);
 		
@@ -120,7 +119,7 @@ public class PanelPrincipalFoto extends JPanel {
 		
 		//Label con el nombre de usuario y su foto
 		JLabel lblUsuario = new JLabel(publicacion.getNombreUsuario());
-		lblUsuario.setFont(new Font("Poppins Medium", Font.PLAIN, 15));
+		lblUsuario.setFont(FontManager.getFuente(15f));
 		lblUsuario.setForeground(Color.WHITE);
 		lblUsuario.setIcon(fotoPerfil);
 		panelUsuario.add(lblUsuario);
