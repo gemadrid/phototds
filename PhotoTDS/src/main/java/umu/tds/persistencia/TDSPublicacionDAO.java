@@ -79,6 +79,9 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 						new Propiedad("usuario", String.valueOf(publicacion.getUsuario().getCodigo())),
 						new Propiedad("comentarios", obtenerCodigosComentarios(publicacion.getComentarios())))));
 		
+		//Registramos la entidad publicación
+		ePublicacion = servPersistencia.registrarEntidad(ePublicacion);
+		
 		//Si es una Foto añadimos también su path
 		if (publicacion instanceof Foto) {
 			servPersistencia.anadirPropiedadEntidad(ePublicacion, "path", ((Foto)publicacion).getPath());
@@ -89,9 +92,6 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 			servPersistencia.anadirPropiedadEntidad(ePublicacion, "fotos", obtenerCodigosPublicaciones(((Album)publicacion).getFotos()));
 		}
 		
-		//Registramos la entidad publicación
-		ePublicacion = servPersistencia.registrarEntidad(ePublicacion);
-		
 		//Asignamos el identificador único
 		publicacion.setCodigo(ePublicacion.getId());
 	}
@@ -101,8 +101,6 @@ public class TDSPublicacionDAO implements PublicacionDAO {
 	public boolean delete(Publicacion publicacion) {
 		Entidad ePublicacion = servPersistencia.recuperarEntidad(publicacion.getCodigo());
 		return servPersistencia.borrarEntidad(ePublicacion);
-		
-		//TODO Si es un album hay que eliminar todas las foto
 	}
 
 	//Actualizar publicación

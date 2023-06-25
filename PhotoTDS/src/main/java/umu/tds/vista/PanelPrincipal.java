@@ -1,7 +1,6 @@
 package umu.tds.vista;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -48,13 +47,6 @@ public class PanelPrincipal extends JPanel {
 		scrollPane.setBorder(null);
 		scrollPane.setBackground(Colores.FONDO);
 		add(scrollPane);
-	}
-	
-	public void actualizar() {
-		this.removeAll();
-		crearPanelPrincipal();
-		this.revalidate();
-		this.repaint();
 	}
 
 }

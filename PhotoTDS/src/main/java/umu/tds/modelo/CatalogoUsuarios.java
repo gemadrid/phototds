@@ -39,6 +39,10 @@ public enum CatalogoUsuarios {
 	
 	
 	//Métodos
+	public List<Usuario> getAllUsuarios() {
+		return usuarios.values().stream().collect(Collectors.toList());
+	}
+	
 	public Usuario findUsuario(String login) {
 		return usuarios.get(login);
 	}
@@ -77,8 +81,7 @@ public enum CatalogoUsuarios {
 				.collect(Collectors.toList());
 	}
 	
-	//TODO Ver dónde meter este método
-	public String normalizar(String cadena) {
+	private String normalizar(String cadena) {
 		return Normalizer.normalize(cadena, Form.NFD)
 				.replaceAll("\\p{M}", "")
 				.toLowerCase();

@@ -1,8 +1,6 @@
 package umu.tds.vista;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,27 +14,19 @@ import umu.tds.controlador.Controlador;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.EventObject;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.CardLayout;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import java.awt.Rectangle;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -63,6 +53,7 @@ public class VentanaPrincipal extends JFrame {
 	private JMenuItem mntmPdf;
 	private JMenuItem mntmExcel;
 	private JMenuItem mntmTop;
+	private JMenuItem mntmLogout;
 
 	
 	//Mostrar ventana
@@ -164,8 +155,8 @@ public class VentanaPrincipal extends JFrame {
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 10));
 		panelUsuario.setBackground(Colores.FONDO);
 		
-		//TODO Poner de icono la foto de perfil del usuario
-		ImageIcon iconoPerfil = getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuarioActual(), 40, 40);
+		//Foto de perfil del usuario
+		ImageIcon iconoPerfil = Utilidades.getImagenRedimensionada(Controlador.INSTANCE.getFotoUsuarioActual(), 40, 40);
 		btnUsuario = new JButton("");
 		btnUsuario.setIcon(iconoPerfil);
 		btnUsuario.setBorder(null);
@@ -192,6 +183,8 @@ public class VentanaPrincipal extends JFrame {
 		mntmExcel.setFont(new Font("Poppins", Font.PLAIN, 13));
 		mntmTop = new JMenuItem("Top Me Gusta");
 		mntmTop.setFont(new Font("Poppins", Font.PLAIN, 13));
+		mntmLogout = new JMenuItem("Cerrar sesión");
+		mntmLogout.setFont(new Font("Poppins", Font.PLAIN, 13));
 		
 		//TODO Si el usuario actual no es premium, deshabilitar los botones premium
 		//mntmPdf.setEnabled(false);
@@ -200,6 +193,7 @@ public class VentanaPrincipal extends JFrame {
 		popupMenu.add(mntmPdf);
 		popupMenu.add(mntmExcel);
 		popupMenu.add(mntmTop);
+		popupMenu.add(mntmLogout);
 		
 		addManejadorBotonUsuario();
 		addManejadorBotonOpciones();
@@ -208,6 +202,7 @@ public class VentanaPrincipal extends JFrame {
 		addManejadorMenuPdf();
 		addManejadorMenuExcel();
 		addManejadorMenuTop();
+		addManejadorMenuLogout();
 		
 		return panelUsuario;
 	}
@@ -225,11 +220,6 @@ public class VentanaPrincipal extends JFrame {
 		panelCentro.add(panelPrincipal, "panel_principal");
 		panelCentro.add(new PanelSubir(VentanaPrincipal.this), "panel_subir");
 		panelCentro.add(panelBuscar, "panel_buscar");
-	}
-	
-	//Actualizar paneles
-	public void actualizarSubirFoto() {
-		panelPrincipal.actualizar();
 	}
 	
 	//Manejadores de eventos de botones (panel norte)
@@ -337,18 +327,15 @@ public class VentanaPrincipal extends JFrame {
 		});
 	}
 	
-	//Método para redimensionar imágenes
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage imagen = ImageIO.read(new File(path));
-			//Redimensionamos la imagen
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			return new ImageIcon(imagenRedimensionada);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+	private void addManejadorMenuLogout() {
+		mntmLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.INSTANCE.logout();
+				VentanaLogin ventana = new VentanaLogin();
+				ventana.mostrarVentana();
+				dispose();
+			}
+		});
 	}
 
 }

@@ -1,18 +1,11 @@
 package umu.tds.vista;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -73,28 +66,13 @@ public class VentanaTopMegusta extends JDialog {
 				if (c instanceof JLabel) {
 					JLabel label = (JLabel) c;
 					Publicacion publicacion = (Publicacion) value;
-					label.setIcon(getImagenRedimensionada(publicacion.getPath(), 240, 135));
+					label.setIcon(Utilidades.getImagenRedimensionada(publicacion.getPath(), 240, 135));
 					label.setText(publicacion.getMegusta() + " Me gusta");
 					label.setFont(new Font("Poppins", Font.PLAIN, 13));
 				}
 				return c;
 			}
 		};
-	}
-	
-	//Imagen redimensionada
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage img = ImageIO.read(new File(path));
-			//Reescalamos la imagen
-			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			//Devolvemos la imagen
-			return new ImageIcon(imgNueva);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 }

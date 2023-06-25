@@ -3,50 +3,25 @@ package umu.tds.vista;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
 
 import umu.tds.controlador.Controlador;
-import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JScrollBar;
 
 public class VentanaPerfil extends JDialog {
 	
@@ -97,7 +72,7 @@ public class VentanaPerfil extends JDialog {
 		JLabel lblFotoPerfil = new JLabel();
 		lblFotoPerfil.setForeground(Color.WHITE);
 		lblFotoPerfil.setBorder(new EmptyBorder(0, 20, 0, 20));
-		ImageIcon fotoPerfil = getImagenRedimensionada(usuario.getFotoUsuario(), 100, 100);
+		ImageIcon fotoPerfil = Utilidades.getImagenRedimensionada(usuario.getFotoUsuario(), 100, 100);
 		lblFotoPerfil.setIcon(fotoPerfil);
 		panelNorte.add(lblFotoPerfil, BorderLayout.WEST);
 		
@@ -124,7 +99,6 @@ public class VentanaPerfil extends JDialog {
 		panel1.add(lblEmail);
 		
 		//Botón editar perfil / seguir
-		//TODO ¿Factorizar?
 		if(Controlador.INSTANCE.esUsuarioActual(usuario)) {
 			btnEditar = new JButton("Editar perfil");
 			btnEditar.setForeground(Color.WHITE);
@@ -224,7 +198,6 @@ public class VentanaPerfil extends JDialog {
 		crearPanelMatriz();
 	}
 	
-	//TODO
 	//Panel que muestra la matriz de fotos/álbumes
 	private void crearPanelMatriz() {
 		panelMatriz = new JPanel();
@@ -243,8 +216,6 @@ public class VentanaPerfil extends JDialog {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarPerfil();
-				//TODO Recargar ventana principal
-				//TODO Recargar ventana de perfil
 			}
 		});
 	}
@@ -325,21 +296,6 @@ public class VentanaPerfil extends JDialog {
 		//Creamos el álbum cuando se cierre la ventana de subir la primera foto
 		Controlador.INSTANCE.crearAlbum(tituloAlbum);
 	}
-	
-	//Método para redimensionar imágenes
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage imagen = ImageIO.read(new File(path));
-			//Redimensionamos la imagen
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			return new ImageIcon(imagenRedimensionada);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	
 
 }

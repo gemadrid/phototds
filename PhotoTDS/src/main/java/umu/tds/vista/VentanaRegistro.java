@@ -24,9 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -128,7 +126,6 @@ public class VentanaRegistro extends JDialog {
 		
 	}
 	
-	//TODO Crear panel foto
 	private void crearPanelFoto() {
 		JPanel panelFoto = new JPanel();
 		panelFoto.setBackground(Colores.FONDO);
@@ -331,7 +328,6 @@ public class VentanaRegistro extends JDialog {
 		panelRegistro.add(fechaNacimiento, gbc_fechaNacimiento);
 	}
 	
-	//TODO Comprobar que la presentación no pase de 200 caracteres
 	private void crearLineaPresentacion() {
 		//Jlabel
 		JLabel lblPresentacion = new JLabel("Presentación (opcional)");
@@ -344,7 +340,6 @@ public class VentanaRegistro extends JDialog {
 		gbc_lblPresentacion.gridy = 10;
 		panelRegistro.add(lblPresentacion, gbc_lblPresentacion);
 		
-		//TODO Revisar si tantas opciones son necesarias (y modificar tamaño para que quede bien)
 		//JTextArea
 		textPresentacion = new JTextArea();
 		textPresentacion.setLineWrap(true);
@@ -403,7 +398,6 @@ public class VentanaRegistro extends JDialog {
 	private void addManejadorBotonFoto() {
 		btnFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Poner JFileChooser más bonito
 				JFileChooser chooser = new JFileChooser();
 				//Filtramos por imágenes
 				FileFilter imageFilter = new FileNameExtensionFilter("Archivos de imagen", ImageIO.getReaderFileSuffixes());
@@ -415,14 +409,13 @@ public class VentanaRegistro extends JDialog {
 					File currentFile = chooser.getSelectedFile();
 					pathFoto = currentFile.getPath();
 					//Redimensionamos la imagen y la asignamos al botón
-					ImageIcon fotoUsuario = redimensionarImagen(pathFoto, 75, 75);
+					ImageIcon fotoUsuario = Utilidades.getImagenRedimensionada(pathFoto, 75, 75, Image.SCALE_AREA_AVERAGING);
 					btnFoto.setIcon(fotoUsuario);
 				}
 			}
 		});
 	}
 	
-	//TODO Poner JOptionPane más bonitos
 	private void addManejadorBotonAceptar() {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -508,20 +501,6 @@ public class VentanaRegistro extends JDialog {
 		return check;
 	}
 	
-	//Método para redimensionar la imagen
-	private ImageIcon redimensionarImagen(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage foto = ImageIO.read(new File(path));
-			//Redimensionamos la imagen
-			Image fotoAjustada = foto.getScaledInstance(ancho, alto, Image.SCALE_AREA_AVERAGING);
-			return new ImageIcon(fotoAjustada);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	//Funcionalidad para limitar el número de caracteres
 	private void addManejadorLimitarCaracteres() {
 		textPresentacion.addKeyListener(new KeyAdapter() {
@@ -553,7 +532,7 @@ public class VentanaRegistro extends JDialog {
 		fechaNacimiento.setEnabled(false);
 		
 		//Campos habilitados
-		btnFoto.setIcon(redimensionarImagen(usuario.getFotoUsuario(), 75, 75));
+		btnFoto.setIcon(Utilidades.getImagenRedimensionada(usuario.getFotoUsuario(), 75, 75, Image.SCALE_AREA_AVERAGING));
 		textPresentacion.setText(usuario.getPresentacion());
 		
 		//Modificar btnAceptar
@@ -561,7 +540,6 @@ public class VentanaRegistro extends JDialog {
 			btnAceptar.removeActionListener(l);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Comprobar contraseña
 				String password = new String(textPassword.getPassword());
 				String passwordRepeat = new String(textPasswordRepeat.getPassword());
 				if (!password.equals(passwordRepeat))  {

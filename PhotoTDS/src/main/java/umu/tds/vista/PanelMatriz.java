@@ -4,12 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -30,10 +26,8 @@ import umu.tds.modelo.Usuario;
 
 import java.awt.BorderLayout;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -167,7 +161,9 @@ public class PanelMatriz extends JPanel {
 				if (c instanceof JLabel) {
 					JLabel label = (JLabel) c;
 					Publicacion publicacion = (Publicacion) value;
-					label.setIcon(getImagenRedimensionada(publicacion));
+					int ancho = PanelMatriz.this.getWidth() / 3 - 10;
+					int alto = ancho * 10 / 16;
+					label.setIcon(Utilidades.getImagenRedimensionada(publicacion.getPath(), ancho, alto));
 					label.setText("");
 					if (!isSelected)
 						label.setBackground(Colores.FONDO);
@@ -216,7 +212,7 @@ public class PanelMatriz extends JPanel {
 	private void mostrarAlbum(Publicacion publicacion) {
 		//Cambiamos las miniaturas de los álbumes por las miniaturas de las fotos del álbum
 		fotosListModel.clear();
-		//TODO ¿Obtener las fotos del álbum de otra manera?
+		//Obtenemos las fotos del álbum
 		((Album)publicacion).getFotos().forEach(f -> fotosListModel.addElement(f));
 		//Indicamos que los objetos se abrirán como fotos
 		tipo = FOTO;
@@ -231,8 +227,7 @@ public class PanelMatriz extends JPanel {
 		mntmEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Publicacion publicacion = listaFotos.getSelectedValue();
-				//TODO Controlador.INSTANCE.eliminarPublicacion(publicacion);
-				//TODO Notificar a VentanaPerfil de que se ha eliminado la publicación para recargarla
+				Controlador.INSTANCE.eliminarPublicacion(publicacion);
 			}
 		});
 	}
@@ -274,24 +269,5 @@ public class PanelMatriz extends JPanel {
 		Controlador.INSTANCE.addPublicacionAlbum(albumActual);	
 	}
 	
-	
-	private ImageIcon getImagenRedimensionada(Publicacion publicacion) {
-		try {
-			//Leemos la imagen
-			BufferedImage img = ImageIO.read(new File(publicacion.getPath()));
-			//TODO Ver qué tamaño es mejor
-			//Obtenemos el tamaño de la imagen
-			int ancho = getWidth() / 3 - 10;
-			//int alto = ancho * img.getHeight() / img.getWidth();
-			int alto = ancho * 10 / 16;
-			//Reescalamos la imagen
-			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			//Devolvemos la imagen
-			return new ImageIcon(imgNueva);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 }

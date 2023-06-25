@@ -42,5 +42,9 @@ public class Notificacion {
 	public void setPublicacion(Publicacion publicacion) {
 		this.publicacion = publicacion;
 	}
+	
+	public boolean isPublicacion(Publicacion publicacion) {
+		return this.publicacion == publicacion;
+	}
 
 }

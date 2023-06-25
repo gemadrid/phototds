@@ -123,7 +123,6 @@ public class VentanaComentario extends JDialog {
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.publicarComentario(publicacion, textoComentario.getText());
-				//TODO Ventana de diálogo confirmando que se ha publicado el comentario
 				dispose();
 			}
 		});

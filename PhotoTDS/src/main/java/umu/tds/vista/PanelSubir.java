@@ -19,14 +19,10 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PanelSubir extends JEditorPane {
-	
-	//Título de la publicación
-	private String titulo;
 	
 	//Ventana principal
 	private VentanaPrincipal ventana;
@@ -114,7 +110,6 @@ public class PanelSubir extends JEditorPane {
 	private void addManejadorBotonSubirFoto() {
 		btnSubirFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Poner JFileChooser más bonito
 				JFileChooser chooser = new JFileChooser();
 				//Filtramos por imágenes (con los formatos soportados por el Sistema Operativo)
 				FileFilter imageFilter = new FileNameExtensionFilter("Archivos de imagen", ImageIO.getReaderFileSuffixes());

@@ -53,9 +53,8 @@ public class PanelPrincipalFoto extends JPanel {
 		setBackground(Colores.FONDO);
 		setLayout(new BorderLayout(0, 0));
 		
-		//TODO Ver qué tamaño es mejor para la foto
 		//Foto redimensionada
-		ImageIcon fotoRedimensionada = getImagenRedimensionada(publicacion.getPath(), 240, 135);
+		ImageIcon fotoRedimensionada = Utilidades.getImagenRedimensionada(publicacion.getPath(), 240, 135, Image.SCALE_AREA_AVERAGING);
 		
 		lblFoto = new JLabel();
 		lblFoto.setIcon(fotoRedimensionada);
@@ -117,7 +116,7 @@ public class PanelPrincipalFoto extends JPanel {
 		panelUsuario.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
 		
 		//Obtenemos la foto de perfil y la redimensionamos
-		ImageIcon fotoPerfil = getImagenRedimensionada(publicacion.getFotoUsuario(), 30, 30);
+		ImageIcon fotoPerfil = Utilidades.getImagenRedimensionada(publicacion.getFotoUsuario(), 30, 30);
 		
 		//Label con el nombre de usuario y su foto
 		JLabel lblUsuario = new JLabel(publicacion.getNombreUsuario());
@@ -162,18 +161,5 @@ public class PanelPrincipalFoto extends JPanel {
 		});
 	}
 	
-	//Método para redimensionar imágenes
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage imagen = ImageIO.read(new File(path));
-			//Redimensionamos la imagen
-			Image imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			return new ImageIcon(imagenRedimensionada);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 }

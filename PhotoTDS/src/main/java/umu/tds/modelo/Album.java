@@ -3,6 +3,8 @@ package umu.tds.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import umu.tds.controlador.Controlador;
+
 public class Album extends Publicacion {
 	
 	//Referencias
@@ -26,6 +28,12 @@ public class Album extends Publicacion {
 	//Métodos
 	public void addFoto(Publicacion foto) {
 		fotos.add(foto);
+	}
+	
+	public void removeFoto(Publicacion foto) {
+		fotos.remove(foto);
+		//Si hemos eliminado la última foto que quedaba en el álbum
+		if (fotos.isEmpty()) Controlador.INSTANCE.eliminarPublicacion(this);
 	}
 	
 	@Override

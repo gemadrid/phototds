@@ -247,7 +247,6 @@ public class Usuario {
 	}
 	
 	public void addFotoAlbum(Publicacion album, Publicacion foto) {
-		//TODO Ver si hay mejor forma de hacerlo
 		((Album)album).addFoto(foto);
 	}
 	
@@ -304,6 +303,18 @@ public class Usuario {
 		if (!password.isEmpty())
 			setPassword(password);
 		setPresentacion(presentacion);
+	}
+	
+	public boolean eliminarNotificacion(Notificacion notificacion) {
+		return notificaciones.remove(notificacion);
+	}
+	
+	public void eliminarPublicacion(Publicacion publicacion) {
+		publicaciones.remove(publicacion);
+		//Si pertenece a un álbum también hay que eliminarla del álbum
+		for (Publicacion a : getAlbumes()) {
+			((Album)a).removeFoto(publicacion);
+		}
 	}
 	
 	

@@ -3,15 +3,9 @@ package umu.tds.vista;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -36,17 +30,16 @@ public class VentanaBusquedaUsuario extends JDialog {
 	 * Create the dialog.
 	 */
 	public VentanaBusquedaUsuario(VentanaPrincipal ventana, String busqueda) {
-		super(ventana, "Búsqueda de usuarios", true);
+		super(ventana, "Búsqueda de usuarios", false);
 		this.ventana = ventana;
 		this.busqueda = busqueda;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
+		setSize(300, 400);
+		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(Colores.FONDO);
 		
 		crearPanelUsuarios();
-		
-		pack();
 	}
 	
 	//Panel con la lista de usuarios encontrados
@@ -62,7 +55,8 @@ public class VentanaBusquedaUsuario extends JDialog {
 
 		//JScrollPane
 		JScrollPane scrollPane = new JScrollPane(listaUsuarios);
-		scrollPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		scrollPane.setBackground(Colores.AREA_TEXTO);
+		scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 	
@@ -75,7 +69,7 @@ public class VentanaBusquedaUsuario extends JDialog {
 				if (c instanceof JLabel) {
 					JLabel label = (JLabel) c;
 					Usuario usuario = (Usuario) value;
-					label.setIcon(getImagenRedimensionada(usuario.getFotoUsuario(), 40, 40));
+					label.setIcon(Utilidades.getImagenRedimensionada(usuario.getFotoUsuario(), 40, 40));
 					label.setText(usuario.getNombreCompleto());
 					label.setFont(new Font("Poppins", Font.PLAIN, 13));
 					//if (!isSelected) label.setBackground(fondo);
@@ -97,19 +91,5 @@ public class VentanaBusquedaUsuario extends JDialog {
 		};
 	}
 	
-	//Imagen redimensionada
-	private ImageIcon getImagenRedimensionada(String path, int ancho, int alto) {
-		try {
-			//Leemos la imagen
-			BufferedImage img = ImageIO.read(new File(path));
-			//Reescalamos la imagen
-			Image imgNueva = img.getScaledInstance(ancho, alto, Image.SCALE_FAST);
-			//Devolvemos la imagen
-			return new ImageIcon(imgNueva);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 }

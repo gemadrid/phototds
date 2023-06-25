@@ -22,8 +22,6 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	//Constructor
-	//TODO ¿Es el constructor vacío necesario?
-	public Publicacion() {};
 	
 	public Publicacion(String titulo, String descripcion, Usuario usuario) {
 		this.codigo = 0;

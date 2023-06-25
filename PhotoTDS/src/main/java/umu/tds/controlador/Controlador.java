@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import umu.tds.fotos.CargadorFotos;
@@ -119,6 +120,10 @@ public enum Controlador implements FotosListener {
 		return false;
 	}
 	
+	public void logout() {
+		usuarioActual = null;
+	}
+	
 	
 	
 	//Métodos Registro
@@ -161,7 +166,7 @@ public enum Controlador implements FotosListener {
 	public void darMegusta(Publicacion publicacion) {
 		publicacion.darMegusta();
 		publicacionDAO.update(publicacion);
-		//TODO Si la publicación es un álbum también hay que actualizar sus fotos
+		//Si la publicación es un álbum también hay que actualizar sus fotos
 		if (publicacion instanceof Album)
 			((Album)publicacion).getFotos().forEach(f -> publicacionDAO.update(f));
 	}
@@ -232,6 +237,14 @@ public enum Controlador implements FotosListener {
 		return CatalogoUsuarios.INSTANCE.getUsuariosPorNombre(nombre);
 	}
 	
+	public List<String> buscarHashtags(String hashtag) {
+		return CatalogoPublicaciones.INSTANCE.getHashtags(hashtag);
+	}
+	
+	public List<Publicacion> buscarPublicaciones(String hashtag) {
+		return CatalogoPublicaciones.INSTANCE.getPublicacionesHashtag(hashtag);
+	}
+	
 	
 	
 	//Métodos perfil de usuario
@@ -262,9 +275,38 @@ public enum Controlador implements FotosListener {
 	}
 	
 	public void eliminarPublicacion(Publicacion publicacion) {
-		//TODO CatalogoPublicaciones.INSTANCE.removePublicacion(publicacion);
-		//TODO Si es un álbum hay que eliminar todas las fotos que contiene
-		//TODO Eliminar de la base de datos
+		//Si es un álbum primero eliminamos sus fotos
+		if (publicacion instanceof Album)
+			((Album)publicacion).getFotos().forEach(f -> eliminarFoto(f));
+		//Eliminamos la publicación
+		eliminarFoto(publicacion);
+	}
+	
+	private void eliminarFoto(Publicacion publicacion) {
+		//Primero eliminamos los comentarios de la publicación
+		publicacion.getComentarios().forEach(c -> comentarioDAO.delete(c));
+		//Eliminamos las referencias a la notificación que corresponde a la publicación
+		List<Notificacion> notificaciones = CatalogoUsuarios.INSTANCE.getAllUsuarios().stream()
+							.flatMap(u -> u.getNotificaciones().stream())
+							.filter(n -> n.isPublicacion(publicacion))
+							.distinct()
+							.collect(Collectors.toList());
+		//Si la publicación tiene una notificación asociada
+		for (Notificacion n : notificaciones) {
+			for (Usuario u : CatalogoUsuarios.INSTANCE.getAllUsuarios()) {
+				boolean contenido = u.eliminarNotificacion(n);
+				//Si el usuario tenía la notificación, lo actualizamos
+				if (contenido) usuarioDAO.update(u);
+			}
+			//Eliminamos la notificación
+			notificacionDAO.delete(n);
+		}
+		//Eliminamos la referencia a la publicación del usuario que la subió
+		usuarioActual.eliminarPublicacion(publicacion);
+		//Actualizamos el usuario actual
+		usuarioDAO.update(usuarioActual);
+		//Eliminamos la publicación
+		publicacionDAO.delete(publicacion);
 	}
 	
 	

@@ -156,7 +156,6 @@ public class VentanaLogin {
 		lblPassword.setFont(new Font("Poppins", Font.BOLD, 20));
 		panelCampos.add(lblPassword);
 		
-		//TODO Comprobar que la contraseña se vea bien
 		textPassword = new JPasswordField();
 		textPassword.setBorder(null);
 		textPassword.setBackground(Colores.AREA_TEXTO);
@@ -167,7 +166,6 @@ public class VentanaLogin {
 		return panelCampos;
 	}
 	
-	//TODO ¿Cambiar el BoxLayout?
 	private JPanel crearPanelBotones() {
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(Colores.FONDO);
@@ -206,7 +204,6 @@ public class VentanaLogin {
 					principal.mostrarVentana();
 					frameLogin.dispose();
 				} else
-					//TODO Poner un poco más bonito
 					JOptionPane.showMessageDialog(frameLogin, "Nombre de usuario o contraseña no valido", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		});
