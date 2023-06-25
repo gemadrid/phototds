@@ -1,7 +1,5 @@
 package umu.tds.modelo.descuento;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class FactoriaDescuento {
 	
 	//Descuento (path común)

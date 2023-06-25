@@ -116,6 +116,10 @@ public class VentanaPerfil extends JDialog {
 			btnSeguir.setBorderPainted(false);
 			btnSeguir.setBackground(Colores.RESALTADO);
 			btnSeguir.setFont(FontManager.getFuenteBold(15f));
+			if (Controlador.INSTANCE.isUsuarioSeguido(usuario)) {
+				btnSeguir.setText("Seguido");
+				btnSeguir.setEnabled(false);
+			}
 			panel1.add(btnSeguir);
 			addManejadorBotonSeguir();
 		}
@@ -234,7 +238,9 @@ public class VentanaPerfil extends JDialog {
 		btnSeguir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.seguirUsuario(usuario);
-				//TODO Hacer algo que indique que se ha seguido al usuario
+				//Cambiamos el botón
+				btnSeguir.setText("Seguido");
+				btnSeguir.setEnabled(false);
 			}
 		});
 	}

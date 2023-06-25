@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import umu.tds.fotos.CargadorFotos;
@@ -159,6 +158,10 @@ public enum Controlador implements FotosListener {
 		return usuarioActual.getFotoUsuario();
 	}
 	
+	public boolean isPremiumUsuarioActual() {
+		return usuarioActual.isPremium();
+	}
+	
 	public List<Publicacion> getPublicacionesNotificaciones(int num) {
 		return usuarioActual.getPublicacionesNotificaciones(num);
 	}
@@ -268,6 +271,10 @@ public enum Controlador implements FotosListener {
 	public void seguirUsuario(Usuario usuario) {
 		usuario.addSeguidor(usuarioActual);
 		usuarioDAO.update(usuario);
+	}
+	
+	public boolean isUsuarioSeguido(Usuario usuario) {
+		return usuario.isUsuarioSeguidor(usuarioActual);
 	}
 	
 	public boolean esTituloAlbumValido(String titulo) {

@@ -2,6 +2,8 @@ package umu.tds.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -11,12 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import umu.tds.controlador.Controlador;
+import umu.tds.modelo.Publicacion;
 import umu.tds.modelo.Usuario;
 import umu.tds.vista.utilidades.Colores;
 import umu.tds.vista.utilidades.FontManager;
 import umu.tds.vista.utilidades.Utilidades;
 
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,6 +31,9 @@ public class VentanaBusquedaUsuario extends JDialog {
 	
 	//Texto de búsqueda
 	private String busqueda;
+	
+	//JList
+	JList<Usuario> listaUsuarios;
 
 	/**
 	 * Create the dialog.
@@ -47,11 +54,11 @@ public class VentanaBusquedaUsuario extends JDialog {
 	//Panel con la lista de usuarios encontrados
 	private void crearPanelUsuarios() {
 		//JList
-		JList<Usuario> listaUsuarios = new JList<Usuario>();
+		listaUsuarios = new JList<Usuario>();
 		DefaultListModel<Usuario> usuariosListModel = new DefaultListModel<Usuario>();
 		listaUsuarios.setModel(usuariosListModel);
 		listaUsuarios.setCellRenderer(crearListCellRenderer());
-		listaUsuarios.addListSelectionListener(crearListSelectionListener(listaUsuarios));
+		addManejadorListaClick();
 		//Añadimos los usuarios
 		Controlador.INSTANCE.buscarUsuarios(busqueda).forEach(u -> usuariosListModel.addElement(u));
 
@@ -81,16 +88,19 @@ public class VentanaBusquedaUsuario extends JDialog {
 		};
 	}
 	
-	//ListSelectionListener
-	private ListSelectionListener crearListSelectionListener(JList<Usuario> listaUsuarios) {
-		return e -> {
-			if (!e.getValueIsAdjusting()) {
+	//Manejador click
+	private void addManejadorListaClick() {
+		listaUsuarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int celda = listaUsuarios.locationToIndex(e.getPoint());
+				listaUsuarios.setSelectedIndex(celda);
 				Usuario usuario = listaUsuarios.getSelectedValue();
 				VentanaPerfil ventanaPerfil = new VentanaPerfil(ventana, usuario);
 				ventanaPerfil.setLocationRelativeTo(ventana);
 				ventanaPerfil.setVisible(true);
 			}
-		};
+		});
 	}
 	
 

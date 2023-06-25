@@ -36,19 +36,6 @@ public class VentanaComentario extends JDialog {
 	private JButton btnCancelar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VentanaComentario dialog = new VentanaComentario(null, null);
-			dialog.setLocationRelativeTo(null);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public VentanaComentario(JFrame owner, Publicacion publicacion) {

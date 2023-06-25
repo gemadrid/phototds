@@ -2,7 +2,6 @@ package umu.tds.modelo;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,8 +11,6 @@ import umu.tds.persistencia.FactoriaDAO;
 
 public enum CatalogoPublicaciones {
 	INSTANCE;
-	
-	//private FactoriaDAO factoria;
 	
 	private HashMap<Integer, Publicacion> publicacionesPorID;
 	

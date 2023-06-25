@@ -188,8 +188,12 @@ public class VentanaPrincipal extends JFrame {
 		mntmLogout = new JMenuItem("Cerrar sesión");
 		mntmLogout.setFont(FontManager.getFuente(13f));
 		
-		//TODO Si el usuario actual no es premium, deshabilitar los botones premium
-		//mntmPdf.setEnabled(false);
+		//Si el usuario actual no es premium, deshabilitar los botones premium
+		if (!Controlador.INSTANCE.isPremiumUsuarioActual()) {
+			mntmPdf.setEnabled(false);
+			mntmExcel.setEnabled(false);
+			mntmTop.setEnabled(false);
+		}
 		
 		popupMenu.add(mntmPremium);
 		popupMenu.add(mntmPdf);
@@ -297,6 +301,12 @@ public class VentanaPrincipal extends JFrame {
 				VentanaPremium ventanaPremium = new VentanaPremium(VentanaPrincipal.this);
 				ventanaPremium.setLocationRelativeTo(VentanaPrincipal.this);
 				ventanaPremium.setVisible(true);
+				//Si el usuario se ha hecho premium, habilitamos los botones
+				if (Controlador.INSTANCE.isPremiumUsuarioActual()) {
+					mntmPdf.setEnabled(true);
+					mntmExcel.setEnabled(true);
+					mntmTop.setEnabled(true);
+				}
 			}
 		});
 	}
@@ -305,7 +315,6 @@ public class VentanaPrincipal extends JFrame {
 		mntmPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.generarPDF();
-				//TODO Añadir confirmación de que se ha creado satisfactoriamente
 			}
 		});
 	}
@@ -314,7 +323,6 @@ public class VentanaPrincipal extends JFrame {
 		mntmExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.generarExcel();
-				//TODO Añadir confirmación de que se ha creado satisfactoriamente
 			}
 		});
 	}

@@ -132,7 +132,6 @@ public class VentanaVerFotoComentario extends JDialog {
 	private void addManejadorBotonComentar() {
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Comprobar que el comentario no esté vacío
 				//Publicamos el comentario
 				Controlador.INSTANCE.publicarComentario(publicacion, textComentario.getText());
 				dispose();
